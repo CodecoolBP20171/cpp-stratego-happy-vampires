@@ -11,7 +11,9 @@ void Game::run() {
     display.init();
     loadTextures();
     Piece piece(100, 100, Rank::bombRank, Color::red, textureMap[Textures::bombTexture].getSDLTexture(), textureMap[Textures::redBackTexture].getSDLTexture());
+    Piece piece2(300, 300, Rank::flagRank, Color::blue, textureMap[Textures::flagTexture].getSDLTexture(), textureMap[Textures::blueBackTexture].getSDLTexture());
     pieceContainer.push_back(piece);
+    pieceContainer.push_back(piece2);
 
     SDL_Delay(100);
 
@@ -63,11 +65,13 @@ bool Game::handleEvents() {
 
 void Game::loadTextures() {
     Texture board = display.loadTexture("../pic/board.png");
+    Texture flag = display.loadTexture("../pic/flag.png");
     Texture bomb = display.loadTexture("../pic/bomb.png");
     Texture redBack = display.loadTexture("../pic/red_back.png");
     Texture blueBack = display.loadTexture("../pic/blue_back.png");
 
     textureMap[Textures::bombTexture] = bomb;
+    textureMap[Textures::flagTexture] = flag;
     textureMap[Textures::boardTexture] = board;
     textureMap[Textures::redBackTexture] = redBack;
     textureMap[Textures::blueBackTexture] = blueBack;

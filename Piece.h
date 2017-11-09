@@ -11,6 +11,8 @@
 #include <iostream>
 #include "Texture.h"
 
+// TODO: the enums should go inside of the class (?)
+
 enum Rank {
     flagRank,
     bombRank,
@@ -36,7 +38,8 @@ enum Textures {
     boardTexture,
     bombTexture,
     redBackTexture,
-    blueBackTexture
+    blueBackTexture,
+    flagTexture
 };
 
 class Piece {

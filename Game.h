@@ -19,8 +19,10 @@ public:
 private:
     Display display;
     bool handleEvents();
+    // TODO: pieceContainer could contain Piece pointers(?)
     std::vector<Piece> pieceContainer;
     void loadTextures();
+    // TODO: textureMap could contain pointers(?)
     std::map<Textures, Texture> textureMap;
 };
 
