@@ -1,16 +1,18 @@
-#include "SDLTest.h"
-#include <iostream>
-#include <SDL_image.h>
+//
+// Created by en on 2017.11.09..
+//
 
-SDLTest::~SDLTest()
-{
+#include "Display.h"
+#include <iostream>
+
+Display::~Display() {
     if(renderer) SDL_DestroyRenderer(renderer);
     if(window) SDL_DestroyWindow(window);
     IMG_Quit();
     SDL_Quit();
 }
 
-bool SDLTest::init()
+bool Display::init()
 {
     if (SDL_Init(SDL_INIT_VIDEO) != 0){
         std::cout << "SDL_Init Error: " << SDL_GetError() << std::endl;
@@ -21,8 +23,7 @@ bool SDLTest::init()
     if(!initSDLImage()) return false;
     return true;
 }
-
-Texture SDLTest::loadTexture(const std::string& filename)
+Texture Display::loadTexture(const std::string& filename)
 {
     SDL_Texture* imgTexture = IMG_LoadTexture_RW(renderer,
                                                  SDL_RWFromFile(filename.c_str(), "rb"),
@@ -30,12 +31,10 @@ Texture SDLTest::loadTexture(const std::string& filename)
     if(nullptr == imgTexture){
         printf( "File not found: %s SDL_image Error: %s\n", filename.c_str(), IMG_GetError() );
     }
-
     return Texture(imgTexture);
 }
-
 // you won't need this load function because SDL_Image is much more advanced
-Texture SDLTest::loadBMP(const std::string& filename)
+Texture Display::loadBMP(const std::string& filename)
 {
     // first load an SDL_Surface
     SDL_Surface *bmp = SDL_LoadBMP(filename.c_str());
@@ -49,27 +48,23 @@ Texture SDLTest::loadBMP(const std::string& filename)
     if (tex == nullptr){
         std::cout << "SDL_CreateTextureFromSurface Error: " << SDL_GetError() << std::endl;
     }
-
     return Texture(tex);
 }
-
-void SDLTest::getWindowSize(int& width, int& height)
+void Display::getWindowSize(int& width, int& height)
 {
     SDL_GetWindowSize(window, &width, &height);
 }
-
-bool SDLTest::createWindow()
+bool Display::createWindow()
 {
     // check out the meaning of the parameters!
-    window = SDL_CreateWindow("Hello World!", 100, 100, 640, 480, SDL_WINDOW_SHOWN);
+    window = SDL_CreateWindow("Hello World!", 0, 0, 1000, 1000, SDL_WINDOW_SHOWN);
     if (window == nullptr){
         std::cout << "SDL_CreateWindow Error: " << SDL_GetError() << std::endl;
         return false;
     }
     return true;
 }
-
-bool SDLTest::createRenderer()
+bool Display::createRenderer()
 {
     if(!window) return false;
     // when you have the window you need a renderer
@@ -80,8 +75,7 @@ bool SDLTest::createRenderer()
     }
     return true;
 }
-
-bool SDLTest::initSDLImage()
+bool Display::initSDLImage()
 {
     // SDL_Image also needs some initialization, don't forget about it
     int imgFlags = IMG_INIT_PNG;

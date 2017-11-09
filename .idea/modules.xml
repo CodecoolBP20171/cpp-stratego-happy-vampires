@@ -2,7 +2,7 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/.idea/SDLTest.iml" filepath="$PROJECT_DIR$/.idea/SDLTest.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/cpp-stratego-happy-vampires.iml" filepath="$PROJECT_DIR$/.idea/cpp-stratego-happy-vampires.iml" />
     </modules>
   </component>
 </project>

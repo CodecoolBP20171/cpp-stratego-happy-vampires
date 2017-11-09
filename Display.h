@@ -1,19 +1,19 @@
 //
-// Created by lmolnar on 10/25/17.
+// Created by en on 2017.11.09..
 //
 
-#ifndef SDLTEST_SDLTEST_H
-#define SDLTEST_SDLTEST_H
+#ifndef STRATEGO_HAPPY_VAMPIRES_DISPLAY_H
+#define STRATEGO_HAPPY_VAMPIRES_DISPLAY_H
+
+#include "iostream"
 #include <SDL.h>
-#include <string>
+#include <SDL_image.h>
 #include "Texture.h"
 
-class SDLTest
-{
+class Display {
 public:
-    SDLTest() : window(nullptr), renderer(nullptr) {}
-    ~SDLTest();
-
+    Display() : window(nullptr), renderer(nullptr) {}
+    ~Display();
     bool init();
     Texture loadTexture(const std::string& filename);
     // just to check SDL's bitmap loader
@@ -24,10 +24,11 @@ public:
 private:
     SDL_Window *window;
     SDL_Renderer *renderer;
-
     bool createWindow();
     bool createRenderer();
     bool initSDLImage();
 };
 
-#endif //SDLTEST_SDLTEST_H
+
+#endif //STRATEGO_HAPPY_VAMPIRES_DISPLAY_H
+

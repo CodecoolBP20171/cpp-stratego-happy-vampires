@@ -1,11 +1,10 @@
 //
-// Created by lmolnar on 10/25/17.
+// Created by en on 2017.11.09..
 //
 
 #include "Texture.h"
 
-Texture::Texture(SDL_Texture* texture)
-{
+Texture::Texture(SDL_Texture* texture) {
     this->texture = texture;
 }
 
