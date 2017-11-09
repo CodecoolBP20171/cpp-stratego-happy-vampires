@@ -45,6 +45,5 @@ bool Game::handleEvents() {
             std::cout << "click @ " << x << " " << y << std::endl;
         }
     }
-
-    return false;
+    return quit;
 }
