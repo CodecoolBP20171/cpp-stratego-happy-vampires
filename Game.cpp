@@ -43,7 +43,6 @@ bool Game::handleEvents() {
             int x, y;
             SDL_GetMouseState( &x, &y );
             std::cout << "click @ " << x << " " << y << std::endl;
-            quit = true;
         }
     }
 
