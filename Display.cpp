@@ -57,7 +57,7 @@ void Display::getWindowSize(int& width, int& height)
 bool Display::createWindow()
 {
     // check out the meaning of the parameters!
-    window = SDL_CreateWindow("Hello World!", 0, 0, 1000, 1000, SDL_WINDOW_SHOWN);
+    window = SDL_CreateWindow("Happy Vampires: Stratego", 0, 0, 1000, 1000, SDL_WINDOW_SHOWN);
     if (window == nullptr){
         std::cout << "SDL_CreateWindow Error: " << SDL_GetError() << std::endl;
         return false;
