@@ -7,11 +7,11 @@
 #include "Piece.h"
 
 void Game::run() {
+    loadTextures();
     display.init();
-    Texture board = display.loadTexture("../pic/board.png");
-    Texture bomb = display.loadTexture("../pic/bomb.png");
-    SDL_Texture *bombTexture = bomb.getSDLTexture();
-    Piece piece(bombTexture);
+    SDL_Texture *bombTexture = textureMap[Piece::bomb].getSDLTexture();
+    Piece piece(100, 100, false);
+    pieceContainer.push_back(piece);
 
     SDL_Delay(100);
 
@@ -43,7 +43,20 @@ bool Game::handleEvents() {
             int x, y;
             SDL_GetMouseState( &x, &y );
             std::cout << "click @ " << x << " " << y << std::endl;
+
         }
     }
     return quit;
+}
+
+void Game::loadTextures() {
+    Texture board = display.loadTexture("../pic/board.png");
+    Texture bomb = display.loadTexture("../pic/bomb.png");
+    Texture redBack = display.loadTexture("../pic/red_back.png");
+    Texture blueBack = display.loadTexture("../pic/blue_back.png");
+
+    textureMap[Piece::Textures::bomb] = bomb;
+    textureMap[Piece::Textures::board] = board;
+    textureMap[Piece::Textures::redBack] = redBack;
+    textureMap[Piece::Textures::blueBack] = blueBack;
 }
