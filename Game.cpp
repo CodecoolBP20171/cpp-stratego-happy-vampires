@@ -10,8 +10,7 @@ void Game::run() {
 
     display.init();
     loadTextures();
-    Piece piece(100, 100, Rank::bombRank, Color::red, textureMap[Textures::bombTexture].getSDLTexture(), textureMap[Textures::redBackTexture].getSDLTexture(), false);
-    //Piece piece(100, 100, Rank::bombRank, Color::red, textureMap[Textures::redBackTexture].getSDLTexture(), textureMap[Textures::bombTexture].getSDLTexture(), false);
+    Piece piece(100, 100, Rank::bombRank, Color::red, textureMap[Textures::bombTexture].getSDLTexture(), textureMap[Textures::redBackTexture].getSDLTexture());
     pieceContainer.push_back(piece);
 
     SDL_Delay(100);
@@ -26,7 +25,11 @@ void Game::run() {
 
         SDL_RenderClear(display.getRenderer());
         textureMap[Textures::boardTexture].render(display.getRenderer(), nullptr);
-        piece.render(display.getRenderer());
+
+        for(int i = 0; i < pieceContainer.size(); i++){
+            pieceContainer[i].render(display.getRenderer());
+        }
+
         SDL_RenderPresent(display.getRenderer());
         while( timepassed + timestep > SDL_GetTicks() ) {
             SDL_Delay(0);

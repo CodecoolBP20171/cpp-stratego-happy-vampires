@@ -5,7 +5,7 @@
 #include "Piece.h"
 
 
-Piece::Piece(int x, int y, Rank rank, Color color, SDL_Texture *faceUpTexture, SDL_Texture *backGroundTexture, bool isFaceDown)
+Piece::Piece(int x, int y, Rank rank, Color color, SDL_Texture *faceUpTexture, SDL_Texture *backGroundTexture, int isFaceDown)
         : color(color),
           rank(rank),
           faceUpTexture(faceUpTexture),
@@ -16,16 +16,13 @@ Piece::Piece(int x, int y, Rank rank, Color color, SDL_Texture *faceUpTexture, S
     sdl_rect.y = posY = y;
     sdl_rect.w = 100;
     sdl_rect.h = 100;
-    //if ( isFaceDown ) this->texture = textureMap[].getSDLTexture();
 }
 
 void Piece::render(SDL_Renderer* renderer){
     if(isFaceDown) {
-        std::cout << "FACE DOWN" << std::endl;
         SDL_RenderCopy(renderer, backTexture, NULL, &sdl_rect);
     } else {
         SDL_RenderCopy(renderer, faceUpTexture, NULL, &sdl_rect);
-        //std::cout << "FACE UP" << std::endl;
     }
 }
 
@@ -46,13 +43,6 @@ void Piece::setPosY(int posY) {
 }
 
 void Piece::flip() {
-    //isFaceDown = !isFaceDown;
-//    if(isFaceDown){
-//        isFaceDown = false;
-//    } else {
-//        isFaceDown = true;
-//    }
+    isFaceDown = !isFaceDown;
     std::cout << "flipped, isFaceDown: " << isFaceDown << std::endl;
 }
-
-

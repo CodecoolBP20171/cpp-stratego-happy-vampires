@@ -41,8 +41,7 @@ enum Textures {
 
 class Piece {
 public:
-    Piece(int x, int y, Rank rank, Color color, SDL_Texture *faceUpTexture, SDL_Texture *backGroundTexture, bool isFaceDown = true);
-    //SDL_Texture *texture;
+    Piece(int x, int y, Rank rank, Color color, SDL_Texture *faceUpTexture, SDL_Texture *backGroundTexture, int isFaceDown = true);
     void render(SDL_Renderer* renderer);
     int getPosY() const;
     void setPosY(int posY);
