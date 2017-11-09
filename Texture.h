@@ -10,6 +10,7 @@
 
 class Texture {
 public:
+    Texture(){};
     Texture(SDL_Texture* texture);
     ~Texture();
     void render(SDL_Renderer* renderer, const SDL_Rect* pos);

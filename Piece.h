@@ -8,6 +8,7 @@
 
 #include <SDL_render.h>
 #include <map>
+#include <iostream>
 #include "Texture.h"
 
 enum Rank {
@@ -47,6 +48,7 @@ public:
     void setPosY(int posY);
     int getPosX() const;
     void setPosX(int posX);
+    void flip();
   private:
     SDL_Texture *faceUpTexture = nullptr;
     SDL_Texture *backTexture = nullptr;

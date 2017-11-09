@@ -7,14 +7,12 @@
 #include "Piece.h"
 
 void Game::run() {
-    //Texture board = display.loadTexture("../pic/board.png");
-    loadTextures();
-    display.init();
-    //SDL_Texture *bombTexture = textureMap[].getSDLTexture();
-    //int x, int y, Rank rank, Color color, SDL_Texture *faceUpTexture, SDL_Texture *backGroundTexture, bool isFaceDown = true
 
-    //Piece piece(100, 100, Rank::bombRank, Color::red, textureMap[Textures::bombTexture].getSDLTexture(), textureMap[Textures::redBackTexture].getSDLTexture(), false);
-    //pieceContainer.push_back(piece);
+    display.init();
+    loadTextures();
+    Piece piece(100, 100, Rank::bombRank, Color::red, textureMap[Textures::bombTexture].getSDLTexture(), textureMap[Textures::redBackTexture].getSDLTexture(), false);
+    //Piece piece(100, 100, Rank::bombRank, Color::red, textureMap[Textures::redBackTexture].getSDLTexture(), textureMap[Textures::bombTexture].getSDLTexture(), false);
+    pieceContainer.push_back(piece);
 
     SDL_Delay(100);
 
@@ -27,14 +25,8 @@ void Game::run() {
         quit = handleEvents();
 
         SDL_RenderClear(display.getRenderer());
-
-        //board.render(display.getRenderer(), nullptr);
-        //textureMap[Textures::boardTexture].render(display.getRenderer(), nullptr);
-
-
-        //piece.render(display.getRenderer());
-
-
+        textureMap[Textures::boardTexture].render(display.getRenderer(), nullptr);
+        piece.render(display.getRenderer());
         SDL_RenderPresent(display.getRenderer());
         while( timepassed + timestep > SDL_GetTicks() ) {
             SDL_Delay(0);
@@ -52,21 +44,28 @@ bool Game::handleEvents() {
             int x, y;
             SDL_GetMouseState( &x, &y );
             std::cout << "click @ " << x << " " << y << std::endl;
-
+            for(int i; i < pieceContainer.size(); i++){
+                if(x > pieceContainer[i].getPosX() &&
+                        x < pieceContainer[i].getPosX() + 100 &&
+                        y > pieceContainer[i].getPosY() &&
+                        y < pieceContainer[i].getPosY() + 100){
+                    pieceContainer[i].flip();
+                    std::cout << "hit" << std::endl;
+                }
+            }
         }
     }
     return quit;
 }
 
 void Game::loadTextures() {
-    //Texture board = display.loadTexture("../pic/board.png");
-    //Texture bomb = display.loadTexture("../pic/bomb.png");
-    //Texture redBack = display.loadTexture("../pic/red_back.png");
-    //Texture blueBack = display.loadTexture("../pic/blue_back.png");
+    Texture board = display.loadTexture("../pic/board.png");
+    Texture bomb = display.loadTexture("../pic/bomb.png");
+    Texture redBack = display.loadTexture("../pic/red_back.png");
+    Texture blueBack = display.loadTexture("../pic/blue_back.png");
 
-    std::cout << Textures::bombTexture;
-    //textureMap[Textures::bombTexture] = bomb;
-    //textureMap[Textures::boardTexture] = board;
-    //textureMap[Textures::redBackTexture] = redBack;
-    //textureMap[Textures::blueBackTexture] = blueBack;
+    textureMap[Textures::bombTexture] = bomb;
+    textureMap[Textures::boardTexture] = board;
+    textureMap[Textures::redBackTexture] = redBack;
+    textureMap[Textures::blueBackTexture] = blueBack;
 }

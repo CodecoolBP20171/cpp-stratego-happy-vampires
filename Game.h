@@ -14,6 +14,7 @@
 class Game {
 
 public:
+    //Game() : pieceContainer(new std::vector<Piece>){}
     void run();
 
 private:
