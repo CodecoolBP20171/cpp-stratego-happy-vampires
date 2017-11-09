@@ -7,11 +7,14 @@
 #include "Piece.h"
 
 void Game::run() {
+    //Texture board = display.loadTexture("../pic/board.png");
     loadTextures();
     display.init();
-    SDL_Texture *bombTexture = textureMap[Piece::bomb].getSDLTexture();
-    Piece piece(100, 100, false);
-    pieceContainer.push_back(piece);
+    //SDL_Texture *bombTexture = textureMap[].getSDLTexture();
+    //int x, int y, Rank rank, Color color, SDL_Texture *faceUpTexture, SDL_Texture *backGroundTexture, bool isFaceDown = true
+
+    //Piece piece(100, 100, Rank::bombRank, Color::red, textureMap[Textures::bombTexture].getSDLTexture(), textureMap[Textures::redBackTexture].getSDLTexture(), false);
+    //pieceContainer.push_back(piece);
 
     SDL_Delay(100);
 
@@ -24,8 +27,14 @@ void Game::run() {
         quit = handleEvents();
 
         SDL_RenderClear(display.getRenderer());
-        board.render(display.getRenderer(), nullptr);
-        piece.render(display.getRenderer());
+
+        //board.render(display.getRenderer(), nullptr);
+        //textureMap[Textures::boardTexture].render(display.getRenderer(), nullptr);
+
+
+        //piece.render(display.getRenderer());
+
+
         SDL_RenderPresent(display.getRenderer());
         while( timepassed + timestep > SDL_GetTicks() ) {
             SDL_Delay(0);
@@ -50,13 +59,14 @@ bool Game::handleEvents() {
 }
 
 void Game::loadTextures() {
-    Texture board = display.loadTexture("../pic/board.png");
-    Texture bomb = display.loadTexture("../pic/bomb.png");
-    Texture redBack = display.loadTexture("../pic/red_back.png");
-    Texture blueBack = display.loadTexture("../pic/blue_back.png");
+    //Texture board = display.loadTexture("../pic/board.png");
+    //Texture bomb = display.loadTexture("../pic/bomb.png");
+    //Texture redBack = display.loadTexture("../pic/red_back.png");
+    //Texture blueBack = display.loadTexture("../pic/blue_back.png");
 
-    textureMap[Piece::Textures::bomb] = bomb;
-    textureMap[Piece::Textures::board] = board;
-    textureMap[Piece::Textures::redBack] = redBack;
-    textureMap[Piece::Textures::blueBack] = blueBack;
+    std::cout << Textures::bombTexture;
+    //textureMap[Textures::bombTexture] = bomb;
+    //textureMap[Textures::boardTexture] = board;
+    //textureMap[Textures::redBackTexture] = redBack;
+    //textureMap[Textures::blueBackTexture] = blueBack;
 }

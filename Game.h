@@ -21,7 +21,7 @@ private:
     bool handleEvents();
     std::vector<Piece> pieceContainer;
     void loadTextures();
-    std::map<Piece::Textures, Texture> textureMap;
+    std::map<Textures, Texture> textureMap;
 };
 
 

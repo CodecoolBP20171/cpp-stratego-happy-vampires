@@ -5,19 +5,25 @@
 #include "Piece.h"
 
 
-Piece::Piece(int x, int y, Rank rank, Color color, std::map<Piece::Textures, Texture> &textureMap, bool isFaceDown)
+Piece::Piece(int x, int y, Rank rank, Color color, SDL_Texture *faceUpTexture, SDL_Texture *backGroundTexture, bool isFaceDown)
         : color(color),
-          rank(rank)
+          rank(rank),
+          faceUpTexture(faceUpTexture),
+          backTexture(backGroundTexture)
 {
     sdl_rect.x = posX = x;
     sdl_rect.y = posY = y;
     sdl_rect.w = 100;
     sdl_rect.h = 100;
-    if ( isFaceDown ) this->texture = textureMap[].getSDLTexture();
+    //if ( isFaceDown ) this->texture = textureMap[].getSDLTexture();
 }
 
 void Piece::render(SDL_Renderer* renderer){
-    SDL_RenderCopy(renderer, texture, NULL, &sdl_rect);
+    if(isFaceDown) {
+        SDL_RenderCopy(renderer, faceUpTexture, NULL, &sdl_rect);
+    } else {
+        SDL_RenderCopy(renderer, backTexture, NULL, &sdl_rect);
+    }
 }
 
 int Piece::getPosX() const {
