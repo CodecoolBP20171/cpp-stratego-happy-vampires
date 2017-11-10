@@ -21,9 +21,8 @@ private:
     Display display;
     bool handleEvents(SDL_Event &event);
     // TODO: pieceContainer could contain Piece pointers(?)
-    std::vector<Piece> pieceContainer;
+    std::vector<std::unique_ptr<Piece>> pieceContainer;
     void loadTextures();
-    // TODO: textureMap could contain pointers(?)
     std::map<Textures, std::unique_ptr<Texture>> textureMap;
 };
 

@@ -12,10 +12,10 @@ void Game::run() {
     display.init();
     loadTextures();
 
-    Piece piece(100, 100, Rank::bombRank, Color::red, textureMap[Textures::bombTexture]->getSDLTexture(), textureMap[Textures::redBackTexture]->getSDLTexture());
-    Piece piece2(300, 300, Rank::flagRank, Color::blue, textureMap[Textures::flagTexture]->getSDLTexture(), textureMap[Textures::blueBackTexture]->getSDLTexture());
-    pieceContainer.push_back(piece);
-    pieceContainer.push_back(piece2);
+    //Piece piece(100, 100, Rank::bombRank, Color::red, textureMap[Textures::bombTexture]->getSDLTexture(), textureMap[Textures::redBackTexture]->getSDLTexture());
+    //Piece piece2(300, 300, Rank::flagRank, Color::blue, textureMap[Textures::flagTexture]->getSDLTexture(), textureMap[Textures::blueBackTexture]->getSDLTexture());
+    pieceContainer.emplace_back(std::unique_ptr<Piece> (new Piece(100, 100, Rank::bombRank, Color::red, textureMap[Textures::bombTexture]->getSDLTexture(), textureMap[Textures::redBackTexture]->getSDLTexture())));
+    pieceContainer.emplace_back(std::unique_ptr<Piece> (new Piece(300, 300, Rank::flagRank, Color::blue, textureMap[Textures::flagTexture]->getSDLTexture(), textureMap[Textures::blueBackTexture]->getSDLTexture())));
 
     SDL_Delay(100);
 
@@ -32,7 +32,7 @@ void Game::run() {
             textureMap[Textures::boardTexture]->render(display.getRenderer(), nullptr);
 
             for(int i = 0; i < pieceContainer.size(); i++){
-                pieceContainer[i].render(display.getRenderer());
+                pieceContainer[i]->render(display.getRenderer());
             }
 
             SDL_RenderPresent(display.getRenderer());
@@ -54,11 +54,11 @@ bool Game::handleEvents(SDL_Event &event) {
             SDL_GetMouseState( &x, &y );
             std::cout << "click @ " << x << " " << y << std::endl;
             for(int i; i < pieceContainer.size(); i++){
-                if(x > pieceContainer[i].getPosX() &&
-                        x < pieceContainer[i].getPosX() + 100 &&
-                        y > pieceContainer[i].getPosY() &&
-                        y < pieceContainer[i].getPosY() + 100){
-                    pieceContainer[i].flip();
+                if(x > pieceContainer[i]->getPosX() &&
+                        x < pieceContainer[i]->getPosX() + 100 &&
+                        y > pieceContainer[i]->getPosY() &&
+                        y < pieceContainer[i]->getPosY() + 100){
+                    pieceContainer[i]->flip();
                     std::cout << "hit" << std::endl;
                 }
             }
