@@ -18,12 +18,12 @@ public:
 
 private:
     Display display;
-    bool handleEvents();
+    bool handleEvents(SDL_Event &event);
     // TODO: pieceContainer could contain Piece pointers(?)
     std::vector<Piece> pieceContainer;
     void loadTextures();
     // TODO: textureMap could contain pointers(?)
-    std::map<Textures, Texture> textureMap;
+    std::map<Textures, Texture*> textureMap;
 };
 
 

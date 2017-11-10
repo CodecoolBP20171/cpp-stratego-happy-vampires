@@ -23,7 +23,7 @@ bool Display::init()
     if(!initSDLImage()) return false;
     return true;
 }
-Texture Display::loadTexture(const std::string& filename)
+Texture* Display::loadTexture(const std::string& filename)
 {
     SDL_Texture* imgTexture = IMG_LoadTexture_RW(renderer,
                                                  SDL_RWFromFile(filename.c_str(), "rb"),
@@ -31,7 +31,8 @@ Texture Display::loadTexture(const std::string& filename)
     if(nullptr == imgTexture){
         printf( "File not found: %s SDL_image Error: %s\n", filename.c_str(), IMG_GetError() );
     }
-    return Texture(imgTexture);
+    Texture *texture = new Texture(imgTexture);
+    return texture;
 }
 // you won't need this load function because SDL_Image is much more advanced
 Texture Display::loadBMP(const std::string& filename)
