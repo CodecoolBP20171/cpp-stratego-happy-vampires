@@ -4,6 +4,7 @@
 
 #include "Display.h"
 #include <iostream>
+#include <memory>
 
 Display::~Display() {
     if(renderer) SDL_DestroyRenderer(renderer);
@@ -23,7 +24,7 @@ bool Display::init()
     if(!initSDLImage()) return false;
     return true;
 }
-Texture* Display::loadTexture(const std::string& filename)
+std::unique_ptr<Texture> Display::loadTexture(const std::string& filename)
 {
     SDL_Texture* imgTexture = IMG_LoadTexture_RW(renderer,
                                                  SDL_RWFromFile(filename.c_str(), "rb"),
@@ -31,7 +32,7 @@ Texture* Display::loadTexture(const std::string& filename)
     if(nullptr == imgTexture){
         printf( "File not found: %s SDL_image Error: %s\n", filename.c_str(), IMG_GetError() );
     }
-    Texture *texture = new Texture(imgTexture);
+    std::unique_ptr<Texture> texture (new Texture(imgTexture));
     return texture;
 }
 // you won't need this load function because SDL_Image is much more advanced

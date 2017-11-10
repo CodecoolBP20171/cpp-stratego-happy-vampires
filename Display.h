@@ -5,17 +5,18 @@
 #ifndef STRATEGO_HAPPY_VAMPIRES_DISPLAY_H
 #define STRATEGO_HAPPY_VAMPIRES_DISPLAY_H
 
-#include "iostream"
+#include <iostream>
 #include <SDL.h>
 #include <SDL_image.h>
 #include "Texture.h"
+#include <memory>
 
 class Display {
 public:
     Display() : window(nullptr), renderer(nullptr) {}
     ~Display();
     bool init();
-    Texture* loadTexture(const std::string& filename);
+    std::unique_ptr<Texture> loadTexture(const std::string& filename);
     // just to check SDL's bitmap loader
     Texture loadBMP(const std::string& filename);
     void getWindowSize(int& width, int& height);

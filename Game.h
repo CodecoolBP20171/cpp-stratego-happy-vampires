@@ -7,6 +7,7 @@
 
 
 #include <vector>
+#include <memory>
 #include <map>
 #include "Display.h"
 #include "Piece.h"
@@ -23,7 +24,7 @@ private:
     std::vector<Piece> pieceContainer;
     void loadTextures();
     // TODO: textureMap could contain pointers(?)
-    std::map<Textures, Texture*> textureMap;
+    std::map<Textures, std::unique_ptr<Texture>> textureMap;
 };
 
 

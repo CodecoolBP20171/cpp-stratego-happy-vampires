@@ -2,6 +2,7 @@
 // Created by en on 2017.11.09..
 //
 
+#include <bits/unique_ptr.h>
 #include "Display.h"
 #include "Game.h"
 #include "Piece.h"
@@ -66,15 +67,9 @@ bool Game::handleEvents(SDL_Event &event) {
 }
 
 void Game::loadTextures() {
-    Texture *board = display.loadTexture("../pic/board.png");
-    Texture *flag = display.loadTexture("../pic/flag.png");
-    Texture *bomb = display.loadTexture("../pic/bomb.png");
-    Texture *redBack = display.loadTexture("../pic/red_back.png");
-    Texture *blueBack = display.loadTexture("../pic/blue_back.png");
-
-    textureMap[Textures::bombTexture] = bomb;
-    textureMap[Textures::flagTexture] = flag;
-    textureMap[Textures::boardTexture] = board;
-    textureMap[Textures::redBackTexture] = redBack;
-    textureMap[Textures::blueBackTexture] = blueBack;
+    textureMap[Textures::bombTexture] = display.loadTexture("../pic/bomb.png");
+    textureMap[Textures::flagTexture] = display.loadTexture("../pic/flag.png");
+    textureMap[Textures::boardTexture] = display.loadTexture("../pic/board.png");
+    textureMap[Textures::redBackTexture] = display.loadTexture("../pic/red_back.png");
+    textureMap[Textures::blueBackTexture] = display.loadTexture("../pic/blue_back.png");
 }
