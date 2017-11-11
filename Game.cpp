@@ -25,11 +25,14 @@ bool Game::handleEvents(SDL_Event &event) {
             std::cout << "click @ " << x << " " << y << std::endl;
             std::shared_ptr<Piece> clickedPiece = getClickedPiece(x, y);
             if(clickedPiece){
-                selectPiece(clickedPiece);
+                if(currentPlayer == clickedPiece->getColor()) {
+                    selectPiece(clickedPiece);
+                }
             } else {
                 if(selectedPiece){
                     if(selectedPiece->moveTo(x, y)) {
                         deselect();
+                        switchPlayers();
                     }
                 }
             }
@@ -127,5 +130,14 @@ std::shared_ptr<Piece> Game::getClickedPiece(int x, int y) {
 }
 
 void Game::initGame() {
-    currentPlayer == Color::red;
+    currentPlayer = Color::red;
+    //if(currentPlayer == Color::red) std::cout << "Currentplayer is red" << std::endl;
+}
+
+void Game::switchPlayers() {
+    if(currentPlayer == Color::red){
+        currentPlayer = Color::blue;
+    } else {
+        currentPlayer = Color::red;
+    }
 }

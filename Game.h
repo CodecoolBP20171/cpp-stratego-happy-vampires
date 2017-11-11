@@ -35,6 +35,8 @@ private:
     std::shared_ptr<Piece> getClickedPiece(int x, int y);
 
     void initGame();
+
+    void switchPlayers();
 };
 
 
