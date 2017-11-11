@@ -11,6 +11,7 @@ void Game::run() {
     display.init();
     loadTextures();
     createPieces();
+    initGame();
     renderLoop();
 }
 
@@ -22,15 +23,14 @@ bool Game::handleEvents(SDL_Event &event) {
             int x, y;
             SDL_GetMouseState( &x, &y );
             std::cout << "click @ " << x << " " << y << std::endl;
-            for(int i; i < pieceContainer.size(); i++){
-                if(x > pieceContainer[i]->getPosX() &&
-                        x < pieceContainer[i]->getPosX() + 100 &&
-                        y > pieceContainer[i]->getPosY() &&
-                        y < pieceContainer[i]->getPosY() + 100){
-                    //pieceContainer[i]->flip();
-                    selectPiece(pieceContainer[i]);
-                    //selectedPiece = pieceContainer[i];
-                    std::cout << "hit" << std::endl;
+            std::shared_ptr<Piece> clickedPiece = getClickedPiece(x, y);
+            if(clickedPiece){
+                selectPiece(clickedPiece);
+            } else {
+                if(selectedPiece){
+                    if(selectedPiece->moveTo(x, y)) {
+                        deselect();
+                    }
                 }
             }
         }
@@ -66,6 +66,7 @@ void Game::renderLoop() {
 
             for(int i = 0; i < pieceContainer.size(); i++){
                 pieceContainer[i]->render(display.getRenderer());
+                // if there is a selected piece, render the selection
                 if(pieceContainer[i] == selectedPiece) {
                     graphicallySelect(selectedPiece);
                 }
@@ -105,4 +106,26 @@ void Game::graphicallySelect(std::shared_ptr<Piece> shared_ptr) {
     SDL_RenderDrawLine( display.getRenderer(), selectedPiece->getPosX() + 100, selectedPiece->getPosY(), selectedPiece->getPosX() + 100, selectedPiece->getPosY() + 100 );
     SDL_RenderDrawLine( display.getRenderer(), selectedPiece->getPosX(), selectedPiece->getPosY() + 100, selectedPiece->getPosX() + 100, selectedPiece->getPosY() + 100 );
     //std::cout << "SELECTED: " << selectedPiece->getPosX() << std::endl;
+}
+
+std::shared_ptr<Piece> Game::getClickedPiece(int x, int y) {
+    std::shared_ptr<Piece> result = nullptr;
+    unsigned long numberOfPieces = pieceContainer.size();
+    for(int i; i < numberOfPieces; i++){
+        if(x > pieceContainer[i]->getPosX() &&
+           x < pieceContainer[i]->getPosX() + 100 &&
+           y > pieceContainer[i]->getPosY() &&
+           y < pieceContainer[i]->getPosY() + 100){
+            //pieceContainer[i]->flip();
+            //selectPiece(pieceContainer[i]);
+            //selectedPiece = pieceContainer[i];
+            result = pieceContainer[i];
+            std::cout << "hit" << std::endl;
+        }
+    }
+    return result;
+}
+
+void Game::initGame() {
+    currentPlayer == Color::red;
 }

@@ -62,3 +62,17 @@ Color Piece::getColor() const {
 void Piece::setColor(Color color) {
     Piece::color = color;
 }
+
+bool Piece::moveTo(int x, int y) {
+    bool canMove = false;
+    int newX = (int) x /100 * 100;
+    int newY = (int) y / 100 * 100;
+    //std::cout << "newX: " << newX << " oldX: " << posX << std::endl;
+    //if((posX + 100 == newX || posX - 100 == newX) || (posY + 100 == newY || posY - 100 == newY)) {
+    if(abs(posX + posY - newX - newY) == 100) {
+        sdl_rect.x = posX = newX;
+        sdl_rect.y = posY = newY;
+        canMove = true;
+    }
+    return canMove;
+}

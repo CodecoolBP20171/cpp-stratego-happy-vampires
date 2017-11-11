@@ -19,6 +19,7 @@ public:
 
 private:
     Display display;
+    Color currentPlayer;
     bool handleEvents(SDL_Event &event);
     std::vector<std::shared_ptr<Piece>> pieceContainer;
     bool isAPieceSelected = false;
@@ -30,6 +31,10 @@ private:
     void selectPiece(std::shared_ptr<Piece> &clickedPiece);
     void deselect();
     void graphicallySelect(std::shared_ptr<Piece> shared_ptr);
+
+    std::shared_ptr<Piece> getClickedPiece(int x, int y);
+
+    void initGame();
 };
 
 

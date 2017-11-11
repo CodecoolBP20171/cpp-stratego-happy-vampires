@@ -62,6 +62,7 @@ public:
     Rank getRank() const;
 
     void setRank(Rank rank);
+    bool moveTo(int x, int y);
 
 private:
     Color color;
