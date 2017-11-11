@@ -2,7 +2,7 @@
 // Created by en on 2017.11.09..
 //
 
-#include <bits/unique_ptr.h>
+#include <memory>
 #include "Display.h"
 #include "Game.h"
 #include "Piece.h"
@@ -27,7 +27,7 @@ bool Game::handleEvents(SDL_Event &event) {
                         x < pieceContainer[i]->getPosX() + 100 &&
                         y > pieceContainer[i]->getPosY() &&
                         y < pieceContainer[i]->getPosY() + 100){
-                    pieceContainer[i]->flip();
+                    //pieceContainer[i]->flip();
                     selectPiece(pieceContainer[i]);
                     //selectedPiece = pieceContainer[i];
                     std::cout << "hit" << std::endl;
@@ -66,7 +66,16 @@ void Game::renderLoop() {
 
             for(int i = 0; i < pieceContainer.size(); i++){
                 pieceContainer[i]->render(display.getRenderer());
+                if(pieceContainer[i] == selectedPiece) {
+                    SDL_SetRenderDrawColor(display.getRenderer(), 0, 0, 255, 255);
+                    SDL_RenderDrawLine( display.getRenderer(), selectedPiece->getPosX(), selectedPiece->getPosY(), selectedPiece->getPosX(), selectedPiece->getPosY() + 100 );
+                    SDL_RenderDrawLine( display.getRenderer(), selectedPiece->getPosX(), selectedPiece->getPosY(), selectedPiece->getPosX() + 100, selectedPiece->getPosY() );
+                    SDL_RenderDrawLine( display.getRenderer(), selectedPiece->getPosX() + 100, selectedPiece->getPosY(), selectedPiece->getPosX() + 100, selectedPiece->getPosY() + 100 );
+                    SDL_RenderDrawLine( display.getRenderer(), selectedPiece->getPosX(), selectedPiece->getPosY() + 100, selectedPiece->getPosX() + 100, selectedPiece->getPosY() + 100 );
+                    //std::cout << "SELECTED: " << selectedPiece->getPosX() << std::endl;
+                }
             }
+
 
             SDL_RenderPresent(display.getRenderer());
 
@@ -83,9 +92,11 @@ void Game::selectPiece(std::shared_ptr<Piece> &clickedPiece) {
     } else {
         if(clickedPiece == selectedPiece){
             deselect();
+        } else {
+            deselect();
+            selectedPiece = clickedPiece;
         }
     }
-    if(selectedPiece) std::cout << selectedPiece->getRank() << std::endl;
 }
 
 void Game::deselect() {
