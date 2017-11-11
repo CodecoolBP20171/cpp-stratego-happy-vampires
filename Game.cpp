@@ -8,17 +8,50 @@
 #include "Piece.h"
 
 void Game::run() {
-
     display.init();
     loadTextures();
+    createPieces();
+    renderLoop();
+}
 
-    //Piece piece(100, 100, Rank::bombRank, Color::red, textureMap[Textures::bombTexture]->getSDLTexture(), textureMap[Textures::redBackTexture]->getSDLTexture());
-    //Piece piece2(300, 300, Rank::flagRank, Color::blue, textureMap[Textures::flagTexture]->getSDLTexture(), textureMap[Textures::blueBackTexture]->getSDLTexture());
-    pieceContainer.emplace_back(std::unique_ptr<Piece> (new Piece(100, 100, Rank::bombRank, Color::red, textureMap[Textures::bombTexture]->getSDLTexture(), textureMap[Textures::redBackTexture]->getSDLTexture())));
-    pieceContainer.emplace_back(std::unique_ptr<Piece> (new Piece(300, 300, Rank::flagRank, Color::blue, textureMap[Textures::flagTexture]->getSDLTexture(), textureMap[Textures::blueBackTexture]->getSDLTexture())));
+bool Game::handleEvents(SDL_Event &event) {
+    bool quit = false;
+        if( event.type == SDL_QUIT ) { quit =  true; }
+        if( event.type == SDL_MOUSEBUTTONDOWN )
+        {
+            int x, y;
+            SDL_GetMouseState( &x, &y );
+            std::cout << "click @ " << x << " " << y << std::endl;
+            for(int i; i < pieceContainer.size(); i++){
+                if(x > pieceContainer[i]->getPosX() &&
+                        x < pieceContainer[i]->getPosX() + 100 &&
+                        y > pieceContainer[i]->getPosY() &&
+                        y < pieceContainer[i]->getPosY() + 100){
+                    pieceContainer[i]->flip();
+                    selectPiece(pieceContainer[i]);
+                    //selectedPiece = pieceContainer[i];
+                    std::cout << "hit" << std::endl;
+                }
+            }
+        }
+    return quit;
+}
 
+void Game::loadTextures() {
+    textureMap[Textures::bombTexture] = display.loadTexture("../pic/bomb.png");
+    textureMap[Textures::flagTexture] = display.loadTexture("../pic/flag.png");
+    textureMap[Textures::boardTexture] = display.loadTexture("../pic/board.png");
+    textureMap[Textures::redBackTexture] = display.loadTexture("../pic/red_back.png");
+    textureMap[Textures::blueBackTexture] = display.loadTexture("../pic/blue_back.png");
+}
+
+void Game::createPieces() {
+    pieceContainer.emplace_back(std::unique_ptr<Piece> (new Piece(100, 100, Rank::bombRank, Color::red, textureMap[Textures::bombTexture]->getSDLTexture(), textureMap[Textures::redBackTexture]->getSDLTexture(), false)));
+    pieceContainer.emplace_back(std::unique_ptr<Piece> (new Piece(300, 300, Rank::flagRank, Color::blue, textureMap[Textures::flagTexture]->getSDLTexture(), textureMap[Textures::blueBackTexture]->getSDLTexture(), false)));
     SDL_Delay(100);
+}
 
+void Game::renderLoop() {
     bool quit = false;
     Uint32 timepassed = 0;
     Uint32  timestep = 16;
@@ -42,34 +75,19 @@ void Game::run() {
             }
         }
     }
-
 }
 
-bool Game::handleEvents(SDL_Event &event) {
-    bool quit = false;
-        if( event.type == SDL_QUIT ) { quit =  true; }
-        if( event.type == SDL_MOUSEBUTTONDOWN )
-        {
-            int x, y;
-            SDL_GetMouseState( &x, &y );
-            std::cout << "click @ " << x << " " << y << std::endl;
-            for(int i; i < pieceContainer.size(); i++){
-                if(x > pieceContainer[i]->getPosX() &&
-                        x < pieceContainer[i]->getPosX() + 100 &&
-                        y > pieceContainer[i]->getPosY() &&
-                        y < pieceContainer[i]->getPosY() + 100){
-                    pieceContainer[i]->flip();
-                    std::cout << "hit" << std::endl;
-                }
-            }
+void Game::selectPiece(std::shared_ptr<Piece> &clickedPiece) {
+    if(!selectedPiece){
+        selectedPiece = clickedPiece;
+    } else {
+        if(clickedPiece == selectedPiece){
+            deselect();
         }
-    return quit;
+    }
+    if(selectedPiece) std::cout << selectedPiece->getRank() << std::endl;
 }
 
-void Game::loadTextures() {
-    textureMap[Textures::bombTexture] = display.loadTexture("../pic/bomb.png");
-    textureMap[Textures::flagTexture] = display.loadTexture("../pic/flag.png");
-    textureMap[Textures::boardTexture] = display.loadTexture("../pic/board.png");
-    textureMap[Textures::redBackTexture] = display.loadTexture("../pic/red_back.png");
-    textureMap[Textures::blueBackTexture] = display.loadTexture("../pic/blue_back.png");
+void Game::deselect() {
+    selectedPiece = nullptr;
 }

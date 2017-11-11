@@ -58,7 +58,17 @@ public:
     int posX, posY;
     bool isFaceDown;
     Rank rank;
+public:
+    Rank getRank() const;
+
+    void setRank(Rank rank);
+
+private:
     Color color;
+public:
+    Color getColor() const;
+
+    void setColor(Color color);
 };
 
 

@@ -46,3 +46,19 @@ void Piece::flip() {
     isFaceDown = !isFaceDown;
     std::cout << "flipped, isFaceDown: " << isFaceDown << std::endl;
 }
+
+Rank Piece::getRank() const {
+    return rank;
+}
+
+void Piece::setRank(Rank rank) {
+    Piece::rank = rank;
+}
+
+Color Piece::getColor() const {
+    return color;
+}
+
+void Piece::setColor(Color color) {
+    Piece::color = color;
+}

@@ -20,10 +20,16 @@ public:
 private:
     Display display;
     bool handleEvents(SDL_Event &event);
-    // TODO: pieceContainer could contain Piece pointers(?)
-    std::vector<std::unique_ptr<Piece>> pieceContainer;
+    std::vector<std::shared_ptr<Piece>> pieceContainer;
+    bool isAPieceSelected = false;
+    std::shared_ptr<Piece> selectedPiece;
     void loadTextures();
     std::map<Textures, std::unique_ptr<Texture>> textureMap;
+    void createPieces();
+    void renderLoop();
+    void selectPiece(std::shared_ptr<Piece> &clickedPiece);
+
+    void deselect();
 };
 
 
