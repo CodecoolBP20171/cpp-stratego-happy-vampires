@@ -67,12 +67,7 @@ void Game::renderLoop() {
             for(int i = 0; i < pieceContainer.size(); i++){
                 pieceContainer[i]->render(display.getRenderer());
                 if(pieceContainer[i] == selectedPiece) {
-                    SDL_SetRenderDrawColor(display.getRenderer(), 0, 0, 255, 255);
-                    SDL_RenderDrawLine( display.getRenderer(), selectedPiece->getPosX(), selectedPiece->getPosY(), selectedPiece->getPosX(), selectedPiece->getPosY() + 100 );
-                    SDL_RenderDrawLine( display.getRenderer(), selectedPiece->getPosX(), selectedPiece->getPosY(), selectedPiece->getPosX() + 100, selectedPiece->getPosY() );
-                    SDL_RenderDrawLine( display.getRenderer(), selectedPiece->getPosX() + 100, selectedPiece->getPosY(), selectedPiece->getPosX() + 100, selectedPiece->getPosY() + 100 );
-                    SDL_RenderDrawLine( display.getRenderer(), selectedPiece->getPosX(), selectedPiece->getPosY() + 100, selectedPiece->getPosX() + 100, selectedPiece->getPosY() + 100 );
-                    //std::cout << "SELECTED: " << selectedPiece->getPosX() << std::endl;
+                    graphicallySelect(selectedPiece);
                 }
             }
 
@@ -101,4 +96,13 @@ void Game::selectPiece(std::shared_ptr<Piece> &clickedPiece) {
 
 void Game::deselect() {
     selectedPiece = nullptr;
+}
+
+void Game::graphicallySelect(std::shared_ptr<Piece> shared_ptr) {
+    SDL_SetRenderDrawColor(display.getRenderer(), 0, 0, 255, 255);
+    SDL_RenderDrawLine( display.getRenderer(), selectedPiece->getPosX(), selectedPiece->getPosY(), selectedPiece->getPosX(), selectedPiece->getPosY() + 100 );
+    SDL_RenderDrawLine( display.getRenderer(), selectedPiece->getPosX(), selectedPiece->getPosY(), selectedPiece->getPosX() + 100, selectedPiece->getPosY() );
+    SDL_RenderDrawLine( display.getRenderer(), selectedPiece->getPosX() + 100, selectedPiece->getPosY(), selectedPiece->getPosX() + 100, selectedPiece->getPosY() + 100 );
+    SDL_RenderDrawLine( display.getRenderer(), selectedPiece->getPosX(), selectedPiece->getPosY() + 100, selectedPiece->getPosX() + 100, selectedPiece->getPosY() + 100 );
+    //std::cout << "SELECTED: " << selectedPiece->getPosX() << std::endl;
 }

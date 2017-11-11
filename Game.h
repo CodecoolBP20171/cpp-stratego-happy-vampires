@@ -28,8 +28,8 @@ private:
     void createPieces();
     void renderLoop();
     void selectPiece(std::shared_ptr<Piece> &clickedPiece);
-
     void deselect();
+    void graphicallySelect(std::shared_ptr<Piece> shared_ptr);
 };
 
 
