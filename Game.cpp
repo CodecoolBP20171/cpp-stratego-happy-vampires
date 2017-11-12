@@ -56,8 +56,9 @@ bool Game::handleEvents(SDL_Event &event) {
     if( event.type == SDL_QUIT ) { quit =  true; }
     if( event.type == SDL_MOUSEBUTTONUP )
     {
-        //int x, y;
-        SDL_GetMouseState( &clickedX, &clickedY );
+        int x, y;
+        SDL_GetMouseState( &x, &y );
+        clickedX = x; clickedY = y;
         std::cout << "click @ " << clickedX << " " << clickedY << std::endl;
     }
     return quit;
@@ -66,7 +67,7 @@ bool Game::handleEvents(SDL_Event &event) {
 void Game::gameLogic() {
     // if there is a click on the board
     if(clickedX >= 0 && clickedY >= 0) {
-        std::cout << "clicked on the board!" << std::endl;
+        //std::cout << "clicked on the board!" << std::endl;
         // get clicked piece if the user clicked on a piece, nullptr otherwise
         std::shared_ptr<Piece> clickedPiece = getClickedPiece(clickedX, clickedY);
         // if the user clicked on a piece
