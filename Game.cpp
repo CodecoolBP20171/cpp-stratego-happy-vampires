@@ -12,32 +12,7 @@ void Game::run() {
     loadTextures();
     createPieces();
     initGame();
-    renderLoop();
-}
-
-bool Game::handleEvents(SDL_Event &event) {
-    bool quit = false;
-        if( event.type == SDL_QUIT ) { quit =  true; }
-        if( event.type == SDL_MOUSEBUTTONDOWN )
-        {
-            int x, y;
-            SDL_GetMouseState( &x, &y );
-            std::cout << "click @ " << x << " " << y << std::endl;
-            std::shared_ptr<Piece> clickedPiece = getClickedPiece(x, y);
-            if(clickedPiece){
-                if(currentPlayer == clickedPiece->getColor()) {
-                    selectPiece(clickedPiece);
-                }
-            } else {
-                if(selectedPiece){
-                    if(selectedPiece->moveTo(x, y)) {
-                        deselect();
-                        switchPlayers();
-                    }
-                }
-            }
-        }
-    return quit;
+    gameLoop();
 }
 
 void Game::loadTextures() {
@@ -54,7 +29,7 @@ void Game::createPieces() {
     SDL_Delay(100);
 }
 
-void Game::renderLoop() {
+void Game::gameLoop() {
     bool quit = false;
     Uint32 timepassed = 0;
     Uint32  timestep = 16;
@@ -62,27 +37,69 @@ void Game::renderLoop() {
         timepassed = SDL_GetTicks();
         SDL_Event sdl_event;
         while(SDL_PollEvent(&sdl_event) != 0){
+            // get user input
             quit = handleEvents(sdl_event);
-
-            SDL_RenderClear(display.getRenderer());
-            textureMap[Textures::boardTexture]->render(display.getRenderer(), nullptr);
-
-            for(int i = 0; i < pieceContainer.size(); i++){
-                pieceContainer[i]->render(display.getRenderer());
-                // if there is a selected piece, render the selection
-                if(pieceContainer[i] == selectedPiece) {
-                    graphicallySelect(selectedPiece);
-                }
-            }
-
-
-            SDL_RenderPresent(display.getRenderer());
-
+            // apply game logic
+            gameLogic();
+            //render new frame
+            renderAll();
             while( timepassed + timestep > SDL_GetTicks() ) {
                 SDL_Delay(0);
             }
         }
     }
+}
+
+bool Game::handleEvents(SDL_Event &event) {
+    clickedX = -1; clickedY = -1;
+    bool quit = false;
+    if( event.type == SDL_QUIT ) { quit =  true; }
+    if( event.type == SDL_MOUSEBUTTONUP )
+    {
+        //int x, y;
+        SDL_GetMouseState( &clickedX, &clickedY );
+        std::cout << "click @ " << clickedX << " " << clickedY << std::endl;
+    }
+    return quit;
+}
+
+void Game::gameLogic() {
+    // if there is a click on the board
+    if(clickedX >= 0 && clickedY >= 0) {
+        std::cout << "clicked on the board!" << std::endl;
+        // get clicked piece if the user clicked on a piece, nullptr otherwise
+        std::shared_ptr<Piece> clickedPiece = getClickedPiece(clickedX, clickedY);
+        // if the user clicked on a piece
+        if (clickedPiece) {
+            // if it is the current player's piece
+            if (currentPlayer == clickedPiece->getColor()) {
+                // select the clicked piece
+                selectPiece(clickedPiece);
+            }
+        } else { // the user clicked on an empty field // later: or to an enemy
+            // if there is a piece selected
+            if (selectedPiece) {
+                // if the piece can move to that empty field, move there
+                if (selectedPiece->moveTo(clickedX, clickedY)) {
+                    deselect();
+                    switchPlayers();
+                }
+            }
+        }
+    }
+}
+
+void Game::renderAll() {
+    SDL_RenderClear(display.getRenderer());
+    textureMap[Textures::boardTexture]->render(display.getRenderer(), nullptr);
+    for(int i = 0; i < pieceContainer.size(); i++){
+        pieceContainer[i]->render(display.getRenderer());
+        // if there is a selected piece, render the selection
+        if(pieceContainer[i] == selectedPiece) {
+            graphicallySelect(selectedPiece);
+        }
+    }
+    SDL_RenderPresent(display.getRenderer());
 }
 
 void Game::selectPiece(std::shared_ptr<Piece> &clickedPiece) {
@@ -119,11 +136,8 @@ std::shared_ptr<Piece> Game::getClickedPiece(int x, int y) {
            x < pieceContainer[i]->getPosX() + 100 &&
            y > pieceContainer[i]->getPosY() &&
            y < pieceContainer[i]->getPosY() + 100){
-            //pieceContainer[i]->flip();
-            //selectPiece(pieceContainer[i]);
-            //selectedPiece = pieceContainer[i];
             result = pieceContainer[i];
-            std::cout << "hit" << std::endl;
+            //std::cout << "hit" << std::endl;
         }
     }
     return result;
@@ -131,7 +145,6 @@ std::shared_ptr<Piece> Game::getClickedPiece(int x, int y) {
 
 void Game::initGame() {
     currentPlayer = Color::red;
-    //if(currentPlayer == Color::red) std::cout << "Currentplayer is red" << std::endl;
 }
 
 void Game::switchPlayers() {

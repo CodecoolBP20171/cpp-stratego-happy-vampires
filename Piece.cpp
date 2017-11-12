@@ -76,3 +76,7 @@ bool Piece::moveTo(int x, int y) {
     }
     return canMove;
 }
+
+void Piece::printInfo() {
+    std::cout << "Clicked on a " << (color == Color::red ? "red" : "blue") << " piece" << std::endl;
+}

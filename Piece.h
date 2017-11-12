@@ -51,25 +51,20 @@ public:
     int getPosX() const;
     void setPosX(int posX);
     void flip();
+    Rank getRank() const;
+    void setRank(Rank rank);
+    Color getColor() const;
+    void setColor(Color color);
+    bool moveTo(int x, int y);
+    void printInfo();
   private:
+    Color color;
+    Rank rank;
     SDL_Texture *faceUpTexture = nullptr;
     SDL_Texture *backTexture = nullptr;
     SDL_Rect sdl_rect;
     int posX, posY;
     bool isFaceDown;
-    Rank rank;
-public:
-    Rank getRank() const;
-
-    void setRank(Rank rank);
-    bool moveTo(int x, int y);
-
-private:
-    Color color;
-public:
-    Color getColor() const;
-
-    void setColor(Color color);
 };
 
 

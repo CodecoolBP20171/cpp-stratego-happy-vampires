@@ -20,23 +20,25 @@ public:
 private:
     Display display;
     Color currentPlayer;
-    bool handleEvents(SDL_Event &event);
-    std::vector<std::shared_ptr<Piece>> pieceContainer;
-    bool isAPieceSelected = false;
     std::shared_ptr<Piece> selectedPiece;
-    void loadTextures();
     std::map<Textures, std::unique_ptr<Texture>> textureMap;
+    std::vector<std::shared_ptr<Piece>> pieceContainer;
+    int clickedX, clickedY;
+
+    void loadTextures();
+    bool handleEvents(SDL_Event &event);
     void createPieces();
-    void renderLoop();
+    void gameLoop();
     void selectPiece(std::shared_ptr<Piece> &clickedPiece);
     void deselect();
     void graphicallySelect(std::shared_ptr<Piece> shared_ptr);
-
     std::shared_ptr<Piece> getClickedPiece(int x, int y);
-
     void initGame();
-
     void switchPlayers();
+
+    void gameLogic();
+
+    void renderAll();
 };
 
 
