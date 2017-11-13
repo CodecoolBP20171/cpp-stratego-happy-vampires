@@ -11,7 +11,7 @@
 
 class Flag : public Thing {
 public:
-    Flag(int x, int y, Rank rank, Color color, SDL_Texture *faceUpTexture, SDL_Texture *backGroundTexture, int isFaceDown)
+    Flag(int x, int y, Rank rank, Color color, SDL_Texture *faceUpTexture = nullptr, SDL_Texture *backGroundTexture = nullptr, int isFaceDown = true)
             : Thing(x, y, rank, color, faceUpTexture, backGroundTexture, isFaceDown){}
 };
 

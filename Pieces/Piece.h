@@ -25,7 +25,8 @@ enum Rank {
     majorRank,
     colonelRank,
     generalRank,
-    marshallRank
+    marshallRank,
+    barrierRank
 };
 
 enum Color {
@@ -44,8 +45,7 @@ enum Textures {
 
 class Piece {
 public:
-    Piece(int x, int y, Rank rank, Color color, SDL_Texture *faceUpTexture, SDL_Texture *backGroundTexture, int isFaceDown = true);
-    Piece(){}
+    Piece(int x, int y, Rank rank, Color color, SDL_Texture *faceUpTexture = nullptr, SDL_Texture *backGroundTexture = nullptr, int isFaceDown = true);
     void render(SDL_Renderer* renderer);
     int getPosY() const;
     void setPosY(int posY);

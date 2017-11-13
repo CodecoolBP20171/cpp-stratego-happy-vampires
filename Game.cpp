@@ -8,6 +8,7 @@
 #include "Pieces/Piece.h"
 #include "Pieces/Bomb.hpp"
 #include "Pieces/Flag.hpp"
+#include "Pieces/Barrier.hpp"
 
 void Game::run() {
     display.init();
@@ -32,6 +33,17 @@ void Game::createPieces() {
     // TODO create all 80 pieces: Béci::subclasses will be needed for this (Dani task)
     pieceContainer.emplace_back(std::unique_ptr<Piece> (new Bomb(100, 100, Rank::bombRank, Color::red, textureMap[Textures::bombTexture]->getSDLTexture(), textureMap[Textures::redBackTexture]->getSDLTexture(), false)));
     pieceContainer.emplace_back(std::unique_ptr<Piece> (new Flag(300, 300, Rank::flagRank, Color::blue, textureMap[Textures::flagTexture]->getSDLTexture(), textureMap[Textures::blueBackTexture]->getSDLTexture(), false)));
+
+    // TODO barriers should be created in a nice for loop, the coordinates should be
+    // in n(coordinate) x "defaultUnit" format. "defaultUnit" will be a const, now we use a magic number (100) for it
+    pieceContainer.emplace_back(std::unique_ptr<Piece> (new Barrier(200, 400, Rank::barrierRank, Color::neutral)));
+    pieceContainer.emplace_back(std::unique_ptr<Piece> (new Barrier(200, 500, Rank::barrierRank, Color::neutral)));
+    pieceContainer.emplace_back(std::unique_ptr<Piece> (new Barrier(300, 400, Rank::barrierRank, Color::neutral)));
+    pieceContainer.emplace_back(std::unique_ptr<Piece> (new Barrier(300, 500, Rank::barrierRank, Color::neutral)));
+    pieceContainer.emplace_back(std::unique_ptr<Piece> (new Barrier(600, 400, Rank::barrierRank, Color::neutral)));
+    pieceContainer.emplace_back(std::unique_ptr<Piece> (new Barrier(600, 500, Rank::barrierRank, Color::neutral)));
+    pieceContainer.emplace_back(std::unique_ptr<Piece> (new Barrier(700, 400, Rank::barrierRank, Color::neutral)));
+    pieceContainer.emplace_back(std::unique_ptr<Piece> (new Barrier(700, 500, Rank::barrierRank, Color::neutral)));
 }
 
 void Game::gameLoop() {
@@ -59,7 +71,7 @@ bool Game::handleEvents(SDL_Event &event) {
     clickedX = -1; clickedY = -1;
     bool quit = false;
     if( event.type == SDL_QUIT ) { quit =  true; }
-    if( event.type == SDL_MOUSEBUTTONUP )
+    if( event.type == SDL_MOUSEBUTTONDOWN )
     {
         int x, y;
         SDL_GetMouseState( &x, &y );
@@ -153,10 +165,5 @@ void Game::initGame() {
 }
 
 void Game::switchPlayers() {
-    //TODO to ternary, low priority
-    if(currentPlayer == Color::red){
-        currentPlayer = Color::blue;
-    } else {
-        currentPlayer = Color::red;
-    }
+    currentPlayer = (currentPlayer == Color::red ? Color::blue : Color::red);
 }
