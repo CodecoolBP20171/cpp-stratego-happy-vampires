@@ -9,7 +9,7 @@
 #include <SDL_render.h>
 #include <map>
 #include <iostream>
-#include "Texture.h"
+#include "../Texture.h"
 
 // TODO: the enums should go inside of the class (?)
 
@@ -45,6 +45,7 @@ enum Textures {
 class Piece {
 public:
     Piece(int x, int y, Rank rank, Color color, SDL_Texture *faceUpTexture, SDL_Texture *backGroundTexture, int isFaceDown = true);
+    Piece(){}
     void render(SDL_Renderer* renderer);
     int getPosY() const;
     void setPosY(int posY);
@@ -57,7 +58,7 @@ public:
     void setColor(Color color);
     bool moveTo(int x, int y);
     void printInfo();
-  private:
+  protected:
     Color color;
     Rank rank;
     SDL_Texture *faceUpTexture = nullptr;

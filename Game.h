@@ -10,7 +10,7 @@
 #include <memory>
 #include <map>
 #include "Display.h"
-#include "Piece.h"
+#include "Pieces/Piece.h"
 
 class Game {
 
