@@ -4,6 +4,8 @@
 
 #include "Piece.h"
 
+// TODO create sublasses: Dani
+// TODO replace 100 (magic number) to a const: Dani
 
 Piece::Piece(int x, int y, Rank rank, Color color, SDL_Texture *faceUpTexture, SDL_Texture *backGroundTexture, int isFaceDown)
         : color(color),
@@ -64,6 +66,7 @@ void Piece::setColor(Color color) {
 }
 
 bool Piece::moveTo(int x, int y) {
+    // TODO 100 replace to a constant: Dani
     bool canMove = false;
     int newX = (int) x /100 * 100;
     int newY = (int) y / 100 * 100;

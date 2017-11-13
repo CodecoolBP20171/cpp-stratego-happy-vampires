@@ -16,6 +16,9 @@ void Game::run() {
 }
 
 void Game::loadTextures() {
+    // TODO collect all pictures for pieces: Béci
+    // TODO Design final background: Béci
+    // TODO import all textures: Béci
     textureMap[Textures::bombTexture] = display.loadTexture("../pic/bomb.png");
     textureMap[Textures::flagTexture] = display.loadTexture("../pic/flag.png");
     textureMap[Textures::boardTexture] = display.loadTexture("../pic/board.png");
@@ -24,9 +27,9 @@ void Game::loadTextures() {
 }
 
 void Game::createPieces() {
+    // TODO create all 80 pieces: Béci::subclasses will be needed for this (Dani task)
     pieceContainer.emplace_back(std::unique_ptr<Piece> (new Piece(100, 100, Rank::bombRank, Color::red, textureMap[Textures::bombTexture]->getSDLTexture(), textureMap[Textures::redBackTexture]->getSDLTexture(), false)));
     pieceContainer.emplace_back(std::unique_ptr<Piece> (new Piece(300, 300, Rank::flagRank, Color::blue, textureMap[Textures::flagTexture]->getSDLTexture(), textureMap[Textures::blueBackTexture]->getSDLTexture(), false)));
-    SDL_Delay(100);
 }
 
 void Game::gameLoop() {
@@ -121,6 +124,7 @@ void Game::deselect() {
 }
 
 void Game::graphicallySelect(std::shared_ptr<Piece> shared_ptr) {
+    // TODO: might be improved, low priority
     SDL_SetRenderDrawColor(display.getRenderer(), 0, 0, 255, 255);
     SDL_RenderDrawLine( display.getRenderer(), selectedPiece->getPosX(), selectedPiece->getPosY(), selectedPiece->getPosX(), selectedPiece->getPosY() + 100 );
     SDL_RenderDrawLine( display.getRenderer(), selectedPiece->getPosX(), selectedPiece->getPosY(), selectedPiece->getPosX() + 100, selectedPiece->getPosY() );
@@ -131,14 +135,12 @@ void Game::graphicallySelect(std::shared_ptr<Piece> shared_ptr) {
 
 std::shared_ptr<Piece> Game::getClickedPiece(int x, int y) {
     std::shared_ptr<Piece> result = nullptr;
-    unsigned long numberOfPieces = pieceContainer.size();
-    for(int i; i < numberOfPieces; i++){
+    for(int i = 0; i < pieceContainer.size(); i++){
         if(x > pieceContainer[i]->getPosX() &&
            x < pieceContainer[i]->getPosX() + 100 &&
            y > pieceContainer[i]->getPosY() &&
            y < pieceContainer[i]->getPosY() + 100){
             result = pieceContainer[i];
-            //std::cout << "hit" << std::endl;
         }
     }
     return result;
@@ -149,6 +151,7 @@ void Game::initGame() {
 }
 
 void Game::switchPlayers() {
+    //TODO to ternary, low priority
     if(currentPlayer == Color::red){
         currentPlayer = Color::blue;
     } else {
