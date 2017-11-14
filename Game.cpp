@@ -40,6 +40,8 @@ void Game::createPieces() {
     pieceContainer.emplace_back(std::unique_ptr<Piece> (new Flag(500, 500, Rank::flagRank, Color::blue, textureMap[Textures::flagTexture]->getSDLTexture(), textureMap[Textures::blueBackTexture]->getSDLTexture(), false)));
     pieceContainer.emplace_back(std::unique_ptr<Piece> (new Soldier(200, 200, Rank::marshallRank, Color::red, textureMap[Textures::marshallTexture]->getSDLTexture(), textureMap[Textures::redBackTexture]->getSDLTexture(), false)));
     pieceContainer.emplace_back(std::unique_ptr<Piece> (new Soldier(0, 0, Rank::generalRank, Color::blue, textureMap[Textures::generalTexture]->getSDLTexture(), textureMap[Textures::blueBackTexture]->getSDLTexture(), false)));
+    pieceContainer.emplace_back(std::unique_ptr<Piece> (new Soldier(100, 0, Rank::generalRank, Color::blue, textureMap[Textures::generalTexture]->getSDLTexture(), textureMap[Textures::blueBackTexture]->getSDLTexture(), false)));
+    pieceContainer.emplace_back(std::unique_ptr<Piece> (new Soldier(0, 100, Rank::generalRank, Color::blue, textureMap[Textures::generalTexture]->getSDLTexture(), textureMap[Textures::blueBackTexture]->getSDLTexture(), false)));
 
 
 
@@ -128,7 +130,7 @@ void Game::gameStateLogic() {
             if (currentPlayer == clickedPiece->getColor()) {
                 // select the clicked piece
                 // TODO: select from only movable pieces (not a blocked soldier)
-                if(clickedPiece->canMove()) {
+                if(clickedPiece->canMove() && clickedPiece->isNotBlocked(pieceContainer)) {
                     selectPiece(clickedPiece);
                 }
             }

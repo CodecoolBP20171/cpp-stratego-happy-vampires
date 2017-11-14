@@ -9,6 +9,8 @@
 #include <SDL_render.h>
 #include <map>
 #include <iostream>
+#include <vector>
+#include <memory>
 #include "../Texture.h"
 
 // TODO: the enums should go inside of the class (?)
@@ -62,6 +64,7 @@ public:
     virtual bool canMove() = 0;
     virtual bool moveTo(int x, int y){};
     void setTo(int x, int y);
+    bool isNotBlocked(const std::vector<std::shared_ptr<Piece>> &pieceContainer) const;
   protected:
     Color color;
     Rank rank;
@@ -70,6 +73,7 @@ public:
     SDL_Rect sdl_rect;
     int posX, posY;
     bool isFaceDown;
+    bool canGoToNeighbour(const int &x, const int &y, const std::vector<std::shared_ptr<Piece>> &pieceContainer) const;
 };
 
 

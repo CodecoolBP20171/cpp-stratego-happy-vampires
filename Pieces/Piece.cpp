@@ -16,6 +16,7 @@ Piece::Piece(int x, int y, Rank rank, Color color, SDL_Texture *faceUpTexture, S
 {
     sdl_rect.x = posX = x;
     sdl_rect.y = posY = y;
+    // TODO: remove magic number
     sdl_rect.w = 100;
     sdl_rect.h = 100;
 }
@@ -83,4 +84,35 @@ void Piece::setTo(int x, int y) {
         //canSet = true;
     //}
     //return canSet;
+}
+
+bool Piece::isNotBlocked(const std::vector<std::shared_ptr<Piece>> &pieceContainer) const {
+    for(int i = -1; i < 2; i++){
+        for(int j = -1; j < 2; j++){
+            if(abs(i + j) == 1) {
+                std::cout << "X: " << posX + i * 100 << " Y: " << posY + j * 100 << std::endl;
+                // TODO remove magic number (100)
+                if (canGoToNeighbour(posX + i * 100, posY + j * 100, pieceContainer)){
+                    return true;
+                }
+            }
+        }
+    }
+    return false;
+}
+
+bool Piece::canGoToNeighbour(const int &x, const int &y, const std::vector<std::shared_ptr<Piece>> &pieceContainer) const {
+    // TODO remove magic numbers (100, 1000)
+    // TODO i.e. isOnBoard:
+    if (x < 0 || x > 1000 || y < 0 || y > 1000){
+        return false;
+    }
+    for(int i = 0; i < pieceContainer.size(); i++){
+        if(x == pieceContainer[i]->getPosX() &&
+           y == pieceContainer[i]->getPosY() &&
+           pieceContainer[i]->getColor() == color) {
+            return false;
+        }
+    }
+    return true;
 }
