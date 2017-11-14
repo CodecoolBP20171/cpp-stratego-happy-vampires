@@ -63,100 +63,111 @@ void Game::createPieces() {
     // pieceContainer.emplace_back(std::unique_ptr<Piece> (new Bomb(1, 1, Rank::bombRank, Color::red, textureMap[Textures::bombTexture]->getSDLTexture(), textureMap[Textures::redBackTexture]->getSDLTexture(), false)));
     // pieceContainer.emplace_back(std::unique_ptr<Piece> (new Bomb(4, 4, Rank::bombRank, Color::red, textureMap[Textures::bombTexture]->getSDLTexture(), textureMap[Textures::redBackTexture]->getSDLTexture(), false)));
     // pieceContainer.emplace_back(std::unique_ptr<Piece> (new Bomb(8, 6, Rank::bombRank, Color::red, textureMap[Textures::bombTexture]->getSDLTexture(), textureMap[Textures::redBackTexture]->getSDLTexture(), false)));
-
-    pieceContainer.emplace_back(std::unique_ptr<Piece>
-        (new Flag(0, 0, Rank::flagRank, Color::red,
+    // use shared pointers instead of unique pointers in createPieces()
+    pieceContainer.emplace_back(std::shared_ptr<Piece>
+        (new Flag(0, 0, Rank::flagRank, Color::blue,
         textureMap[Textures::blueFlagTexture]->getSDLTexture(),
         textureMap[Textures::blueBackTexture]->getSDLTexture(), true, false)));
 
-    pieceContainer.emplace_back(std::unique_ptr<Piece>
-        (new Flag(9, 9, Rank::bombRank, Color::red,
+    pieceContainer.emplace_back(std::shared_ptr<Piece>
+        (new Flag(9, 9, Rank::bombRank, Color::blue,
          textureMap[Textures::blueBombTexture]->getSDLTexture(),
          textureMap[Textures::blueBackTexture]->getSDLTexture(), true, false)));
 
-    pieceContainer.emplace_back(std::unique_ptr<Piece>
+    pieceContainer.emplace_back(std::shared_ptr<Piece>
         (new Soldier(3, 3, Rank::majorRank, Color::red,
          textureMap[Textures::red7Texture]->getSDLTexture(),
          textureMap[Textures::redBackTexture]->getSDLTexture(), true, false)));
 
+    pieceContainer.emplace_back(std::shared_ptr<Piece>
+        (new Soldier(4, 4, Rank::majorRank, Color::blue,
+         textureMap[Textures::blue7Texture]->getSDLTexture(),
+         textureMap[Textures::blueBackTexture]->getSDLTexture(), true, false)));
+
+
     // initilaizing red setup
-    pieceContainer.emplace_back(std::unique_ptr<Piece>
-        (new Flag(0, 0, Rank::flagRank, Color::red,
-         textureMap[Textures::redFlagTexture]->getSDLTexture(),
-         textureMap[Textures::redBackTexture]->getSDLTexture(), false, false)));
-    for(int i = 0; i < 6; ++i) {
-        pieceContainer.emplace_back(std::unique_ptr<Piece>
-        (new Bomb((1+i), 0, Rank::bombRank, Color::red,
-         textureMap[Textures::redBombTexture]->getSDLTexture(),
-         textureMap[Textures::redBackTexture]->getSDLTexture(), false, false)));
-    }
-    pieceContainer.emplace_back(std::unique_ptr<Piece>
-        (new Spy(7, 0, Rank::spyRank, Color::red,
-         textureMap[Textures::red1Texture]->getSDLTexture(),
-         textureMap[Textures::redBackTexture]->getSDLTexture(), false, false)));
-    for(int i = 0; i < 8; ++i) {
-        pieceContainer.emplace_back(std::unique_ptr<Piece>
-            (new Scout((0+i), 1, Rank::scoutRank, Color::red,
-             textureMap[Textures::red2Texture]->getSDLTexture(),
-             textureMap[Textures::redBackTexture]->getSDLTexture(), false, false)));
-    }
-    for(int i = 0; i < 5; ++i) {
-        pieceContainer.emplace_back(std::unique_ptr<Piece>
-            (new Miner((0+i), 2, Rank::minerRank, Color::red,
-             textureMap[Textures::red3Texture]->getSDLTexture(),
-             textureMap[Textures::redBackTexture]->getSDLTexture(), false, false)));
-    }
+//    pieceContainer.emplace_back(std::shared_ptr<Piece>
+//        (new Flag(0, 0, Rank::flagRank, Color::red,
+//         textureMap[Textures::redFlagTexture]->getSDLTexture(),
+//         textureMap[Textures::redBackTexture]->getSDLTexture(), false, false)));
+//
+//    for(int i = 0; i < 6; ++i) {
+//        pieceContainer.emplace_back(std::shared_ptr<Piece>
+//        (new Bomb((1+i), 0, Rank::bombRank, Color::red,
+//         textureMap[Textures::redBombTexture]->getSDLTexture(),
+//         textureMap[Textures::redBackTexture]->getSDLTexture(), false, false)));
+//    }
+//
+//    pieceContainer.emplace_back(std::shared_ptr<Piece>
+//        (new Spy(7, 0, Rank::spyRank, Color::red,
+//         textureMap[Textures::red1Texture]->getSDLTexture(),
+//         textureMap[Textures::redBackTexture]->getSDLTexture(), false, false)));
+
+//    for(int i = 0; i < 8; ++i) {
+//        pieceContainer.emplace_back(std::shared_ptr<Piece>
+//            (new Scout((0+i), 1, Rank::scoutRank, Color::red,
+//             textureMap[Textures::red2Texture]->getSDLTexture(),
+//             textureMap[Textures::redBackTexture]->getSDLTexture(), false, false)));
+//    }
+
+//    for(int i = 0; i < 5; ++i) {
+//        pieceContainer.emplace_back(std::shared_ptr<Piece>
+//            (new Miner((0+i), 2, Rank::minerRank, Color::red,
+//             textureMap[Textures::red3Texture]->getSDLTexture(),
+//             textureMap[Textures::redBackTexture]->getSDLTexture(), false, false)));
+//    }
+    /*
+//    for(int i = 0; i < 4; ++i) {
+//        pieceContainer.emplace_back(std::shared_ptr<Piece>
+//            (new Soldier((0+i), 3, Rank::sergeantRank, Color::red,
+//             textureMap[Textures::red4Texture]->getSDLTexture(),
+//             textureMap[Textures::redBackTexture]->getSDLTexture(), false, false)));
+//    }
+//    for(int i = 0; i < 4; ++i) {
+//        pieceContainer.emplace_back(std::shared_ptr<Piece>
+//            (new Soldier((4+i), 3, Rank::lieutenantRank, Color::red,
+//             textureMap[Textures::red5Texture]->getSDLTexture(),
+//             textureMap[Textures::redBackTexture]->getSDLTexture(), false, false)));
+//    }
     for(int i = 0; i < 4; ++i) {
-        pieceContainer.emplace_back(std::unique_ptr<Piece>
-            (new Soldier((0+i), 3, Rank::sergeantRank, Color::red,
-             textureMap[Textures::red4Texture]->getSDLTexture(),
-             textureMap[Textures::redBackTexture]->getSDLTexture(), false, false)));
-    }
-    for(int i = 0; i < 4; ++i) {
-        pieceContainer.emplace_back(std::unique_ptr<Piece>
-            (new Soldier((4+i), 3, Rank::lieutenantRank, Color::red,
-             textureMap[Textures::red5Texture]->getSDLTexture(),
-             textureMap[Textures::redBackTexture]->getSDLTexture(), false, false)));
-    }
-    for(int i = 0; i < 4; ++i) {
-        pieceContainer.emplace_back(std::unique_ptr<Piece>
+        pieceContainer.emplace_back(std::shared_ptr<Piece>
             (new Soldier((0+i), 4, Rank::captainRank, Color::red,
              textureMap[Textures::red6Texture]->getSDLTexture(),
              textureMap[Textures::redBackTexture]->getSDLTexture(), false, false)));
     }
     for(int i = 0; i < 3; ++i) {
-        pieceContainer.emplace_back(std::unique_ptr<Piece>
+        pieceContainer.emplace_back(std::shared_ptr<Piece>
             (new Soldier((4+i), 4, Rank::majorRank, Color::red,
              textureMap[Textures::red7Texture]->getSDLTexture(),
              textureMap[Textures::redBackTexture]->getSDLTexture(), false, false)));
     }
     for(int i = 0; i < 2; ++i) {
-        pieceContainer.emplace_back(std::unique_ptr<Piece>
+        pieceContainer.emplace_back(std::shared_ptr<Piece>
             (new Soldier((0+i), 5, Rank::colonelRank, Color::red,
              textureMap[Textures::red8Texture]->getSDLTexture(),
              textureMap[Textures::redBackTexture]->getSDLTexture(), false, false)));
     }
-    pieceContainer.emplace_back(std::unique_ptr<Piece>
+    pieceContainer.emplace_back(std::shared_ptr<Piece>
         (new Soldier(0, 6, Rank::generalRank, Color::red,
          textureMap[Textures::red9Texture]->getSDLTexture(),
          textureMap[Textures::redBackTexture]->getSDLTexture(), false, false)));
-    pieceContainer.emplace_back(std::unique_ptr<Piece>
+    pieceContainer.emplace_back(std::shared_ptr<Piece>
         (new Soldier(0, 7, Rank::marshallRank, Color::red,
          textureMap[Textures::red10Texture]->getSDLTexture(),
          textureMap[Textures::redBackTexture]->getSDLTexture(), false, false)));
-
+*/
 // TODO barriers should be created in a nice for loop, the coordinates should be
     // in n(coordinate) x "defaultUnit" format. "defaultUnit" will be a const, now we use a magic number (100) for it
 
 
-    pieceContainer.emplace_back(std::unique_ptr<Piece> (new Barrier(2, 4, Rank::barrierRank, Color::neutral)));
-    pieceContainer.emplace_back(std::unique_ptr<Piece> (new Barrier(2, 5, Rank::barrierRank, Color::neutral)));
-    pieceContainer.emplace_back(std::unique_ptr<Piece> (new Barrier(3, 4, Rank::barrierRank, Color::neutral)));
-    pieceContainer.emplace_back(std::unique_ptr<Piece> (new Barrier(3, 5, Rank::barrierRank, Color::neutral)));
-    pieceContainer.emplace_back(std::unique_ptr<Piece> (new Barrier(6, 4, Rank::barrierRank, Color::neutral)));
-    pieceContainer.emplace_back(std::unique_ptr<Piece> (new Barrier(6, 5, Rank::barrierRank, Color::neutral)));
-    pieceContainer.emplace_back(std::unique_ptr<Piece> (new Barrier(7, 4, Rank::barrierRank, Color::neutral)));
-    pieceContainer.emplace_back(std::unique_ptr<Piece> (new Barrier(7, 5, Rank::barrierRank, Color::neutral)));
+    pieceContainer.emplace_back(std::shared_ptr<Piece> (new Barrier(2, 4, Rank::barrierRank, Color::neutral)));
+    pieceContainer.emplace_back(std::shared_ptr<Piece> (new Barrier(2, 5, Rank::barrierRank, Color::neutral)));
+    pieceContainer.emplace_back(std::shared_ptr<Piece> (new Barrier(3, 4, Rank::barrierRank, Color::neutral)));
+    pieceContainer.emplace_back(std::shared_ptr<Piece> (new Barrier(3, 5, Rank::barrierRank, Color::neutral)));
+    pieceContainer.emplace_back(std::shared_ptr<Piece> (new Barrier(6, 4, Rank::barrierRank, Color::neutral)));
+    pieceContainer.emplace_back(std::shared_ptr<Piece> (new Barrier(6, 5, Rank::barrierRank, Color::neutral)));
+    pieceContainer.emplace_back(std::shared_ptr<Piece> (new Barrier(7, 4, Rank::barrierRank, Color::neutral)));
+    pieceContainer.emplace_back(std::shared_ptr<Piece> (new Barrier(7, 5, Rank::barrierRank, Color::neutral)));
 
 
 }
