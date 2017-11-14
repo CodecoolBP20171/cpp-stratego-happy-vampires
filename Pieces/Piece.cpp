@@ -87,16 +87,21 @@ void Piece::printInfo() {
     std::cout << "Clicked on a " << (color == Color::red ? "red" : "blue") << " piece" << std::endl;
 }
 
-void Piece::setTo(int x, int y) {
-    //TODO 100 -> const, finish function
+void Piece::setTo(int &x, int &y) {
+    //TODO 100 -> const, finish function, but why const???
     //bool canSet = false;
-    int newX = (int) x / 100 * 100;
-    int newY = (int) y / 100 * 100;
+    int newX = (int) x / sizeParams::FIELD_SIZE * sizeParams::FIELD_SIZE;
+    int newY = (int) y / sizeParams::FIELD_SIZE * sizeParams::FIELD_SIZE;
     //std::cout << "newX: " << newX << " oldX: " << posX << std::endl;
     //if((posX + 100 == newX || posX - 100 == newX) || (posY + 100 == newY || posY - 100 == newY)) {
     //if(abs(posX + posY - newX - newY) == 100) {
-        sdl_rect.x = posX = newX;
-        sdl_rect.y = posY = newY;
+
+    //posX = newX * sizeParams::FIELD_SIZE + sizeParams::BOARD_X;
+    //posY = newY * sizeParams::FIELD_SIZE + sizeParams::BOARD_Y;
+    sdl_rect.x = newX + sizeParams::PIECE_FIELD_DIFF + sizeParams::BOARD_OFFSET_X;
+    sdl_rect.y = newY + sizeParams::PIECE_FIELD_DIFF + sizeParams::BOARD_OFFSET_Y;
+
+    std::cout << this->posX << " " << this->posY << std::endl;
         //canSet = true;
     //}
     //return canSet;
@@ -129,4 +134,8 @@ bool Piece::canGoToNeighbour(const int &x, const int &y, const std::vector<std::
         }
     }
     return true;
+}
+
+const SDL_Rect &Piece::getSdl_rect() const {
+    return sdl_rect;
 }
