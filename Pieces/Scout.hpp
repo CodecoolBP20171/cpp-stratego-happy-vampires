@@ -20,25 +20,24 @@ public:
         int newY = (int) y / sizeParams::FIELD_SIZE * sizeParams::FIELD_SIZE;
         int stepNumber = std::max(abs(newX - posX), abs(newY - posY)) / sizeParams::FIELD_SIZE;
         int stepSize = (abs(newX - posX) == 0 ? newY - posY : newX - posX) / stepNumber;
+
         if(abs(posX - newX) > 0 && abs(posY - newY) == 0 || abs(posX - newX) == 0 && abs(posY - newY) > 0){
 
             for(int i = 1; i < stepNumber; i++) {
                 if(abs(newX - posX) == 0){
-                    //std::cout << "X_REMAINS" << std::endl;
-                    //std::cout << "X: " << x << " NEW_Y: " << x << std::endl;
-                    //std::cout << "Y: " << y << " NEW_Y: " << y + stepSize << std::endl;
-                    if(isThereAPieceInTheWay(posX, posY + stepSize, pieceContainer)){
+                    if(isThereAPieceInTheWay(posX, posY + i * stepSize, pieceContainer)){
                         return false;
                     }
                 } else if(abs(newY - posY) == 0){
-                    if(isThereAPieceInTheWay(posX + stepSize, posY, pieceContainer)){
+                    if(isThereAPieceInTheWay(posX + i * stepSize, posY, pieceContainer)){
                         return false;
                     }
                 }
             }
-
-            sdl_rect.x = posX = newX;
-            sdl_rect.y = posY = newY;
+            sdl_rect.x = newX + sizeParams::PIECE_FIELD_DIFF;
+            sdl_rect.y = newY + sizeParams::PIECE_FIELD_DIFF;
+            posX = newX;
+            posY = newY;
             canMove = true;
         }
         return canMove;
