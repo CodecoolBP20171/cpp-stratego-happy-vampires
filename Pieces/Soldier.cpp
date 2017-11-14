@@ -23,5 +23,6 @@ bool Soldier::moveTo(int x, int y) {
 }
 
 void Soldier::attack(std::shared_ptr<Piece> piece) {
-    // TODO
+    // TODO Soldier defeats soldiers weaker than it and the flag, draws with same ranked enemy
+    std::cout << "Soldier attacks" << std::endl;
 }
