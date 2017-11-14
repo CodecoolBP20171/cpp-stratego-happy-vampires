@@ -4,8 +4,8 @@
 
 #include "Soldier.h"
 
-Soldier::Soldier(int x, int y, Rank rank, Color color, SDL_Texture *faceUpTexture, SDL_Texture *backGroundTexture,
-                 bool isFaceDown) : Piece(x, y, rank, color, faceUpTexture, backGroundTexture, isFaceDown){}
+Soldier::Soldier(int x, int y, Rank rank, Color color, SDL_Texture *faceUpTexture, SDL_Texture *backGroundTexture, bool toBoard,
+                 bool isFaceDown) : Piece(x, y, rank, color, faceUpTexture, backGroundTexture, toBoard, isFaceDown){}
 
 bool Soldier::moveTo(int x, int y, const std::vector<std::shared_ptr<Piece>> &pieceContainer) {
     bool canMove = false;

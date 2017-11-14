@@ -11,7 +11,7 @@
 class Scout : public Soldier {
 public:
     Scout(int x, int y, Rank rank, Color color, SDL_Texture *faceUpTexture, SDL_Texture *backGroundTexture,
-          bool isFaceDown) : Soldier(x, y, rank, color, faceUpTexture, backGroundTexture, isFaceDown){}
+          bool toBoard, bool isFaceDown) : Soldier(x, y, rank, color, faceUpTexture, backGroundTexture, toBoard, isFaceDown){}
 
         bool moveTo(int x, int y, const std::vector<std::shared_ptr<Piece>> &pieceContainer) override {
         // TODO DEBUG: JUMPS OVER PIECES IF THERE IS AN EMPTY FIELD BETWEEN THEM -> DEBUG

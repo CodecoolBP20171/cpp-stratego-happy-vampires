@@ -4,7 +4,11 @@
 
 #include "Piece.h"
 
-Piece::Piece(int x, int y, Rank rank, Color color, SDL_Texture *faceUpTexture, SDL_Texture *backGroundTexture, int isFaceDown)
+Piece::Piece(int x, int y,
+             Rank rank, Color color,
+             SDL_Texture *faceUpTexture = nullptr, SDL_Texture *backGroundTexture = nullptr,
+             bool toBoard = false,
+             bool isFaceDown = false)
         : color(color),
           rank(rank),
           faceUpTexture(faceUpTexture),
@@ -13,6 +17,7 @@ Piece::Piece(int x, int y, Rank rank, Color color, SDL_Texture *faceUpTexture, S
 {
 //    sdl_rect.x = posX = x * sizeParams::PIECE_SIZE + sizeParams::BOARD_X;
 //    sdl_rect.y = posY = y * sizeParams::PIECE_SIZE + sizeParams::BOARD_Y;
+/*
     sdl_rect.x = x * sizeParams::FIELD_SIZE + sizeParams::BOARD_X + sizeParams::PIECE_FIELD_DIFF;
     sdl_rect.y = y * sizeParams::FIELD_SIZE + sizeParams::BOARD_Y + sizeParams::PIECE_FIELD_DIFF;
     posX = x * sizeParams::FIELD_SIZE + sizeParams::BOARD_X;
@@ -20,6 +25,20 @@ Piece::Piece(int x, int y, Rank rank, Color color, SDL_Texture *faceUpTexture, S
 
     sdl_rect.w = sizeParams::PIECE_SIZE;
     sdl_rect.h = sizeParams::PIECE_SIZE;
+*/
+    sdl_rect.w = sizeParams::PIECE_SIZE;
+    sdl_rect.h = sizeParams::PIECE_SIZE;
+    if (!toBoard) {
+        posX = x * sizeParams::FIELD_SIZE + sizeParams::INACTIVE_FIELDS_NUMBER_X;
+        posY = y * sizeParams::FIELD_SIZE + sizeParams::INACTIVE_FIELDS_NUMBER_Y;
+        sdl_rect.x = posX + sizeParams::PIECE_FIELD_DIFF + sizeParams::INACTIVE_OFFSET_X;
+        sdl_rect.y = posY + sizeParams::PIECE_FIELD_DIFF + sizeParams::INACTIVE_OFFSET_Y;
+    } else {
+        posX = x * sizeParams::FIELD_SIZE + sizeParams::BOARD_X;
+        posY = y * sizeParams::FIELD_SIZE + sizeParams::BOARD_Y;
+        sdl_rect.x = posX + sizeParams::PIECE_FIELD_DIFF + sizeParams::BOARD_OFFSET_X;
+        sdl_rect.y = posY + sizeParams::PIECE_FIELD_DIFF + sizeParams::BOARD_OFFSET_Y;
+    }
 }
 
 void Piece::render(SDL_Renderer* renderer){

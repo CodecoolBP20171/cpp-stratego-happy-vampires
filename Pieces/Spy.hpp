@@ -11,7 +11,7 @@
 class Spy : public Soldier {
 public:
     Spy(int x, int y, Rank rank, Color color, SDL_Texture *faceUpTexture, SDL_Texture *backGroundTexture,
-                     bool isFaceDown) : Soldier(x, y, rank, color, faceUpTexture, backGroundTexture, isFaceDown){}
+        bool toBoard, bool isFaceDown) : Soldier(x, y, rank, color, faceUpTexture, backGroundTexture, toBoard, isFaceDown){}
     void attack(std::shared_ptr<Piece> piece) override {
         // TODO: Spy can only defeat the marshall and the flag; draws with a spy
         std::cout << "Spy attacks" << std::endl;

@@ -17,11 +17,20 @@
 
 namespace sizeParams {
     //TODO: program should be prepared to the case when PIECE_SIZE is < than FIELD_SIZE
-    const int PIECE_SIZE = 69;
+    //TODO the display-dependent consts (offsets) should be moved to display class
+    const int PIECE_SIZE = 59; //TODO discuss why was it 59
     const int FIELD_SIZE = 69;
+
     const int BOARD_X = 0;
     const int BOARD_Y = 0;
+    const int BOARD_OFFSET_X = 14;
+    const int BOARD_OFFSET_Y = 13;
     const int BOARD_FIELDS_NUMBER = 10;
+
+    const int INACTIVE_OFFSET_X = 737;
+    const int INACTIVE_OFFSET_Y = 74;
+    const int INACTIVE_FIELDS_NUMBER_X = 8;
+    const int INACTIVE_FIELDS_NUMBER_Y = 8;
 
     // calculated values, do not touch
     const int PIECE_FIELD_DIFF = (FIELD_SIZE - PIECE_SIZE) / 2;
@@ -54,18 +63,42 @@ enum Color {
 
 enum Textures {
     boardTexture,
-    bombTexture,
     redBackTexture,
+    redFlagTexture,
+    redBombTexture,
+    red1Texture,
+    red2Texture,
+    red3Texture,
+    red4Texture,
+    red5Texture,
+    red6Texture,
+    red7Texture,
+    red8Texture,
+    red9Texture,
+    red10Texture,
     blueBackTexture,
-    flagTexture,
-    generalTexture,
-    marshallTexture,
-    scoutTexture
+    blueFlagTexture,
+    blueBombTexture,
+    blue1Texture,
+    blue2Texture,
+    blue3Texture,
+    blue4Texture,
+    blue5Texture,
+    blue6Texture,
+    blue7Texture,
+    blue8Texture,
+    blue9Texture,
+    blue10Texture
 };
 
 class Piece {
 public:
-    Piece(int x, int y, Rank rank, Color color, SDL_Texture *faceUpTexture = nullptr, SDL_Texture *backGroundTexture = nullptr, int isFaceDown = true);
+    //TODO discuss wether the isFaceDown param of the constructor was int intentionally
+    Piece(int x, int y,
+          Rank rank, Color color,
+          SDL_Texture *faceUpTexture, SDL_Texture *backGroundTexture,
+          bool toBoard,
+          bool isFaceDown);
     void render(SDL_Renderer* renderer);
     int getPosY() const;
     void setPosY(int posY);

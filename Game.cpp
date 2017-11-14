@@ -12,6 +12,7 @@
 #include "Pieces/Soldier.h"
 #include "Pieces/Scout.hpp"
 #include "Pieces/Spy.hpp"
+#include "Pieces/Miner.hpp"
 
 void Game::run() {
     display.init();
@@ -25,33 +26,129 @@ void Game::loadTextures() {
     // TODO collect all pictures for pieces: Béci
     // TODO Design final background: Béci
     // TODO import all textures: Béci
-    textureMap[Textures::bombTexture] = display.loadTexture("../pic/bomb.png");
-    textureMap[Textures::flagTexture] = display.loadTexture("../pic/flag.png");
-    textureMap[Textures::boardTexture] = display.loadTexture("../pic/board.png");
-    textureMap[Textures::redBackTexture] = display.loadTexture("../pic/red_back.png");
-    textureMap[Textures::blueBackTexture] = display.loadTexture("../pic/blue_back.png");
-    textureMap[Textures::marshallTexture] = display.loadTexture("../pic/marshall.png");
-    textureMap[Textures::generalTexture] = display.loadTexture("../pic/general.png");
-    textureMap[Textures::scoutTexture] = display.loadTexture("../pic/scout.png");
+    textureMap[Textures::boardTexture] = display.loadTexture("../pic/strategoBoard.png");
+    textureMap[Textures::redBackTexture] = display.loadTexture("../pic/redBack.png");
+    textureMap[Textures::redFlagTexture] = display.loadTexture("../pic/redFlag.png");
+    textureMap[Textures::redBombTexture] = display.loadTexture("../pic/redBomb.png");
+    textureMap[Textures::red1Texture] = display.loadTexture("../pic/red1.png");
+    textureMap[Textures::red2Texture] = display.loadTexture("../pic/red2.png");
+    textureMap[Textures::red3Texture] = display.loadTexture("../pic/red3.png");
+    textureMap[Textures::red4Texture] = display.loadTexture("../pic/red4.png");
+    textureMap[Textures::red5Texture] = display.loadTexture("../pic/red5.png");
+    textureMap[Textures::red6Texture] = display.loadTexture("../pic/red6.png");
+    textureMap[Textures::red7Texture] = display.loadTexture("../pic/red7.png");
+    textureMap[Textures::red8Texture] = display.loadTexture("../pic/red8.png");
+    textureMap[Textures::red9Texture] = display.loadTexture("../pic/red9.png");
+    textureMap[Textures::red10Texture] = display.loadTexture("../pic/red10.png");
+    textureMap[Textures::blueBackTexture] = display.loadTexture("../pic/blueBack.png");
+    textureMap[Textures::blueFlagTexture] = display.loadTexture("../pic/blueFlag.png");
+    textureMap[Textures::blueBombTexture] = display.loadTexture("../pic/blueBomb.png");
+    textureMap[Textures::blue1Texture] = display.loadTexture("../pic/blue1.png");
+    textureMap[Textures::blue2Texture] = display.loadTexture("../pic/blue2.png");
+    textureMap[Textures::blue3Texture] = display.loadTexture("../pic/blue3.png");
+    textureMap[Textures::blue4Texture] = display.loadTexture("../pic/blue4.png");
+    textureMap[Textures::blue5Texture] = display.loadTexture("../pic/blue5.png");
+    textureMap[Textures::blue6Texture] = display.loadTexture("../pic/blue6.png");
+    textureMap[Textures::blue7Texture] = display.loadTexture("../pic/blue7.png");
+    textureMap[Textures::blue8Texture] = display.loadTexture("../pic/blue8.png");
+    textureMap[Textures::blue9Texture] = display.loadTexture("../pic/blue9.png");
+    textureMap[Textures::blue10Texture] = display.loadTexture("../pic/blue10.png");
 }
 
 void Game::createPieces() {
     // TODO create all 80 pieces: Béci::subclasses will be needed for this (Dani task)
-    pieceContainer.emplace_back(std::unique_ptr<Piece> (new Bomb(1, 1, Rank::bombRank, Color::red, textureMap[Textures::bombTexture]->getSDLTexture(), textureMap[Textures::redBackTexture]->getSDLTexture(), false)));
-    pieceContainer.emplace_back(std::unique_ptr<Piece> (new Bomb(4, 4, Rank::bombRank, Color::red, textureMap[Textures::bombTexture]->getSDLTexture(), textureMap[Textures::redBackTexture]->getSDLTexture(), false)));
-    pieceContainer.emplace_back(std::unique_ptr<Piece> (new Bomb(8, 6, Rank::bombRank, Color::red, textureMap[Textures::bombTexture]->getSDLTexture(), textureMap[Textures::redBackTexture]->getSDLTexture(), false)));
-    pieceContainer.emplace_back(std::unique_ptr<Piece> (new Flag(3, 3, Rank::flagRank, Color::blue, textureMap[Textures::flagTexture]->getSDLTexture(), textureMap[Textures::blueBackTexture]->getSDLTexture(), false)));
-    pieceContainer.emplace_back(std::unique_ptr<Piece> (new Flag(5, 5, Rank::flagRank, Color::blue, textureMap[Textures::flagTexture]->getSDLTexture(), textureMap[Textures::blueBackTexture]->getSDLTexture(), false)));
-    pieceContainer.emplace_back(std::unique_ptr<Piece> (new Soldier(2, 2, Rank::marshallRank, Color::red, textureMap[Textures::marshallTexture]->getSDLTexture(), textureMap[Textures::redBackTexture]->getSDLTexture(), false)));
-    pieceContainer.emplace_back(std::unique_ptr<Piece> (new Soldier(0, 0, Rank::generalRank, Color::blue, textureMap[Textures::generalTexture]->getSDLTexture(), textureMap[Textures::blueBackTexture]->getSDLTexture(), false)));
-    pieceContainer.emplace_back(std::unique_ptr<Piece> (new Soldier(1, 0, Rank::generalRank, Color::blue, textureMap[Textures::generalTexture]->getSDLTexture(), textureMap[Textures::blueBackTexture]->getSDLTexture(), false)));
-    pieceContainer.emplace_back(std::unique_ptr<Piece> (new Soldier(0, 1, Rank::generalRank, Color::blue, textureMap[Textures::generalTexture]->getSDLTexture(), textureMap[Textures::blueBackTexture]->getSDLTexture(), false)));
-    pieceContainer.emplace_back(std::unique_ptr<Piece> (new Scout(8, 8, Rank::scoutRank, Color::red, textureMap[Textures::scoutTexture]->getSDLTexture(), textureMap[Textures::redBackTexture]->getSDLTexture(), false)));
+    // TODO by default we should create the pieces @ the inactive,
+    // but for testing it should be convenient to create some to the board...but how???
 
+    // pieceContainer.emplace_back(std::unique_ptr<Piece> (new Bomb(1, 1, Rank::bombRank, Color::red, textureMap[Textures::bombTexture]->getSDLTexture(), textureMap[Textures::redBackTexture]->getSDLTexture(), false)));
+    // pieceContainer.emplace_back(std::unique_ptr<Piece> (new Bomb(4, 4, Rank::bombRank, Color::red, textureMap[Textures::bombTexture]->getSDLTexture(), textureMap[Textures::redBackTexture]->getSDLTexture(), false)));
+    // pieceContainer.emplace_back(std::unique_ptr<Piece> (new Bomb(8, 6, Rank::bombRank, Color::red, textureMap[Textures::bombTexture]->getSDLTexture(), textureMap[Textures::redBackTexture]->getSDLTexture(), false)));
 
+    pieceContainer.emplace_back(std::unique_ptr<Piece>
+        (new Flag(0, 0, Rank::flagRank, Color::red,
+        textureMap[Textures::blueFlagTexture]->getSDLTexture(),
+        textureMap[Textures::blueBackTexture]->getSDLTexture(), true, false)));
 
-    // TODO barriers should be created in a nice for loop, the coordinates should be
+    pieceContainer.emplace_back(std::unique_ptr<Piece>
+        (new Flag(9, 9, Rank::bombRank, Color::red,
+         textureMap[Textures::blueBombTexture]->getSDLTexture(),
+         textureMap[Textures::blueBackTexture]->getSDLTexture(), true, false)));
+
+    pieceContainer.emplace_back(std::unique_ptr<Piece>
+        (new Soldier(3, 3, Rank::majorRank, Color::red,
+         textureMap[Textures::red7Texture]->getSDLTexture(),
+         textureMap[Textures::redBackTexture]->getSDLTexture(), true, false)));
+
+    // initilaizing red setup
+    pieceContainer.emplace_back(std::unique_ptr<Piece>
+        (new Flag(0, 0, Rank::flagRank, Color::red,
+         textureMap[Textures::redFlagTexture]->getSDLTexture(),
+         textureMap[Textures::redBackTexture]->getSDLTexture(), false, false)));
+    for(int i = 0; i < 6; ++i) {
+        pieceContainer.emplace_back(std::unique_ptr<Piece>
+        (new Bomb((1+i), 0, Rank::bombRank, Color::red,
+         textureMap[Textures::redBombTexture]->getSDLTexture(),
+         textureMap[Textures::redBackTexture]->getSDLTexture(), false, false)));
+    }
+    pieceContainer.emplace_back(std::unique_ptr<Piece>
+        (new Spy(7, 0, Rank::spyRank, Color::red,
+         textureMap[Textures::red1Texture]->getSDLTexture(),
+         textureMap[Textures::redBackTexture]->getSDLTexture(), false, false)));
+    for(int i = 0; i < 8; ++i) {
+        pieceContainer.emplace_back(std::unique_ptr<Piece>
+            (new Scout((0+i), 1, Rank::scoutRank, Color::red,
+             textureMap[Textures::red2Texture]->getSDLTexture(),
+             textureMap[Textures::redBackTexture]->getSDLTexture(), false, false)));
+    }
+    for(int i = 0; i < 5; ++i) {
+        pieceContainer.emplace_back(std::unique_ptr<Piece>
+            (new Miner((0+i), 2, Rank::minerRank, Color::red,
+             textureMap[Textures::red3Texture]->getSDLTexture(),
+             textureMap[Textures::redBackTexture]->getSDLTexture(), false, false)));
+    }
+    for(int i = 0; i < 4; ++i) {
+        pieceContainer.emplace_back(std::unique_ptr<Piece>
+            (new Soldier((0+i), 3, Rank::sergeantRank, Color::red,
+             textureMap[Textures::red4Texture]->getSDLTexture(),
+             textureMap[Textures::redBackTexture]->getSDLTexture(), false, false)));
+    }
+    for(int i = 0; i < 4; ++i) {
+        pieceContainer.emplace_back(std::unique_ptr<Piece>
+            (new Soldier((4+i), 3, Rank::lieutenantRank, Color::red,
+             textureMap[Textures::red5Texture]->getSDLTexture(),
+             textureMap[Textures::redBackTexture]->getSDLTexture(), false, false)));
+    }
+    for(int i = 0; i < 4; ++i) {
+        pieceContainer.emplace_back(std::unique_ptr<Piece>
+            (new Soldier((0+i), 4, Rank::captainRank, Color::red,
+             textureMap[Textures::red6Texture]->getSDLTexture(),
+             textureMap[Textures::redBackTexture]->getSDLTexture(), false, false)));
+    }
+    for(int i = 0; i < 3; ++i) {
+        pieceContainer.emplace_back(std::unique_ptr<Piece>
+            (new Soldier((4+i), 4, Rank::majorRank, Color::red,
+             textureMap[Textures::red7Texture]->getSDLTexture(),
+             textureMap[Textures::redBackTexture]->getSDLTexture(), false, false)));
+    }
+    for(int i = 0; i < 2; ++i) {
+        pieceContainer.emplace_back(std::unique_ptr<Piece>
+            (new Soldier((0+i), 5, Rank::colonelRank, Color::red,
+             textureMap[Textures::red8Texture]->getSDLTexture(),
+             textureMap[Textures::redBackTexture]->getSDLTexture(), false, false)));
+    }
+    pieceContainer.emplace_back(std::unique_ptr<Piece>
+        (new Soldier(0, 6, Rank::generalRank, Color::red,
+         textureMap[Textures::red9Texture]->getSDLTexture(),
+         textureMap[Textures::redBackTexture]->getSDLTexture(), false, false)));
+    pieceContainer.emplace_back(std::unique_ptr<Piece>
+        (new Soldier(0, 7, Rank::marshallRank, Color::red,
+         textureMap[Textures::red10Texture]->getSDLTexture(),
+         textureMap[Textures::redBackTexture]->getSDLTexture(), false, false)));
+
+// TODO barriers should be created in a nice for loop, the coordinates should be
     // in n(coordinate) x "defaultUnit" format. "defaultUnit" will be a const, now we use a magic number (100) for it
+
+
     pieceContainer.emplace_back(std::unique_ptr<Piece> (new Barrier(2, 4, Rank::barrierRank, Color::neutral)));
     pieceContainer.emplace_back(std::unique_ptr<Piece> (new Barrier(2, 5, Rank::barrierRank, Color::neutral)));
     pieceContainer.emplace_back(std::unique_ptr<Piece> (new Barrier(3, 4, Rank::barrierRank, Color::neutral)));
@@ -60,6 +157,8 @@ void Game::createPieces() {
     pieceContainer.emplace_back(std::unique_ptr<Piece> (new Barrier(6, 5, Rank::barrierRank, Color::neutral)));
     pieceContainer.emplace_back(std::unique_ptr<Piece> (new Barrier(7, 4, Rank::barrierRank, Color::neutral)));
     pieceContainer.emplace_back(std::unique_ptr<Piece> (new Barrier(7, 5, Rank::barrierRank, Color::neutral)));
+
+
 }
 
 void Game::initGame() {
@@ -115,8 +214,6 @@ void Game::gameLogic() {
     } else if(gameState == GameState::gameState){
         gameStateLogic();
     }
-
-
 }
 
 void Game::boardSetupLogic() {
@@ -200,7 +297,7 @@ std::shared_ptr<Piece> Game::getClickedPiece(const int &x, const int &y) const {
            x < pieceContainer[i]->getPosX() + sizeParams::FIELD_SIZE &&
            y > pieceContainer[i]->getPosY() &&
            y < pieceContainer[i]->getPosY() + sizeParams::FIELD_SIZE){
-            result = pieceContainer[i];
+           result = pieceContainer[i];
         }
     }
     return result;
