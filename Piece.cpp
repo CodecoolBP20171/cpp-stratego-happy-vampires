@@ -16,8 +16,8 @@ Piece::Piece(int x, int y, Rank rank, Color color, SDL_Texture *faceUpTexture, S
 {
     sdl_rect.x = posX = x;
     sdl_rect.y = posY = y;
-    sdl_rect.w = 100;
-    sdl_rect.h = 100;
+    sdl_rect.w = 60;
+    sdl_rect.h = 60;
 }
 
 void Piece::render(SDL_Renderer* renderer){

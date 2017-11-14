@@ -27,8 +27,8 @@ bool Display::init()
 std::unique_ptr<Texture> Display::loadTexture(const std::string& filename)
 {
     SDL_Texture* imgTexture = IMG_LoadTexture_RW(renderer,
-                                                 SDL_RWFromFile(filename.c_str(), "rb"),
-                                                 1);
+                               SDL_RWFromFile(filename.c_str(), "rb"),
+                               1);
     if(nullptr == imgTexture){
         printf( "File not found: %s SDL_image Error: %s\n", filename.c_str(), IMG_GetError() );
     }
@@ -59,7 +59,7 @@ void Display::getWindowSize(int& width, int& height)
 bool Display::createWindow()
 {
     // check out the meaning of the parameters!
-    window = SDL_CreateWindow("Happy Vampires: Stratego", 0, 0, 1000, 1000, SDL_WINDOW_SHOWN);
+    window = SDL_CreateWindow("Happy Vampires: Stratego", 0, 0, 1320, 720, SDL_WINDOW_SHOWN);
     if (window == nullptr){
         std::cout << "SDL_CreateWindow Error: " << SDL_GetError() << std::endl;
         return false;

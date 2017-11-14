@@ -19,18 +19,169 @@ void Game::loadTextures() {
     // TODO collect all pictures for pieces: Béci
     // TODO Design final background: Béci
     // TODO import all textures: Béci
-    textureMap[Textures::bombTexture] = display.loadTexture("../pic/bomb.png");
-    textureMap[Textures::flagTexture] = display.loadTexture("../pic/flag.png");
-    textureMap[Textures::boardTexture] = display.loadTexture("../pic/board.png");
-    textureMap[Textures::redBackTexture] = display.loadTexture("../pic/red_back.png");
-    textureMap[Textures::blueBackTexture] = display.loadTexture("../pic/blue_back.png");
+    textureMap[Textures::boardTexture] = display.loadTexture("../pic/strategoBoard.png");
+    textureMap[Textures::redBackTexture] = display.loadTexture("../pic/redBack.png");
+    textureMap[Textures::redFlagTexture] = display.loadTexture("../pic/redFlag.png");
+    textureMap[Textures::redBombTexture] = display.loadTexture("../pic/redBomb.png");
+    textureMap[Textures::red1Texture] = display.loadTexture("../pic/red1.png");
+    textureMap[Textures::red2Texture] = display.loadTexture("../pic/red2.png");
+    textureMap[Textures::red3Texture] = display.loadTexture("../pic/red3.png");
+    textureMap[Textures::red4Texture] = display.loadTexture("../pic/red4.png");
+    textureMap[Textures::red5Texture] = display.loadTexture("../pic/red5.png");
+    textureMap[Textures::red6Texture] = display.loadTexture("../pic/red6.png");
+    textureMap[Textures::red7Texture] = display.loadTexture("../pic/red7.png");
+    textureMap[Textures::red8Texture] = display.loadTexture("../pic/red8.png");
+    textureMap[Textures::red9Texture] = display.loadTexture("../pic/red9.png");
+    textureMap[Textures::red10Texture] = display.loadTexture("../pic/red10.png");
+    textureMap[Textures::blueBackTexture] = display.loadTexture("../pic/blueBack.png");
+    textureMap[Textures::blueFlagTexture] = display.loadTexture("../pic/blueFlag.png");
+    textureMap[Textures::blueBombTexture] = display.loadTexture("../pic/blueBomb.png");
+    textureMap[Textures::blue1Texture] = display.loadTexture("../pic/blue1.png");
+    textureMap[Textures::blue2Texture] = display.loadTexture("../pic/blue2.png");
+    textureMap[Textures::blue3Texture] = display.loadTexture("../pic/blue3.png");
+    textureMap[Textures::blue4Texture] = display.loadTexture("../pic/blue4.png");
+    textureMap[Textures::blue5Texture] = display.loadTexture("../pic/blue5.png");
+    textureMap[Textures::blue6Texture] = display.loadTexture("../pic/blue6.png");
+    textureMap[Textures::blue7Texture] = display.loadTexture("../pic/blue7.png");
+    textureMap[Textures::blue8Texture] = display.loadTexture("../pic/blue8.png");
+    textureMap[Textures::blue9Texture] = display.loadTexture("../pic/blue9.png");
+    textureMap[Textures::blue10Texture] = display.loadTexture("../pic/blue10.png");
 }
 
 void Game::createPieces() {
     // TODO create all 80 pieces: Béci::subclasses will be needed for this (Dani task)
-    pieceContainer.emplace_back(std::unique_ptr<Piece> (new Piece(100, 100, Rank::bombRank, Color::red, textureMap[Textures::bombTexture]->getSDLTexture(), textureMap[Textures::redBackTexture]->getSDLTexture(), false)));
-    pieceContainer.emplace_back(std::unique_ptr<Piece> (new Piece(300, 300, Rank::flagRank, Color::blue, textureMap[Textures::flagTexture]->getSDLTexture(), textureMap[Textures::blueBackTexture]->getSDLTexture(), false)));
-}
+    const int inactiveOffsetX = 749;
+    const int inactiveOffsetY = 86;
+    pieceContainer.emplace_back(std::unique_ptr<Piece>
+        (new Piece(inactiveOffsetX+0*69, inactiveOffsetY+0*69, Rank::flagRank, Color::red,
+         textureMap[Textures::redFlagTexture]->getSDLTexture(),
+         textureMap[Textures::redBackTexture]->getSDLTexture(), false)));
+    for(int i = 0; i < 6; ++i) {
+        pieceContainer.emplace_back(std::unique_ptr<Piece>
+            (new Piece(inactiveOffsetX+(1+i)*69, inactiveOffsetY+(0)*69, Rank::bombRank, Color::red,
+             textureMap[Textures::redBombTexture]->getSDLTexture(),
+             textureMap[Textures::redBackTexture]->getSDLTexture(), false)));
+    }
+    pieceContainer.emplace_back(std::unique_ptr<Piece>
+        (new Piece(inactiveOffsetX+7*69, inactiveOffsetY+0*69, Rank::spyRank, Color::red,
+         textureMap[Textures::red1Texture]->getSDLTexture(),
+         textureMap[Textures::redBackTexture]->getSDLTexture(), false)));
+    for(int i = 0; i < 8; ++i) {
+        pieceContainer.emplace_back(std::unique_ptr<Piece>
+            (new Piece(inactiveOffsetX+(0+i)*69, inactiveOffsetY+(1)*69, Rank::scoutRank, Color::red,
+             textureMap[Textures::red2Texture]->getSDLTexture(),
+             textureMap[Textures::redBackTexture]->getSDLTexture(), false)));
+    }
+    for(int i = 0; i < 5; ++i) {
+        pieceContainer.emplace_back(std::unique_ptr<Piece>
+            (new Piece(inactiveOffsetX+(0+i)*69, inactiveOffsetY+(2)*69, Rank::minerRank, Color::red,
+             textureMap[Textures::red3Texture]->getSDLTexture(),
+             textureMap[Textures::redBackTexture]->getSDLTexture(), false)));
+    }
+    for(int i = 0; i < 4; ++i) {
+        pieceContainer.emplace_back(std::unique_ptr<Piece>
+            (new Piece(inactiveOffsetX+(0+i)*69, inactiveOffsetY+(3)*69, Rank::sergeantRank, Color::red,
+             textureMap[Textures::red4Texture]->getSDLTexture(),
+             textureMap[Textures::redBackTexture]->getSDLTexture(), false)));
+    }
+    for(int i = 0; i < 4; ++i) {
+        pieceContainer.emplace_back(std::unique_ptr<Piece>
+            (new Piece(inactiveOffsetX+(4+i)*69, inactiveOffsetY+(3)*69, Rank::lieutenantRank, Color::red,
+             textureMap[Textures::red5Texture]->getSDLTexture(),
+             textureMap[Textures::redBackTexture]->getSDLTexture(), false)));
+    }
+    for(int i = 0; i < 4; ++i) {
+        pieceContainer.emplace_back(std::unique_ptr<Piece>
+            (new Piece(inactiveOffsetX+(0+i)*69, inactiveOffsetY+(4)*69, Rank::captainRank, Color::red,
+             textureMap[Textures::red6Texture]->getSDLTexture(),
+             textureMap[Textures::redBackTexture]->getSDLTexture(), false)));
+    }
+    for(int i = 0; i < 3; ++i) {
+        pieceContainer.emplace_back(std::unique_ptr<Piece>
+            (new Piece(inactiveOffsetX+(4+i)*69, inactiveOffsetY+(4)*69, Rank::majorRank, Color::red,
+             textureMap[Textures::red7Texture]->getSDLTexture(),
+             textureMap[Textures::redBackTexture]->getSDLTexture(), false)));
+    }
+    for(int i = 0; i < 2; ++i) {
+        pieceContainer.emplace_back(std::unique_ptr<Piece>
+            (new Piece(inactiveOffsetX+(0+i)*69, inactiveOffsetY+(5)*69, Rank::colonelRank, Color::red,
+             textureMap[Textures::red8Texture]->getSDLTexture(),
+             textureMap[Textures::redBackTexture]->getSDLTexture(), false)));
+    }
+    pieceContainer.emplace_back(std::unique_ptr<Piece>
+        (new Piece(inactiveOffsetX+(0)*69, inactiveOffsetY+(6)*69, Rank::generalRank, Color::red,
+         textureMap[Textures::red9Texture]->getSDLTexture(),
+         textureMap[Textures::redBackTexture]->getSDLTexture(), false)));
+    pieceContainer.emplace_back(std::unique_ptr<Piece>
+        (new Piece(inactiveOffsetX+(0)*69, inactiveOffsetY+(7)*69, Rank::marshallRank, Color::red,
+         textureMap[Textures::red10Texture]->getSDLTexture(),
+         textureMap[Textures::redBackTexture]->getSDLTexture(), false)));
+/*
+    pieceContainer.emplace_back(std::unique_ptr<Piece>
+        (new Piece(59, 59, Rank::flagRank, Color::red,
+         textureMap[Textures::blueFlagTexture]->getSDLTexture(),
+         textureMap[Textures::blueBackTexture]->getSDLTexture(), false)));
+    for(int i = 0; i < 6; ++i) {
+        pieceContainer.emplace_back(std::unique_ptr<Piece>
+        (new Piece(59, 59, Rank::bombRank, Color::red,
+         textureMap[Textures::blueBombTexture]->getSDLTexture(),
+         textureMap[Textures::blueBackTexture]->getSDLTexture(), false)));
+    }
+    pieceContainer.emplace_back(std::unique_ptr<Piece>
+        (new Piece(59, 59, Rank::spyRank, Color::red,
+         textureMap[Textures::blue1Texture]->getSDLTexture(),
+         textureMap[Textures::blueBackTexture]->getSDLTexture(), false)));
+    for(int i = 0; i < 8; ++i) {
+        pieceContainer.emplace_back(std::unique_ptr<Piece>
+            (new Piece(59, 59, Rank::scoutRank, Color::red,
+             textureMap[Textures::blue2Texture]->getSDLTexture(),
+             textureMap[Textures::blueBackTexture]->getSDLTexture(), false)));
+    }
+    for(int i = 0; i < 5; ++i) {
+        pieceContainer.emplace_back(std::unique_ptr<Piece>
+            (new Piece(59, 59, Rank::minerRank, Color::red,
+             textureMap[Textures::blue3Texture]->getSDLTexture(),
+             textureMap[Textures::blueBackTexture]->getSDLTexture(), false)));
+    }
+    for(int i = 0; i < 4; ++i) {
+        pieceContainer.emplace_back(std::unique_ptr<Piece>
+            (new Piece(59, 59, Rank::sergeantRank, Color::red,
+             textureMap[Textures::blue4Texture]->getSDLTexture(),
+             textureMap[Textures::blueBackTexture]->getSDLTexture(), false)));
+    }
+    for(int i = 0; i < 4; ++i) {
+        pieceContainer.emplace_back(std::unique_ptr<Piece>
+            (new Piece(59, 59, Rank::lieutenantRank, Color::red,
+             textureMap[Textures::blue5Texture]->getSDLTexture(),
+             textureMap[Textures::blueBackTexture]->getSDLTexture(), false)));
+    }
+    for(int i = 0; i < 4; ++i) {
+        pieceContainer.emplace_back(std::unique_ptr<Piece>
+            (new Piece(59, 59, Rank::captainRank, Color::red,
+             textureMap[Textures::blue6Texture]->getSDLTexture(),
+             textureMap[Textures::blueBackTexture]->getSDLTexture(), false)));
+    }
+    for(int i = 0; i < 3; ++i) {
+        pieceContainer.emplace_back(std::unique_ptr<Piece>
+            (new Piece(59, 59, Rank::majorRank, Color::red,
+             textureMap[Textures::blue7Texture]->getSDLTexture(),
+             textureMap[Textures::blueBackTexture]->getSDLTexture(), false)));
+    }
+    for(int i = 0; i < 2; ++i) {
+        pieceContainer.emplace_back(std::unique_ptr<Piece>
+            (new Piece(59, 59, Rank::colonelRank, Color::red,
+             textureMap[Textures::blue8Texture]->getSDLTexture(),
+             textureMap[Textures::blueBackTexture]->getSDLTexture(), false)));
+    }
+    pieceContainer.emplace_back(std::unique_ptr<Piece>
+        (new Piece(59, 59, Rank::generalRank, Color::red,
+         textureMap[Textures::blue9Texture]->getSDLTexture(),
+         textureMap[Textures::blueBackTexture]->getSDLTexture(), false)));
+    pieceContainer.emplace_back(std::unique_ptr<Piece>
+        (new Piece(59, 59, Rank::marshallRank, Color::red,
+         textureMap[Textures::blue10Texture]->getSDLTexture(),
+         textureMap[Textures::blueBackTexture]->getSDLTexture(), false)));
+*/}
 
 void Game::gameLoop() {
     bool quit = false;
@@ -126,10 +277,18 @@ void Game::deselect() {
 void Game::graphicallySelect(std::shared_ptr<Piece> shared_ptr) {
     // TODO: might be improved, low priority
     SDL_SetRenderDrawColor(display.getRenderer(), 0, 0, 255, 255);
-    SDL_RenderDrawLine( display.getRenderer(), selectedPiece->getPosX(), selectedPiece->getPosY(), selectedPiece->getPosX(), selectedPiece->getPosY() + 100 );
-    SDL_RenderDrawLine( display.getRenderer(), selectedPiece->getPosX(), selectedPiece->getPosY(), selectedPiece->getPosX() + 100, selectedPiece->getPosY() );
-    SDL_RenderDrawLine( display.getRenderer(), selectedPiece->getPosX() + 100, selectedPiece->getPosY(), selectedPiece->getPosX() + 100, selectedPiece->getPosY() + 100 );
-    SDL_RenderDrawLine( display.getRenderer(), selectedPiece->getPosX(), selectedPiece->getPosY() + 100, selectedPiece->getPosX() + 100, selectedPiece->getPosY() + 100 );
+    SDL_RenderDrawLine( display.getRenderer(),
+                        selectedPiece->getPosX(), selectedPiece->getPosY(),
+                        selectedPiece->getPosX(), selectedPiece->getPosY() + 64 );
+    SDL_RenderDrawLine( display.getRenderer(),
+                        selectedPiece->getPosX(), selectedPiece->getPosY(),
+                        selectedPiece->getPosX() + 64, selectedPiece->getPosY() );
+    SDL_RenderDrawLine( display.getRenderer(),
+                        selectedPiece->getPosX() + 64, selectedPiece->getPosY(),
+                        selectedPiece->getPosX() + 64, selectedPiece->getPosY() + 64 );
+    SDL_RenderDrawLine( display.getRenderer(),
+                        selectedPiece->getPosX(), selectedPiece->getPosY() + 64,
+                        selectedPiece->getPosX() + 64, selectedPiece->getPosY() + 64 );
     //std::cout << "SELECTED: " << selectedPiece->getPosX() << std::endl;
 }
 
@@ -137,9 +296,9 @@ std::shared_ptr<Piece> Game::getClickedPiece(int x, int y) {
     std::shared_ptr<Piece> result = nullptr;
     for(int i = 0; i < pieceContainer.size(); i++){
         if(x > pieceContainer[i]->getPosX() &&
-           x < pieceContainer[i]->getPosX() + 100 &&
+           x < pieceContainer[i]->getPosX() + 69 &&
            y > pieceContainer[i]->getPosY() &&
-           y < pieceContainer[i]->getPosY() + 100){
+           y < pieceContainer[i]->getPosY() + 69){
             result = pieceContainer[i];
         }
     }

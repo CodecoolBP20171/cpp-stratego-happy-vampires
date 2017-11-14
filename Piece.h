@@ -36,10 +36,32 @@ enum Color {
 
 enum Textures {
     boardTexture,
-    bombTexture,
     redBackTexture,
+    redFlagTexture,
+    redBombTexture,
+    red1Texture,
+    red2Texture,
+    red3Texture,
+    red4Texture,
+    red5Texture,
+    red6Texture,
+    red7Texture,
+    red8Texture,
+    red9Texture,
+    red10Texture,
     blueBackTexture,
-    flagTexture
+    blueFlagTexture,
+    blueBombTexture,
+    blue1Texture,
+    blue2Texture,
+    blue3Texture,
+    blue4Texture,
+    blue5Texture,
+    blue6Texture,
+    blue7Texture,
+    blue8Texture,
+    blue9Texture,
+    blue10Texture
 };
 
 class Piece {
