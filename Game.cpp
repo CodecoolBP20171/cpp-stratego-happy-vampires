@@ -10,6 +10,8 @@
 #include "Pieces/Flag.hpp"
 #include "Pieces/Barrier.hpp"
 #include "Pieces/Soldier.h"
+#include "Pieces/Scout.hpp"
+#include "Pieces/Spy.hpp"
 
 void Game::run() {
     display.init();
@@ -30,31 +32,33 @@ void Game::loadTextures() {
     textureMap[Textures::blueBackTexture] = display.loadTexture("../pic/blue_back.png");
     textureMap[Textures::marshallTexture] = display.loadTexture("../pic/marshall.png");
     textureMap[Textures::generalTexture] = display.loadTexture("../pic/general.png");
+    textureMap[Textures::scoutTexture] = display.loadTexture("../pic/scout.png");
 }
 
 void Game::createPieces() {
     // TODO create all 80 pieces: Béci::subclasses will be needed for this (Dani task)
-    pieceContainer.emplace_back(std::unique_ptr<Piece> (new Bomb(100, 100, Rank::bombRank, Color::red, textureMap[Textures::bombTexture]->getSDLTexture(), textureMap[Textures::redBackTexture]->getSDLTexture(), false)));
-    pieceContainer.emplace_back(std::unique_ptr<Piece> (new Bomb(400, 400, Rank::bombRank, Color::red, textureMap[Textures::bombTexture]->getSDLTexture(), textureMap[Textures::redBackTexture]->getSDLTexture(), false)));
-    pieceContainer.emplace_back(std::unique_ptr<Piece> (new Flag(300, 300, Rank::flagRank, Color::blue, textureMap[Textures::flagTexture]->getSDLTexture(), textureMap[Textures::blueBackTexture]->getSDLTexture(), false)));
-    pieceContainer.emplace_back(std::unique_ptr<Piece> (new Flag(500, 500, Rank::flagRank, Color::blue, textureMap[Textures::flagTexture]->getSDLTexture(), textureMap[Textures::blueBackTexture]->getSDLTexture(), false)));
-    pieceContainer.emplace_back(std::unique_ptr<Piece> (new Soldier(200, 200, Rank::marshallRank, Color::red, textureMap[Textures::marshallTexture]->getSDLTexture(), textureMap[Textures::redBackTexture]->getSDLTexture(), false)));
+    pieceContainer.emplace_back(std::unique_ptr<Piece> (new Bomb(1, 1, Rank::bombRank, Color::red, textureMap[Textures::bombTexture]->getSDLTexture(), textureMap[Textures::redBackTexture]->getSDLTexture(), false)));
+    pieceContainer.emplace_back(std::unique_ptr<Piece> (new Bomb(4, 4, Rank::bombRank, Color::red, textureMap[Textures::bombTexture]->getSDLTexture(), textureMap[Textures::redBackTexture]->getSDLTexture(), false)));
+    pieceContainer.emplace_back(std::unique_ptr<Piece> (new Flag(3, 3, Rank::flagRank, Color::blue, textureMap[Textures::flagTexture]->getSDLTexture(), textureMap[Textures::blueBackTexture]->getSDLTexture(), false)));
+    pieceContainer.emplace_back(std::unique_ptr<Piece> (new Flag(5, 5, Rank::flagRank, Color::blue, textureMap[Textures::flagTexture]->getSDLTexture(), textureMap[Textures::blueBackTexture]->getSDLTexture(), false)));
+    pieceContainer.emplace_back(std::unique_ptr<Piece> (new Soldier(2, 2, Rank::marshallRank, Color::red, textureMap[Textures::marshallTexture]->getSDLTexture(), textureMap[Textures::redBackTexture]->getSDLTexture(), false)));
     pieceContainer.emplace_back(std::unique_ptr<Piece> (new Soldier(0, 0, Rank::generalRank, Color::blue, textureMap[Textures::generalTexture]->getSDLTexture(), textureMap[Textures::blueBackTexture]->getSDLTexture(), false)));
-    pieceContainer.emplace_back(std::unique_ptr<Piece> (new Soldier(100, 0, Rank::generalRank, Color::blue, textureMap[Textures::generalTexture]->getSDLTexture(), textureMap[Textures::blueBackTexture]->getSDLTexture(), false)));
-    pieceContainer.emplace_back(std::unique_ptr<Piece> (new Soldier(0, 100, Rank::generalRank, Color::blue, textureMap[Textures::generalTexture]->getSDLTexture(), textureMap[Textures::blueBackTexture]->getSDLTexture(), false)));
+    pieceContainer.emplace_back(std::unique_ptr<Piece> (new Soldier(1, 0, Rank::generalRank, Color::blue, textureMap[Textures::generalTexture]->getSDLTexture(), textureMap[Textures::blueBackTexture]->getSDLTexture(), false)));
+    pieceContainer.emplace_back(std::unique_ptr<Piece> (new Soldier(0, 1, Rank::generalRank, Color::blue, textureMap[Textures::generalTexture]->getSDLTexture(), textureMap[Textures::blueBackTexture]->getSDLTexture(), false)));
+    pieceContainer.emplace_back(std::unique_ptr<Piece> (new Scout(8, 8, Rank::scoutRank, Color::red, textureMap[Textures::scoutTexture]->getSDLTexture(), textureMap[Textures::redBackTexture]->getSDLTexture(), false)));
 
 
 
     // TODO barriers should be created in a nice for loop, the coordinates should be
     // in n(coordinate) x "defaultUnit" format. "defaultUnit" will be a const, now we use a magic number (100) for it
-    pieceContainer.emplace_back(std::unique_ptr<Piece> (new Barrier(200, 400, Rank::barrierRank, Color::neutral)));
-    pieceContainer.emplace_back(std::unique_ptr<Piece> (new Barrier(200, 500, Rank::barrierRank, Color::neutral)));
-    pieceContainer.emplace_back(std::unique_ptr<Piece> (new Barrier(300, 400, Rank::barrierRank, Color::neutral)));
-    pieceContainer.emplace_back(std::unique_ptr<Piece> (new Barrier(300, 500, Rank::barrierRank, Color::neutral)));
-    pieceContainer.emplace_back(std::unique_ptr<Piece> (new Barrier(600, 400, Rank::barrierRank, Color::neutral)));
-    pieceContainer.emplace_back(std::unique_ptr<Piece> (new Barrier(600, 500, Rank::barrierRank, Color::neutral)));
-    pieceContainer.emplace_back(std::unique_ptr<Piece> (new Barrier(700, 400, Rank::barrierRank, Color::neutral)));
-    pieceContainer.emplace_back(std::unique_ptr<Piece> (new Barrier(700, 500, Rank::barrierRank, Color::neutral)));
+    pieceContainer.emplace_back(std::unique_ptr<Piece> (new Barrier(2, 4, Rank::barrierRank, Color::neutral)));
+    pieceContainer.emplace_back(std::unique_ptr<Piece> (new Barrier(2, 5, Rank::barrierRank, Color::neutral)));
+    pieceContainer.emplace_back(std::unique_ptr<Piece> (new Barrier(3, 4, Rank::barrierRank, Color::neutral)));
+    pieceContainer.emplace_back(std::unique_ptr<Piece> (new Barrier(3, 5, Rank::barrierRank, Color::neutral)));
+    pieceContainer.emplace_back(std::unique_ptr<Piece> (new Barrier(6, 4, Rank::barrierRank, Color::neutral)));
+    pieceContainer.emplace_back(std::unique_ptr<Piece> (new Barrier(6, 5, Rank::barrierRank, Color::neutral)));
+    pieceContainer.emplace_back(std::unique_ptr<Piece> (new Barrier(7, 4, Rank::barrierRank, Color::neutral)));
+    pieceContainer.emplace_back(std::unique_ptr<Piece> (new Barrier(7, 5, Rank::barrierRank, Color::neutral)));
 }
 
 void Game::initGame() {
@@ -138,7 +142,7 @@ void Game::gameStateLogic() {
             // if there is a piece selected
             if (selectedPiece) {
                 // if the piece can move to that empty field, move there
-                if (selectedPiece->moveTo(clickedX, clickedY)) {
+                if (selectedPiece->moveTo(clickedX, clickedY, pieceContainer)) {
                     deselect();
                     flipAllPiecesOf(currentPlayer);
                     switchPlayers();
@@ -182,19 +186,19 @@ void Game::deselect() {
 void Game::graphicallySelect() {
     // TODO: might be improved, low priority
     SDL_SetRenderDrawColor(display.getRenderer(), 0, 0, 255, 255);
-    SDL_RenderDrawLine( display.getRenderer(), selectedPiece->getPosX(), selectedPiece->getPosY(), selectedPiece->getPosX(), selectedPiece->getPosY() + 100 );
-    SDL_RenderDrawLine( display.getRenderer(), selectedPiece->getPosX(), selectedPiece->getPosY(), selectedPiece->getPosX() + 100, selectedPiece->getPosY() );
-    SDL_RenderDrawLine( display.getRenderer(), selectedPiece->getPosX() + 100, selectedPiece->getPosY(), selectedPiece->getPosX() + 100, selectedPiece->getPosY() + 100 );
-    SDL_RenderDrawLine( display.getRenderer(), selectedPiece->getPosX(), selectedPiece->getPosY() + 100, selectedPiece->getPosX() + 100, selectedPiece->getPosY() + 100 );
+    SDL_RenderDrawLine( display.getRenderer(), selectedPiece->getPosX(), selectedPiece->getPosY(), selectedPiece->getPosX(), selectedPiece->getPosY() + sizeParams::PIECE_SIZE );
+    SDL_RenderDrawLine( display.getRenderer(), selectedPiece->getPosX(), selectedPiece->getPosY(), selectedPiece->getPosX() + sizeParams::PIECE_SIZE, selectedPiece->getPosY() );
+    SDL_RenderDrawLine( display.getRenderer(), selectedPiece->getPosX() + sizeParams::PIECE_SIZE, selectedPiece->getPosY(), selectedPiece->getPosX() + sizeParams::PIECE_SIZE, selectedPiece->getPosY() + sizeParams::PIECE_SIZE );
+    SDL_RenderDrawLine( display.getRenderer(), selectedPiece->getPosX(), selectedPiece->getPosY() + sizeParams::PIECE_SIZE, selectedPiece->getPosX() + sizeParams::PIECE_SIZE, selectedPiece->getPosY() + sizeParams::PIECE_SIZE );
 }
 
 std::shared_ptr<Piece> Game::getClickedPiece(const int &x, const int &y) const {
     std::shared_ptr<Piece> result = nullptr;
     for(int i = 0; i < pieceContainer.size(); i++){
         if(x > pieceContainer[i]->getPosX() &&
-           x < pieceContainer[i]->getPosX() + 100 &&
+           x < pieceContainer[i]->getPosX() + sizeParams::PIECE_SIZE &&
            y > pieceContainer[i]->getPosY() &&
-           y < pieceContainer[i]->getPosY() + 100){
+           y < pieceContainer[i]->getPosY() + sizeParams::PIECE_SIZE){
             result = pieceContainer[i];
         }
     }

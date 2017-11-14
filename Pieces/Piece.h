@@ -13,7 +13,22 @@
 #include <memory>
 #include "../Texture.h"
 
-// TODO: the enums should go inside of the class (?)
+// TODO: the enums and/or the namespace should go inside of the class (?)
+
+namespace sizeParams {
+    //TODO: program should be prepared to the case when PIECE_SIZE is < than FIELD_SIZE
+    const int PIECE_SIZE = 59;
+    const int FIELD_SIZE = 69;
+    const int BOARD_X = 0;
+    const int BOARD_Y = 0;
+    const int BOARD_FIELDS_NUMBER = 10;
+
+    // calculated values, do not touch
+    const int PIECE_FIELD_DIFF = (FIELD_SIZE - PIECE_SIZE) / 2;
+    const int BOARD_SIZE = BOARD_FIELDS_NUMBER * FIELD_SIZE;
+    const int BOARD_MAX_X = BOARD_X + BOARD_SIZE;
+    const int BOARD_MAX_Y = BOARD_Y + BOARD_SIZE;
+}
 
 enum Rank {
     flagRank,
@@ -45,6 +60,7 @@ enum Textures {
     flagTexture,
     generalTexture,
     marshallTexture,
+    scoutTexture
 };
 
 class Piece {
@@ -62,7 +78,7 @@ public:
     void setColor(Color color);
     void printInfo();
     virtual bool canMove() = 0;
-    virtual bool moveTo(int x, int y){};
+    virtual bool moveTo(int x, int y, const std::vector<std::shared_ptr<Piece>> &pieceContainer){};
     void setTo(int x, int y);
     bool isNotBlocked(const std::vector<std::shared_ptr<Piece>> &pieceContainer) const;
   protected:

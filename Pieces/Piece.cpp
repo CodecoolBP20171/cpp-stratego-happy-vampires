@@ -4,9 +4,6 @@
 
 #include "Piece.h"
 
-// TODO create sublasses: Dani
-// TODO replace 100 (magic number) to a const: Dani
-
 Piece::Piece(int x, int y, Rank rank, Color color, SDL_Texture *faceUpTexture, SDL_Texture *backGroundTexture, int isFaceDown)
         : color(color),
           rank(rank),
@@ -14,11 +11,15 @@ Piece::Piece(int x, int y, Rank rank, Color color, SDL_Texture *faceUpTexture, S
           backTexture(backGroundTexture),
           isFaceDown(isFaceDown)
 {
-    sdl_rect.x = posX = x;
-    sdl_rect.y = posY = y;
-    // TODO: remove magic number
-    sdl_rect.w = 100;
-    sdl_rect.h = 100;
+//    sdl_rect.x = posX = x * sizeParams::PIECE_SIZE + sizeParams::BOARD_X;
+//    sdl_rect.y = posY = y * sizeParams::PIECE_SIZE + sizeParams::BOARD_Y;
+    sdl_rect.x = x * sizeParams::FIELD_SIZE + sizeParams::BOARD_X + sizeParams::PIECE_FIELD_DIFF;
+    sdl_rect.y = y * sizeParams::FIELD_SIZE + sizeParams::BOARD_Y + sizeParams::PIECE_FIELD_DIFF;
+    posX = x * sizeParams::FIELD_SIZE + sizeParams::BOARD_X;
+    posY = y * sizeParams::FIELD_SIZE + sizeParams::BOARD_Y;
+
+    sdl_rect.w = sizeParams::PIECE_SIZE;
+    sdl_rect.h = sizeParams::PIECE_SIZE;
 }
 
 void Piece::render(SDL_Renderer* renderer){
@@ -68,9 +69,9 @@ void Piece::printInfo() {
 }
 
 void Piece::setTo(int x, int y) {
-    //TODO
+    //TODO 100 -> const, finish function
     //bool canSet = false;
-    int newX = (int) x /100 * 100;
+    int newX = (int) x / 100 * 100;
     int newY = (int) y / 100 * 100;
     //std::cout << "newX: " << newX << " oldX: " << posX << std::endl;
     //if((posX + 100 == newX || posX - 100 == newX) || (posY + 100 == newY || posY - 100 == newY)) {
@@ -86,9 +87,8 @@ bool Piece::isNotBlocked(const std::vector<std::shared_ptr<Piece>> &pieceContain
     for(int i = -1; i < 2; i++){
         for(int j = -1; j < 2; j++){
             if(abs(i + j) == 1) {
-                std::cout << "X: " << posX + i * 100 << " Y: " << posY + j * 100 << std::endl;
-                // TODO remove magic number (100)
-                if (canGoToNeighbour(posX + i * 100, posY + j * 100, pieceContainer)){
+                //std::cout << "X: " << posX + i * 100 << " Y: " << posY + j * 100 << std::endl;
+                if (canGoToNeighbour(posX + i * sizeParams::PIECE_SIZE, posY + j * sizeParams::PIECE_SIZE, pieceContainer)){
                     return true;
                 }
             }
@@ -98,9 +98,8 @@ bool Piece::isNotBlocked(const std::vector<std::shared_ptr<Piece>> &pieceContain
 }
 
 bool Piece::canGoToNeighbour(const int &x, const int &y, const std::vector<std::shared_ptr<Piece>> &pieceContainer) const {
-    // TODO remove magic numbers (100, 1000)
     // TODO i.e. isOnBoard:
-    if (x < 0 || x > 1000 || y < 0 || y > 1000){
+    if (x < sizeParams::BOARD_X || x > sizeParams::BOARD_MAX_X || y < sizeParams::BOARD_Y || y > sizeParams::BOARD_MAX_Y){
         return false;
     }
     for(int i = 0; i < pieceContainer.size(); i++){
