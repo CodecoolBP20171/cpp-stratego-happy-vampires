@@ -44,7 +44,7 @@ void Piece::setPosY(int posY) {
 
 void Piece::flip() {
     isFaceDown = !isFaceDown;
-    std::cout << "flipped, isFaceDown: " << isFaceDown << std::endl;
+    //std::cout << "flipped, isFaceDown: " << isFaceDown << std::endl;
 }
 
 Rank Piece::getRank() const {
