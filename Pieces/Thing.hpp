@@ -12,6 +12,7 @@ class Thing : public Piece {
 public:
     Thing(int x, int y, Rank rank, Color color, SDL_Texture *faceUpTexture = nullptr, SDL_Texture *backGroundTexture = nullptr, int isFaceDown = true)
         : Piece(x, y, rank, color, faceUpTexture, backGroundTexture, isFaceDown){}
+    bool canMove() override {return false;}
 };
 
 

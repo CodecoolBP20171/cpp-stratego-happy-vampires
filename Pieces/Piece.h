@@ -40,7 +40,9 @@ enum Textures {
     bombTexture,
     redBackTexture,
     blueBackTexture,
-    flagTexture
+    flagTexture,
+    generalTexture,
+    marshallTexture,
 };
 
 class Piece {
@@ -56,8 +58,10 @@ public:
     void setRank(Rank rank);
     Color getColor() const;
     void setColor(Color color);
-    bool moveTo(int x, int y);
     void printInfo();
+    virtual bool canMove() = 0;
+    virtual bool moveTo(int x, int y){};
+    void setTo(int x, int y);
   protected:
     Color color;
     Rank rank;

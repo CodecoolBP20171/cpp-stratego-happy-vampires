@@ -12,6 +12,11 @@
 #include "Display.h"
 #include "Pieces/Piece.h"
 
+enum GameState {
+    boardSetupState,
+    gameState
+};
+
 class Game {
 
 public:
@@ -24,6 +29,7 @@ private:
     std::map<Textures, std::unique_ptr<Texture>> textureMap;
     std::vector<std::shared_ptr<Piece>> pieceContainer;
     int clickedX, clickedY;
+    GameState gameState;
 
     void loadTextures();
     bool handleEvents(SDL_Event &event);
@@ -31,14 +37,18 @@ private:
     void gameLoop();
     void selectPiece(std::shared_ptr<Piece> &clickedPiece);
     void deselect();
-    void graphicallySelect(std::shared_ptr<Piece> shared_ptr);
-    std::shared_ptr<Piece> getClickedPiece(int x, int y);
+    void graphicallySelect();
+    std::shared_ptr<Piece> getClickedPiece(const int &x, const int &y) const;
     void initGame();
     void switchPlayers();
-
     void gameLogic();
-
     void renderAll();
+
+    void gameStateLogic();
+
+    void boardSetupLogic();
+
+    void flipAllPiecesOf(Color color);
 };
 
 
