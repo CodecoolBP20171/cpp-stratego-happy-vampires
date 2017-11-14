@@ -22,11 +22,7 @@ Piece::Piece(int x, int y, Rank rank, Color color, SDL_Texture *faceUpTexture, S
 }
 
 void Piece::render(SDL_Renderer* renderer){
-    if(isFaceDown) {
-        SDL_RenderCopy(renderer, backTexture, NULL, &sdl_rect);
-    } else {
-        SDL_RenderCopy(renderer, faceUpTexture, NULL, &sdl_rect);
-    }
+    SDL_RenderCopy(renderer, (isFaceDown? backTexture : faceUpTexture), NULL, &sdl_rect);
 }
 
 int Piece::getPosX() const {
