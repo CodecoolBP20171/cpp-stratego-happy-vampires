@@ -14,27 +14,24 @@ public:
           bool isFaceDown) : Soldier(x, y, rank, color, faceUpTexture, backGroundTexture, isFaceDown){}
 
         bool moveTo(int x, int y, const std::vector<std::shared_ptr<Piece>> &pieceContainer) override {
-        // TODO Scout can move multiple sqares; maybe attack should be overriden as well
+        // TODO DEBUG: JUMPS OVER PIECES IF THERE IS AN EMPTY FIELD BETWEEN THEM -> DEBUG
         bool canMove = false;
-        int newX = (int) x / sizeParams::PIECE_SIZE * sizeParams::PIECE_SIZE;
-        int newY = (int) y / sizeParams::PIECE_SIZE * sizeParams::PIECE_SIZE;
-        int stepNumber = std::max(abs(newX - posX), abs(newY - posY)) / sizeParams::PIECE_SIZE;
-        //std::cout << "OLD_X = " << posX << " NEW_X = " << newX << " OLD_Y = " << posY << " NEW_Y = " << newY << std::endl;
-        //std::cout << "X_CHANGE = " << abs(newX - posX) << " Y_CHANEGE = " << abs(newY - posY) << std::endl;
-
-
+        int newX = (int) x / sizeParams::FIELD_SIZE * sizeParams::FIELD_SIZE;
+        int newY = (int) y / sizeParams::FIELD_SIZE * sizeParams::FIELD_SIZE;
+        int stepNumber = std::max(abs(newX - posX), abs(newY - posY)) / sizeParams::FIELD_SIZE;
         int stepSize = (abs(newX - posX) == 0 ? newY - posY : newX - posX) / stepNumber;
         if(abs(posX - newX) > 0 && abs(posY - newY) == 0 || abs(posX - newX) == 0 && abs(posY - newY) > 0){
 
             for(int i = 1; i < stepNumber; i++) {
                 if(abs(newX - posX) == 0){
                     //std::cout << "X_REMAINS" << std::endl;
-                    std::cout << "Y: " << y << " NEW_Y: " << y + stepSize << std::endl;
-                    if(isThereAPieceInTheWay(x, y + stepSize, pieceContainer)){
+                    //std::cout << "X: " << x << " NEW_Y: " << x << std::endl;
+                    //std::cout << "Y: " << y << " NEW_Y: " << y + stepSize << std::endl;
+                    if(isThereAPieceInTheWay(posX, posY + stepSize, pieceContainer)){
                         return false;
                     }
                 } else if(abs(newY - posY) == 0){
-                    if(isThereAPieceInTheWay(x + stepSize, y, pieceContainer)){
+                    if(isThereAPieceInTheWay(posX + stepSize, posY, pieceContainer)){
                         return false;
                     }
                 }

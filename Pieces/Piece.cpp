@@ -88,7 +88,7 @@ bool Piece::isNotBlocked(const std::vector<std::shared_ptr<Piece>> &pieceContain
         for(int j = -1; j < 2; j++){
             if(abs(i + j) == 1) {
                 //std::cout << "X: " << posX + i * 100 << " Y: " << posY + j * 100 << std::endl;
-                if (canGoToNeighbour(posX + i * sizeParams::PIECE_SIZE, posY + j * sizeParams::PIECE_SIZE, pieceContainer)){
+                if (canGoToNeighbour(posX + i * sizeParams::FIELD_SIZE, posY + j * sizeParams::FIELD_SIZE, pieceContainer)){
                     return true;
                 }
             }

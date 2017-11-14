@@ -17,7 +17,7 @@
 
 namespace sizeParams {
     //TODO: program should be prepared to the case when PIECE_SIZE is < than FIELD_SIZE
-    const int PIECE_SIZE = 59;
+    const int PIECE_SIZE = 69;
     const int FIELD_SIZE = 69;
     const int BOARD_X = 0;
     const int BOARD_Y = 0;

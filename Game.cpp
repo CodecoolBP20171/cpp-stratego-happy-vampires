@@ -39,6 +39,7 @@ void Game::createPieces() {
     // TODO create all 80 pieces: Béci::subclasses will be needed for this (Dani task)
     pieceContainer.emplace_back(std::unique_ptr<Piece> (new Bomb(1, 1, Rank::bombRank, Color::red, textureMap[Textures::bombTexture]->getSDLTexture(), textureMap[Textures::redBackTexture]->getSDLTexture(), false)));
     pieceContainer.emplace_back(std::unique_ptr<Piece> (new Bomb(4, 4, Rank::bombRank, Color::red, textureMap[Textures::bombTexture]->getSDLTexture(), textureMap[Textures::redBackTexture]->getSDLTexture(), false)));
+    pieceContainer.emplace_back(std::unique_ptr<Piece> (new Bomb(8, 6, Rank::bombRank, Color::red, textureMap[Textures::bombTexture]->getSDLTexture(), textureMap[Textures::redBackTexture]->getSDLTexture(), false)));
     pieceContainer.emplace_back(std::unique_ptr<Piece> (new Flag(3, 3, Rank::flagRank, Color::blue, textureMap[Textures::flagTexture]->getSDLTexture(), textureMap[Textures::blueBackTexture]->getSDLTexture(), false)));
     pieceContainer.emplace_back(std::unique_ptr<Piece> (new Flag(5, 5, Rank::flagRank, Color::blue, textureMap[Textures::flagTexture]->getSDLTexture(), textureMap[Textures::blueBackTexture]->getSDLTexture(), false)));
     pieceContainer.emplace_back(std::unique_ptr<Piece> (new Soldier(2, 2, Rank::marshallRank, Color::red, textureMap[Textures::marshallTexture]->getSDLTexture(), textureMap[Textures::redBackTexture]->getSDLTexture(), false)));
@@ -186,19 +187,19 @@ void Game::deselect() {
 void Game::graphicallySelect() {
     // TODO: might be improved, low priority
     SDL_SetRenderDrawColor(display.getRenderer(), 0, 0, 255, 255);
-    SDL_RenderDrawLine( display.getRenderer(), selectedPiece->getPosX(), selectedPiece->getPosY(), selectedPiece->getPosX(), selectedPiece->getPosY() + sizeParams::PIECE_SIZE );
-    SDL_RenderDrawLine( display.getRenderer(), selectedPiece->getPosX(), selectedPiece->getPosY(), selectedPiece->getPosX() + sizeParams::PIECE_SIZE, selectedPiece->getPosY() );
-    SDL_RenderDrawLine( display.getRenderer(), selectedPiece->getPosX() + sizeParams::PIECE_SIZE, selectedPiece->getPosY(), selectedPiece->getPosX() + sizeParams::PIECE_SIZE, selectedPiece->getPosY() + sizeParams::PIECE_SIZE );
-    SDL_RenderDrawLine( display.getRenderer(), selectedPiece->getPosX(), selectedPiece->getPosY() + sizeParams::PIECE_SIZE, selectedPiece->getPosX() + sizeParams::PIECE_SIZE, selectedPiece->getPosY() + sizeParams::PIECE_SIZE );
+    SDL_RenderDrawLine( display.getRenderer(), selectedPiece->getPosX(), selectedPiece->getPosY(), selectedPiece->getPosX(), selectedPiece->getPosY() + sizeParams::FIELD_SIZE );
+    SDL_RenderDrawLine( display.getRenderer(), selectedPiece->getPosX(), selectedPiece->getPosY(), selectedPiece->getPosX() + sizeParams::FIELD_SIZE, selectedPiece->getPosY() );
+    SDL_RenderDrawLine( display.getRenderer(), selectedPiece->getPosX() + sizeParams::FIELD_SIZE, selectedPiece->getPosY(), selectedPiece->getPosX() + sizeParams::FIELD_SIZE, selectedPiece->getPosY() + sizeParams::FIELD_SIZE );
+    SDL_RenderDrawLine( display.getRenderer(), selectedPiece->getPosX(), selectedPiece->getPosY() + sizeParams::FIELD_SIZE, selectedPiece->getPosX() + sizeParams::FIELD_SIZE, selectedPiece->getPosY() + sizeParams::FIELD_SIZE );
 }
 
 std::shared_ptr<Piece> Game::getClickedPiece(const int &x, const int &y) const {
     std::shared_ptr<Piece> result = nullptr;
     for(int i = 0; i < pieceContainer.size(); i++){
         if(x > pieceContainer[i]->getPosX() &&
-           x < pieceContainer[i]->getPosX() + sizeParams::PIECE_SIZE &&
+           x < pieceContainer[i]->getPosX() + sizeParams::FIELD_SIZE &&
            y > pieceContainer[i]->getPosY() &&
-           y < pieceContainer[i]->getPosY() + sizeParams::PIECE_SIZE){
+           y < pieceContainer[i]->getPosY() + sizeParams::FIELD_SIZE){
             result = pieceContainer[i];
         }
     }
