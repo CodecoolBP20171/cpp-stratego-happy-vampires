@@ -3,6 +3,7 @@
 //
 
 #include "Display.h"
+#include "Pieces/Piece.h";
 #include <iostream>
 #include <memory>
 
@@ -59,7 +60,8 @@ void Display::getWindowSize(int& width, int& height)
 bool Display::createWindow()
 {
     // check out the meaning of the parameters!
-    window = SDL_CreateWindow("Happy Vampires: Stratego", 0, 0, 1000, 1000, SDL_WINDOW_SHOWN);
+    // TODO use actual values:
+    window = SDL_CreateWindow("Happy Vampires: Stratego", 0, 0, 690, 690, SDL_WINDOW_SHOWN);
     if (window == nullptr){
         std::cout << "SDL_CreateWindow Error: " << SDL_GetError() << std::endl;
         return false;
