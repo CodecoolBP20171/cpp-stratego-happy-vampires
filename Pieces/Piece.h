@@ -112,7 +112,7 @@ public:
     void printInfo();
     virtual bool canMove() = 0;
     virtual bool moveTo(int x, int y, const std::vector<std::shared_ptr<Piece>> &pieceContainer){};
-    void setTo(int x, int y);
+    void setTo(int &x, int &y);
     bool isNotBlocked(const std::vector<std::shared_ptr<Piece>> &pieceContainer) const;
   protected:
     Color color;
@@ -120,6 +120,10 @@ public:
     SDL_Texture *faceUpTexture = nullptr;
     SDL_Texture *backTexture = nullptr;
     SDL_Rect sdl_rect;
+public:
+    const SDL_Rect &getSdl_rect() const;
+
+protected:
     int posX, posY;
     bool isFaceDown;
     bool canGoToNeighbour(const int &x, const int &y, const std::vector<std::shared_ptr<Piece>> &pieceContainer) const;
