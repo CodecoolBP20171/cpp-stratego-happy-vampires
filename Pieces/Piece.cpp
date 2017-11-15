@@ -107,6 +107,10 @@ void Piece::setTo(int &x, int &y) {
     //return canSet;
 }
 
+void setSdl_rect(int &x, int &y) {
+
+}
+
 bool Piece::isNotBlocked(const std::vector<std::shared_ptr<Piece>> &pieceContainer) const {
     for(int i = -1; i < 2; i++){
         for(int j = -1; j < 2; j++){
@@ -138,4 +142,20 @@ bool Piece::canGoToNeighbour(const int &x, const int &y, const std::vector<std::
 
 const SDL_Rect &Piece::getSdl_rect() const {
     return sdl_rect;
+}
+
+bool Piece::isOnBoard() const {
+    return OnBoard;
+}
+
+void Piece::setOnBoard(bool isOnBoard) {
+    Piece::OnBoard = isOnBoard;
+}
+
+bool Piece::isClicked() const {
+    return Clicked;
+}
+
+void Piece::setIsClicked(bool isClicked) {
+    Piece::Clicked = isClicked;
 }

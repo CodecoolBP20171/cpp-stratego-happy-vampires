@@ -28,9 +28,10 @@ private:
     std::shared_ptr<Piece> selectedPiece;
     std::map<Textures, std::unique_ptr<Texture>> textureMap;
     std::vector<std::shared_ptr<Piece>> pieceContainer;
+    std::array<std::shared_ptr<Piece>, 64> inactiveArray;
+    std::array<std::shared_ptr<Piece>, 100> boardArray;
     int clickedX, clickedY;
     GameState gameState;
-
     void loadTextures();
     bool handleEvents(SDL_Event &event);
     void createPieces();
@@ -43,12 +44,11 @@ private:
     void switchPlayers();
     void gameLogic();
     void renderAll();
-
     void gameStateLogic();
-
     void boardSetupLogic();
-
     void flipAllPiecesOf(Color color);
+    void convertClickedCoordsToArrayPlace(int &x, int &y);
+    void  printGameState() const;
 };
 
 
