@@ -32,6 +32,7 @@ private:
     std::array<std::shared_ptr<Piece>, 100> boardArray;
     int clickedX, clickedY;
     GameState gameState;
+    SDL_Rect selectionRect;
     void loadTextures();
     bool handleEvents(SDL_Event &event);
     void createPieces();

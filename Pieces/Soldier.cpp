@@ -8,6 +8,7 @@ Soldier::Soldier(int x, int y, Rank rank, Color color, SDL_Texture *faceUpTextur
                  bool isFaceDown) : Piece(x, y, rank, color, faceUpTexture, backGroundTexture, toBoard, isFaceDown){}
 
 bool Soldier::moveTo(int x, int y, const std::vector<std::shared_ptr<Piece>> &pieceContainer) {
+    // TODO: passing pieceConatiner to this function is not necessay -> Dani delete
     bool canMove = false;
     int newX = (int) x / sizeParams::FIELD_SIZE * sizeParams::FIELD_SIZE;
     int newY = (int) y / sizeParams::FIELD_SIZE * sizeParams::FIELD_SIZE;
@@ -16,10 +17,15 @@ bool Soldier::moveTo(int x, int y, const std::vector<std::shared_ptr<Piece>> &pi
     if(abs(posX + posY - newX - newY) == sizeParams::FIELD_SIZE) {
         //sdl_rect.x = posX = newX;
         //sdl_rect.y = posY = newY;
-        sdl_rect.x = newX + sizeParams::PIECE_FIELD_DIFF;
-        sdl_rect.y = newY + sizeParams::PIECE_FIELD_DIFF;
-        posX = newX;
-        posY = newY;
+        sdl_rect.x = newX + sizeParams::PIECE_FIELD_DIFF + sizeParams::BOARD_OFFSET_X;
+        sdl_rect.y = newY + sizeParams::PIECE_FIELD_DIFF + sizeParams::BOARD_OFFSET_Y;
+        posX = newX + sizeParams::BOARD_X;
+        posY = newY + sizeParams::BOARD_Y;
+
+//        posX = x * sizeParams::FIELD_SIZE + sizeParams::BOARD_X;
+//        posY = y * sizeParams::FIELD_SIZE + sizeParams::BOARD_Y;
+//        sdl_rect.x = posX + sizeParams::PIECE_FIELD_DIFF + sizeParams::BOARD_OFFSET_X;
+//        sdl_rect.y = posY + sizeParams::PIECE_FIELD_DIFF + sizeParams::BOARD_OFFSET_Y;
 
         canMove = true;
     }

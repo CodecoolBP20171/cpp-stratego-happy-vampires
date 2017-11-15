@@ -88,7 +88,8 @@ enum Textures {
     blue7Texture,
     blue8Texture,
     blue9Texture,
-    blue10Texture
+    blue10Texture,
+    selectionTexture
 };
 
 class Piece {
