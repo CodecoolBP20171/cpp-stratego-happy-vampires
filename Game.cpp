@@ -64,25 +64,25 @@ void Game::createPieces() {
     // pieceContainer.emplace_back(std::unique_ptr<Piece> (new Bomb(4, 4, Rank::bombRank, Color::red, textureMap[Textures::bombTexture]->getSDLTexture(), textureMap[Textures::redBackTexture]->getSDLTexture(), false)));
     // pieceContainer.emplace_back(std::unique_ptr<Piece> (new Bomb(8, 6, Rank::bombRank, Color::red, textureMap[Textures::bombTexture]->getSDLTexture(), textureMap[Textures::redBackTexture]->getSDLTexture(), false)));
 
-/*
-    pieceContainer.emplace_back(std::unique_ptr<Piece>
+
+    pieceContainer.emplace_back(std::shared_ptr<Piece>
         (new Flag(0, 0, Rank::flagRank, Color::red,
         textureMap[Textures::blueFlagTexture]->getSDLTexture(),
         textureMap[Textures::blueBackTexture]->getSDLTexture(), true, false)));
 
-    pieceContainer.emplace_back(std::unique_ptr<Piece>
+    pieceContainer.emplace_back(std::shared_ptr<Piece>
         (new Flag(9, 9, Rank::bombRank, Color::red,
          textureMap[Textures::blueBombTexture]->getSDLTexture(),
          textureMap[Textures::blueBackTexture]->getSDLTexture(), true, false)));
 
-    pieceContainer.emplace_back(std::unique_ptr<Piece>
+    pieceContainer.emplace_back(std::shared_ptr<Piece>
         (new Soldier(3, 3, Rank::majorRank, Color::red,
          textureMap[Textures::red7Texture]->getSDLTexture(),
          textureMap[Textures::redBackTexture]->getSDLTexture(), true, false)));
-*/
+
     // initilaizing red setup
     //TODO rewrite using make_shared
-    pieceContainer.emplace_back(std::shared_ptr<Piece>
+    /*pieceContainer.emplace_back(std::shared_ptr<Piece>
         (new Flag(0, 0, Rank::flagRank, Color::red,
          textureMap[Textures::redFlagTexture]->getSDLTexture(),
          textureMap[Textures::redBackTexture]->getSDLTexture(), false, false)));
@@ -146,7 +146,7 @@ void Game::createPieces() {
         (new Soldier(0, 7, Rank::marshallRank, Color::red,
          textureMap[Textures::red10Texture]->getSDLTexture(),
          textureMap[Textures::redBackTexture]->getSDLTexture(), false, false)));
-
+*/
 // TODO barriers should be created in a nice for loop, the coordinates should be
     // in n(coordinate) x "defaultUnit" format. "defaultUnit" will be a const, now we use a magic number (100) for it
 
@@ -165,10 +165,10 @@ void Game::createPieces() {
 void Game::initGame() {
     currentPlayer = Color::red;
     // should be initially:
-    gameState = GameState::boardSetupState;
+    //gameState = GameState::boardSetupState;
 
     // THE BELOW LINES ARE USED ONLY IN THE DEVELOPMENT PHASE, THEY WILL BE ALTERED IN THE FINAL GAME
-    //gameState = GameState::gameState;
+    gameState = GameState::gameState;
     switchPlayers();
     flipAllPiecesOf(currentPlayer);
     switchPlayers();
