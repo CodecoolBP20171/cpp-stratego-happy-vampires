@@ -66,9 +66,9 @@ void Game::createPieces() {
 
 
     pieceContainer.emplace_back(std::shared_ptr<Piece>
-        (new Flag(0, 0, Rank::flagRank, Color::blue,
-        textureMap[Textures::blueFlagTexture]->getSDLTexture(),
-        textureMap[Textures::blueBackTexture]->getSDLTexture(), true, false)));
+     (new Soldier(0, 0, Rank::majorRank, Color::red,
+     textureMap[Textures::red7Texture]->getSDLTexture(),
+     textureMap[Textures::redBackTexture]->getSDLTexture(), true, false)));
 
     pieceContainer.emplace_back(std::shared_ptr<Piece>
         (new Flag(9, 9, Rank::bombRank, Color::blue,
@@ -80,10 +80,22 @@ void Game::createPieces() {
          textureMap[Textures::red7Texture]->getSDLTexture(),
          textureMap[Textures::redBackTexture]->getSDLTexture(), true, false)));
 
+    pieceContainer.emplace_back(std::shared_ptr<Piece>(new Soldier(1, 1, Rank::majorRank, Color::red,
+    textureMap[Textures::red7Texture]->getSDLTexture(), textureMap[Textures::redBackTexture]->getSDLTexture(), true, false)));
+
+    pieceContainer.emplace_back(std::shared_ptr<Piece>(new Soldier(0, 2, Rank::majorRank, Color::red,
+    textureMap[Textures::red7Texture]->getSDLTexture(), textureMap[Textures::redBackTexture]->getSDLTexture(), true, false)));
+
+
     pieceContainer.emplace_back(std::shared_ptr<Piece>
         (new Soldier(7, 7, Rank::majorRank, Color::blue,
         textureMap[Textures::blue7Texture]->getSDLTexture(),
         textureMap[Textures::blueBackTexture]->getSDLTexture(), true, false)));
+
+    pieceContainer.emplace_back(std::shared_ptr<Piece>
+     (new Scout(8, 8, Rank::scoutRank, Color::blue,
+      textureMap[Textures::blue2Texture]->getSDLTexture(),
+      textureMap[Textures::blueBackTexture]->getSDLTexture(), true, false)));
 
     // initilaizing red setup
     //TODO rewrite using make_shared
@@ -161,10 +173,6 @@ void Game::createPieces() {
     pieceContainer.emplace_back(std::shared_ptr<Piece> (new Barrier(6, 5, Rank::barrierRank, Color::neutral)));
     pieceContainer.emplace_back(std::shared_ptr<Piece> (new Barrier(7, 4, Rank::barrierRank, Color::neutral)));
     pieceContainer.emplace_back(std::shared_ptr<Piece> (new Barrier(7, 5, Rank::barrierRank, Color::neutral)));
-
-    for(int i=0; i<pieceContainer.size();i++) {
-        std::cout << pieceContainer[i]->getPosX() << " " << pieceContainer[i]-> getPosY() << std::endl;
-    }
 }
 
 void Game::initGame() {

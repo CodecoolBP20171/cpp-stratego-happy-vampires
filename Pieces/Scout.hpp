@@ -34,10 +34,10 @@ public:
                     }
                 }
             }
-            sdl_rect.x = newX + sizeParams::PIECE_FIELD_DIFF;
-            sdl_rect.y = newY + sizeParams::PIECE_FIELD_DIFF;
-            posX = newX;
-            posY = newY;
+            sdl_rect.x = newX + sizeParams::PIECE_FIELD_DIFF + sizeParams::BOARD_OFFSET_X;
+            sdl_rect.y = newY + sizeParams::PIECE_FIELD_DIFF + sizeParams::BOARD_OFFSET_Y;
+            posX = newX + sizeParams::BOARD_X;
+            posY = newY + sizeParams::BOARD_Y;
             canMove = true;
         }
         return canMove;
