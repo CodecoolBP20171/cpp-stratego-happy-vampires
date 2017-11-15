@@ -30,6 +30,7 @@ private:
     std::vector<std::shared_ptr<Piece>> pieceContainer;
     int clickedX, clickedY;
     GameState gameState;
+    SDL_Rect selectionRect;
 
     void loadTextures();
     bool handleEvents(SDL_Event &event);

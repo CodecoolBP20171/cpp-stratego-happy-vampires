@@ -53,6 +53,7 @@ void Game::loadTextures() {
     textureMap[Textures::blue8Texture] = display.loadTexture("../pic/blue8.png");
     textureMap[Textures::blue9Texture] = display.loadTexture("../pic/blue9.png");
     textureMap[Textures::blue10Texture] = display.loadTexture("../pic/blue10.png");
+    textureMap[Textures::selectionTexture] = display.loadTexture("../pic/selection.png");
 }
 
 void Game::createPieces() {
@@ -176,6 +177,8 @@ void Game::createPieces() {
 }
 
 void Game::initGame() {
+    selectionRect.h = sizeParams::PIECE_SIZE;
+    selectionRect.w = sizeParams::PIECE_SIZE;
     currentPlayer = Color::red;
     // should be initially:
     //gameState = GameState::boardSetupState;
@@ -296,8 +299,9 @@ void Game::boardSetupLogic() {
 }
 
 void Game::gameStateLogic() {
-    // if there is a click on the board
-    if(clickedX >= 0 && clickedY >= 0) {
+    // TODO: apply full plan (flowchart), for example after move wait for click, etc.
+    // TODO: if there is a click on the board -> can go to a separated function!
+    if(clickedX >= 0 && clickedY >= 0 && clickedX <= sizeParams::BOARD_MAX_X && clickedX <= sizeParams::BOARD_MAX_Y) {
         //std::cout << "clicked on the board!" << std::endl;
         // get clicked piece if the user clicked on a piece, nullptr otherwise
         std::shared_ptr<Piece> clickedPiece = getClickedPiece(clickedX, clickedY);
@@ -306,17 +310,22 @@ void Game::gameStateLogic() {
             // if it is the current player's piece
             if (currentPlayer == clickedPiece->getColor()) {
                 // select the clicked piece
-                // TODO: select from only movable pieces (not a blocked soldier)
                 if(clickedPiece->canMove() && clickedPiece->isNotBlocked(pieceContainer)) {
                     selectPiece(clickedPiece);
                 }
             }
+            // st like else if(currentPlayer == enemyColor && selectedPiece) -> attack
         } else { // the user clicked on an empty field // later: or to an enemy
             // if there is a piece selected
             if (selectedPiece) {
                 // if the piece can move to that empty field, move there
                 if (selectedPiece->moveTo(clickedX, clickedY, pieceContainer)) {
                     deselect();
+                    // TODO: here we should wait for the click... HOW????
+                    // maybe: use a Game obj var to mark this point, for example
+                    // waitForClick = true; and check this variable on the top of this function
+                    // and if it is true -> proceed "playback" of the action,
+                    // a few additional obj vars could be necessary to achieve this
                     flipAllPiecesOf(currentPlayer);
                     switchPlayers();
                     flipAllPiecesOf(currentPlayer);
@@ -359,14 +368,17 @@ void Game::deselect() {
 void Game::graphicallySelect() {
     // TODO: might be improved, low priority
     int x1 = selectedPiece->getSdl_rect().x;
-    int x2 = selectedPiece->getSdl_rect().x + sizeParams::PIECE_SIZE;
+    //int x2 = selectedPiece->getSdl_rect().x + sizeParams::PIECE_SIZE;
     int y1 = selectedPiece->getSdl_rect().y;
-    int y2 = selectedPiece->getSdl_rect().y + sizeParams::PIECE_SIZE;
-    SDL_SetRenderDrawColor(display.getRenderer(), 0, 0, 255, 255);
-    SDL_RenderDrawLine( display.getRenderer(), x1, y1, x1, y2 );
-    SDL_RenderDrawLine( display.getRenderer(), x1, y1, x2, y1 );
-    SDL_RenderDrawLine( display.getRenderer(), x2, y1, x2, y2 );
-    SDL_RenderDrawLine( display.getRenderer(), x1, y2, x2, y2 );
+    //int y2 = selectedPiece->getSdl_rect().y + sizeParams::PIECE_SIZE;
+    selectionRect.x = x1;
+    selectionRect.y = y1;
+    SDL_RenderCopy(display.getRenderer(), textureMap[Textures::selectionTexture]->getSDLTexture(), NULL, &selectionRect);
+//    SDL_SetRenderDrawColor(display.getRenderer(), 0, 0, 255, 255);
+//    SDL_RenderDrawLine( display.getRenderer(), x1, y1, x1, y2 );
+//    SDL_RenderDrawLine( display.getRenderer(), x1, y1, x2, y1 );
+//    SDL_RenderDrawLine( display.getRenderer(), x2, y1, x2, y2 );
+//    SDL_RenderDrawLine( display.getRenderer(), x1, y2, x2, y2 );
 }
 
 std::shared_ptr<Piece> Game::getClickedPiece(const int &x, const int &y) const {

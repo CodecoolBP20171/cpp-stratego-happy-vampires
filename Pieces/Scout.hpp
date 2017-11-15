@@ -19,7 +19,11 @@ public:
         int newX = (int) x / sizeParams::FIELD_SIZE * sizeParams::FIELD_SIZE;
         int newY = (int) y / sizeParams::FIELD_SIZE * sizeParams::FIELD_SIZE;
         int stepNumber = std::max(abs(newX - posX), abs(newY - posY)) / sizeParams::FIELD_SIZE;
-        int stepSize = (abs(newX - posX) == 0 ? newY - posY : newX - posX) / stepNumber;
+        int stepSize = 0;
+        if(stepNumber > 0) {
+            //to prevent program from accidental division by zero
+            stepSize = (abs(newX - posX) == 0 ? newY - posY : newX - posX) / stepNumber;
+        }
 
         if(abs(posX - newX) > 0 && abs(posY - newY) == 0 || abs(posX - newX) == 0 && abs(posY - newY) > 0){
 
