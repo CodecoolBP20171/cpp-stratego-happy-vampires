@@ -293,7 +293,7 @@ bool Game::onBlueSide() const {
 
 void Game::boardSetupLogic() {
     std::shared_ptr<Piece> clickedPiece = getClickedPiece(clickedX, clickedY);
-if(onInactiveField()) {
+    if(onInactiveField()) {
         //std::cout << "clicked on inactive field" << std::endl;
         //std::shared_ptr<Piece> clickedPiece = getClickedPiece(clickedX, clickedY);
         //TODO it seems to be working, but not implementing exactly the flowchart, check it!!!
@@ -315,6 +315,7 @@ if(onInactiveField()) {
         std::cout << "click on current players side" << std::endl;
         if ( clickedPiece != selectedPiece) {
             //isOccupied
+            //TODO debug: sometimes I can put a piece on top of another
             if (!getClickedPiece(clickedX, clickedY)) {
                 //moving
                 std::cout << "setup to board array index ";
