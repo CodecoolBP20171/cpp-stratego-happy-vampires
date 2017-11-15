@@ -121,13 +121,16 @@ public:
     void setOnBoard(bool isOnBoard);
     bool isClicked() const;
     void setIsClicked(bool isClicked);
-  protected:
+    int getPosInArray() const;
+    void setPosInArray(int posInArray);
+    void setupTo(int &x, int &y);
+protected:
     Color color;
     Rank rank;
     SDL_Texture *faceUpTexture = nullptr;
     SDL_Texture *backTexture = nullptr;
     SDL_Rect sdl_rect;
-    int posX, posY;
+    int posX, posY, posInArray;
     bool isFaceDown;
     bool canGoToNeighbour(const int &x, const int &y, const std::vector<std::shared_ptr<Piece>> &pieceContainer) const;
     bool OnBoard = false;

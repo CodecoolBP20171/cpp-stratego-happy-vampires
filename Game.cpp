@@ -120,46 +120,46 @@ void Game::createPieces() {
              textureMap[Textures::redBackTexture]->getSDLTexture(), false, false);
     }
     for(int i = 0; i < 5; ++i) {
-        inactiveArray[15+i] = std::make_shared<Miner>
+        inactiveArray[16+i] = std::make_shared<Miner>
             ((0+i), 2, Rank::minerRank, Color::red,
              textureMap[Textures::red3Texture]->getSDLTexture(),
              textureMap[Textures::redBackTexture]->getSDLTexture(), false, false);
     }
     for(int i = 0; i < 4; ++i) {
-        inactiveArray[23+i] = std::make_shared<Soldier>
+        inactiveArray[24+i] = std::make_shared<Soldier>
             ((0+i), 3, Rank::sergeantRank, Color::red,
              textureMap[Textures::red4Texture]->getSDLTexture(),
              textureMap[Textures::redBackTexture]->getSDLTexture(), false, false);
     }
     for(int i = 0; i < 4; ++i) {
-        inactiveArray[27+i] = std::make_shared<Soldier>
+        inactiveArray[28+i] = std::make_shared<Soldier>
             ((4+i), 3, Rank::lieutenantRank, Color::red,
              textureMap[Textures::red5Texture]->getSDLTexture(),
              textureMap[Textures::redBackTexture]->getSDLTexture(), false, false);
     }
     for(int i = 0; i < 4; ++i) {
-        inactiveArray[31+i] = std::make_shared<Soldier>
+        inactiveArray[32+i] = std::make_shared<Soldier>
             ((0+i), 4, Rank::captainRank, Color::red,
              textureMap[Textures::red6Texture]->getSDLTexture(),
              textureMap[Textures::redBackTexture]->getSDLTexture(), false, false);
     }
     for(int i = 0; i < 3; ++i) {
-        inactiveArray[35+i] = std::make_shared<Soldier>
+        inactiveArray[36+i] = std::make_shared<Soldier>
             ((4+i), 4, Rank::majorRank, Color::red,
              textureMap[Textures::red7Texture]->getSDLTexture(),
              textureMap[Textures::redBackTexture]->getSDLTexture(), false, false);
     }
     for(int i = 0; i < 2; ++i) {
-        inactiveArray[39+i] = std::make_shared<Soldier>
+        inactiveArray[40+i] = std::make_shared<Soldier>
             ((0+i), 5, Rank::colonelRank, Color::red,
              textureMap[Textures::red8Texture]->getSDLTexture(),
              textureMap[Textures::redBackTexture]->getSDLTexture(), false, false);
     }
-    inactiveArray[47] = std::make_shared<Soldier>
+    inactiveArray[48] = std::make_shared<Soldier>
         (0, 6, Rank::generalRank, Color::red,
          textureMap[Textures::red9Texture]->getSDLTexture(),
          textureMap[Textures::redBackTexture]->getSDLTexture(), false, false);
-    inactiveArray[55] = std::make_shared<Soldier>
+    inactiveArray[56] = std::make_shared<Soldier>
         (0, 7, Rank::marshallRank, Color::red,
          textureMap[Textures::red10Texture]->getSDLTexture(),
          textureMap[Textures::redBackTexture]->getSDLTexture(), false, false);
@@ -167,14 +167,14 @@ void Game::createPieces() {
 // TODO barriers should be created in a nice for loop, the coordinates should be
     // in n(coordinate) x "defaultUnit" format. "defaultUnit" will be a const, now we use a magic number (100) for it
 
-    boardArray[41] = std::make_shared<Barrier>(2, 4, Rank::barrierRank, Color::neutral);
-    boardArray[42] = std::make_shared<Barrier>(2, 5, Rank::barrierRank, Color::neutral);
-    boardArray[45] = std::make_shared<Barrier>(3, 4, Rank::barrierRank, Color::neutral);
-    boardArray[46] = std::make_shared<Barrier>(3, 5, Rank::barrierRank, Color::neutral);
-    boardArray[51] = std::make_shared<Barrier>(6, 4, Rank::barrierRank, Color::neutral);
-    boardArray[52] = std::make_shared<Barrier>(6, 5, Rank::barrierRank, Color::neutral);
-    boardArray[55] = std::make_shared<Barrier>(7, 4, Rank::barrierRank, Color::neutral);
-    boardArray[56] = std::make_shared<Barrier>(7, 5, Rank::barrierRank, Color::neutral);
+    boardArray[42] = std::make_shared<Barrier>(2, 4, Rank::barrierRank, Color::neutral);
+    boardArray[43] = std::make_shared<Barrier>(2, 5, Rank::barrierRank, Color::neutral);
+    boardArray[46] = std::make_shared<Barrier>(3, 4, Rank::barrierRank, Color::neutral);
+    boardArray[47] = std::make_shared<Barrier>(3, 5, Rank::barrierRank, Color::neutral);
+    boardArray[52] = std::make_shared<Barrier>(6, 4, Rank::barrierRank, Color::neutral);
+    boardArray[53] = std::make_shared<Barrier>(6, 5, Rank::barrierRank, Color::neutral);
+    boardArray[56] = std::make_shared<Barrier>(7, 4, Rank::barrierRank, Color::neutral);
+    boardArray[57] = std::make_shared<Barrier>(7, 5, Rank::barrierRank, Color::neutral);
 
     // TODO barriers should be created in a nice for loop
 }
@@ -294,13 +294,17 @@ if(onInactiveField()) {
         //std::shared_ptr<Piece> clickedPiece = getClickedPiece(clickedX, clickedY);
         //TODO it seems to be working, but not implementing exactly the flowchart, check it!!!
         if (clickedPiece) {
-            std::cout << "You clicked on a " << clickedPiece->getColor() << " " << clickedPiece->getRank() << std::endl;
+            std::cout << "You clicked on a " << clickedPiece->getColor() << " "
+                      << clickedPiece->getRank() << " "
+                        << " @ array index " << clickedPiece->getPosInArray() << std::endl;
             if(selectedPiece) {
                 std::cout << "deselect" << std::endl;
                 deselect();
             } else {
                 selectPiece(clickedPiece);
-                std::cout << "You selected a " << selectedPiece->getColor() << " " << selectedPiece->getRank() << std::endl;
+                std::cout << "You selected a " << selectedPiece->getColor() << " "
+                          << selectedPiece->getRank() << " "
+                          << " @ array index " << selectedPiece->getPosInArray() << std::endl;
             }
         }
     } else if ( (currentPlayer == red && onRedSide()) || (currentPlayer == blue && onBlueSide()) ) {
@@ -309,9 +313,12 @@ if(onInactiveField()) {
             //isOccupied
             if (!getClickedPiece(clickedX, clickedY)) {
                 //moving
-                std::cout << "moving to ";
+                std::cout << "setup to board array index ";
                 //deselect();
-                selectedPiece->setTo(clickedX, clickedY);
+                int oldPos = selectedPiece->getPosInArray(); //std::cout << "oldPos " << oldPos << std::endl;
+                selectedPiece->setupTo(clickedX, clickedY);
+                int newPos = selectedPiece->getPosInArray(); //std::cout << "newPos " << newPos << std::endl;
+                boardArray[newPos] = std::move(inactiveArray[oldPos]);
                 deselect();
             }
         }
@@ -481,23 +488,25 @@ void Game::printGameState() const {
     std::cout << "clickedPiece ";
     if (clickedPiece) {
         std::cout << clickedPiece->getColor() << " " << clickedPiece->getRank() << " ";
-        if (clickedPiece->isOnBoard()) { std::cout << "on board" << std::endl; }
-        else { std::cout << "on inactive" << std::endl; }
+        if (clickedPiece->isOnBoard()) { std::cout << "on board array index " << clickedPiece->getPosInArray() << std::endl; }
+        else { std::cout << "on inactive array index " << clickedPiece->getPosInArray() << std::endl; }
     } else { std::cout << "no clicked piece" << std::endl; }
     std::cout << "\tinactive\n";
-    for (int h = 0; h < 10; ++h) {
-        for(int w = 0; w < 8; ++w) {
-            if (inactiveArray[h*w+w]) {
-            std::cout << inactiveArray[h*w+w]->getColor() << " " << inactiveArray[h*w+w]->getRank() << "\t\t";
+    for (int h = 0; h < sizeParams::INACTIVE_FIELDS_NUMBER_Y; ++h) {
+        for(int w = 0; w < sizeParams::INACTIVE_FIELDS_NUMBER_X; ++w) {
+            if (inactiveArray[h*sizeParams::INACTIVE_FIELDS_NUMBER_X+w]) {
+            std::cout << inactiveArray[h*sizeParams::INACTIVE_FIELDS_NUMBER_X+w]->getColor() << " "
+                      << inactiveArray[h*sizeParams::INACTIVE_FIELDS_NUMBER_X+w]->getRank() << "\t\t";
             } else {std::cout << "n" << " " << "n" << "\t\t";}
         }
         std::cout << std::endl;
     }
     std::cout << "\tboard\n";
-    for (int h = 0; h < 10; ++h) {
-        for(int w = 0; w < 10; ++w) {
-            if (boardArray[h*w+w]) {
-                std::cout << boardArray[h*w+w]->getColor() << " " << boardArray[h*w+w]->getRank() << "\t\t";
+    for (int h = 0; h < sizeParams::BOARD_FIELDS_NUMBER; ++h) {
+        for(int w = 0; w < sizeParams::BOARD_FIELDS_NUMBER; ++w) {
+            if (boardArray[h*sizeParams::BOARD_FIELDS_NUMBER+w]) {
+                std::cout << boardArray[h*sizeParams::BOARD_FIELDS_NUMBER+w]->getColor() << " "
+                          << boardArray[h*sizeParams::BOARD_FIELDS_NUMBER+w]->getRank() << "\t\t";
             } else {std::cout << "n" << " " << "n" << "\t\t";}
 
         }
