@@ -41,10 +41,14 @@ Piece::Piece(int x, int y,
         sdl_rect.y = posY + sizeParams::PIECE_FIELD_DIFF + sizeParams::BOARD_OFFSET_Y;
         posInArray = y*sizeParams::BOARD_FIELDS_NUMBER+x;
     }
+    randomAngle = std::rand() % 9 - 4;
 }
 
 void Piece::render(SDL_Renderer* renderer){
-    SDL_RenderCopy(renderer, (isFaceDown ? backTexture : faceUpTexture), NULL, &sdl_rect);
+    if (isOnBoard()) SDL_RenderCopy(renderer, (isFaceDown ? backTexture : faceUpTexture), NULL, &sdl_rect);
+    else {
+        SDL_RenderCopyEx(renderer, (isFaceDown ? backTexture : faceUpTexture), NULL, &sdl_rect, randomAngle, NULL, SDL_FLIP_NONE);
+    }
 }
 
 int Piece::getPosX() const {

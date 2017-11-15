@@ -3,6 +3,7 @@
 //
 
 #include <memory>
+#include <ctime>
 #include "Display.h"
 #include "Game.h"
 #include "Pieces/Piece.h"
@@ -15,6 +16,9 @@
 #include "Pieces/Miner.hpp"
 
 void Game::run() {
+
+    std::srand(std::time(0));
+
     display.init();
     loadTextures();
     createPieces();

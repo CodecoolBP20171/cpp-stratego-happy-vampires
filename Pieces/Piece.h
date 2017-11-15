@@ -135,6 +135,7 @@ protected:
     bool canGoToNeighbour(const int &x, const int &y, const std::vector<std::shared_ptr<Piece>> &pieceContainer) const;
     bool OnBoard = false;
     bool Clicked = false;
+    int randomAngle;
 };
 
 
