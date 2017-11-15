@@ -66,19 +66,24 @@ void Game::createPieces() {
 
 
     pieceContainer.emplace_back(std::shared_ptr<Piece>
-        (new Flag(0, 0, Rank::flagRank, Color::red,
+        (new Flag(0, 0, Rank::flagRank, Color::blue,
         textureMap[Textures::blueFlagTexture]->getSDLTexture(),
         textureMap[Textures::blueBackTexture]->getSDLTexture(), true, false)));
 
     pieceContainer.emplace_back(std::shared_ptr<Piece>
-        (new Flag(9, 9, Rank::bombRank, Color::red,
+        (new Flag(9, 9, Rank::bombRank, Color::blue,
          textureMap[Textures::blueBombTexture]->getSDLTexture(),
          textureMap[Textures::blueBackTexture]->getSDLTexture(), true, false)));
 
     pieceContainer.emplace_back(std::shared_ptr<Piece>
-        (new Soldier(3, 3, Rank::majorRank, Color::red,
+        (new Soldier(0, 1, Rank::majorRank, Color::red,
          textureMap[Textures::red7Texture]->getSDLTexture(),
          textureMap[Textures::redBackTexture]->getSDLTexture(), true, false)));
+
+    pieceContainer.emplace_back(std::shared_ptr<Piece>
+        (new Soldier(7, 7, Rank::majorRank, Color::blue,
+        textureMap[Textures::blue7Texture]->getSDLTexture(),
+        textureMap[Textures::blueBackTexture]->getSDLTexture(), true, false)));
 
     // initilaizing red setup
     //TODO rewrite using make_shared
@@ -147,10 +152,7 @@ void Game::createPieces() {
          textureMap[Textures::red10Texture]->getSDLTexture(),
          textureMap[Textures::redBackTexture]->getSDLTexture(), false, false)));
 */
-// TODO barriers should be created in a nice for loop, the coordinates should be
-    // in n(coordinate) x "defaultUnit" format. "defaultUnit" will be a const, now we use a magic number (100) for it
-
-
+    // TODO barriers should be created in a nice for loop
     pieceContainer.emplace_back(std::shared_ptr<Piece> (new Barrier(2, 4, Rank::barrierRank, Color::neutral)));
     pieceContainer.emplace_back(std::shared_ptr<Piece> (new Barrier(2, 5, Rank::barrierRank, Color::neutral)));
     pieceContainer.emplace_back(std::shared_ptr<Piece> (new Barrier(3, 4, Rank::barrierRank, Color::neutral)));
@@ -160,6 +162,9 @@ void Game::createPieces() {
     pieceContainer.emplace_back(std::shared_ptr<Piece> (new Barrier(7, 4, Rank::barrierRank, Color::neutral)));
     pieceContainer.emplace_back(std::shared_ptr<Piece> (new Barrier(7, 5, Rank::barrierRank, Color::neutral)));
 
+    for(int i=0; i<pieceContainer.size();i++) {
+        std::cout << pieceContainer[i]->getPosX() << " " << pieceContainer[i]-> getPosY() << std::endl;
+    }
 }
 
 void Game::initGame() {
@@ -345,15 +350,15 @@ void Game::deselect() {
 
 void Game::graphicallySelect() {
     // TODO: might be improved, low priority
+    int x1 = selectedPiece->getSdl_rect().x;
+    int x2 = selectedPiece->getSdl_rect().x + sizeParams::PIECE_SIZE;
+    int y1 = selectedPiece->getSdl_rect().y;
+    int y2 = selectedPiece->getSdl_rect().y + sizeParams::PIECE_SIZE;
     SDL_SetRenderDrawColor(display.getRenderer(), 0, 0, 255, 255);
-    SDL_RenderDrawLine( display.getRenderer(), selectedPiece->getSdl_rect().x, selectedPiece->getSdl_rect().y,
-                        selectedPiece->getSdl_rect().x, selectedPiece->getSdl_rect().y + sizeParams::FIELD_SIZE );
-    SDL_RenderDrawLine( display.getRenderer(), selectedPiece->getSdl_rect().x, selectedPiece->getSdl_rect().y,
-                        selectedPiece->getSdl_rect().x + sizeParams::FIELD_SIZE, selectedPiece->getSdl_rect().y );
-    SDL_RenderDrawLine( display.getRenderer(), selectedPiece->getSdl_rect().x + sizeParams::FIELD_SIZE, selectedPiece->getSdl_rect().y,
-                        selectedPiece->getSdl_rect().x + sizeParams::FIELD_SIZE, selectedPiece->getSdl_rect().y + sizeParams::FIELD_SIZE );
-    SDL_RenderDrawLine( display.getRenderer(), selectedPiece->getSdl_rect().x, selectedPiece->getSdl_rect().y + sizeParams::FIELD_SIZE,
-                        selectedPiece->getSdl_rect().x + sizeParams::FIELD_SIZE, selectedPiece->getSdl_rect().y + sizeParams::FIELD_SIZE );
+    SDL_RenderDrawLine( display.getRenderer(), x1, y1, x1, y2 );
+    SDL_RenderDrawLine( display.getRenderer(), x1, y1, x2, y1 );
+    SDL_RenderDrawLine( display.getRenderer(), x2, y1, x2, y2 );
+    SDL_RenderDrawLine( display.getRenderer(), x1, y2, x2, y2 );
 }
 
 std::shared_ptr<Piece> Game::getClickedPiece(const int &x, const int &y) const {

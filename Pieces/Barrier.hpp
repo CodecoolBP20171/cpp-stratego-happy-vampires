@@ -12,7 +12,7 @@
 class Barrier : public Thing {
 public:
     Barrier(int x, int y, Rank rank, Color color, SDL_Texture *faceUpTexture = nullptr, SDL_Texture *backGroundTexture = nullptr, bool toBoard = true, bool isFaceDown = true)
-            : Thing(x, y, rank, color){}
+            : Thing(x, y, rank, color, faceUpTexture, backGroundTexture, toBoard){}
 };
 
 
