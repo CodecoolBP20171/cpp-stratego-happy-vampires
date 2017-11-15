@@ -20,9 +20,11 @@ public:
         int newY = (int) y / sizeParams::FIELD_SIZE * sizeParams::FIELD_SIZE;
         int stepNumber = std::max(abs(newX - posX), abs(newY - posY)) / sizeParams::FIELD_SIZE;
         int stepSize = 0;
-        if(stepNumber > 0) {
+        try {
             //to prevent program from accidental division by zero
             stepSize = (abs(newX - posX) == 0 ? newY - posY : newX - posX) / stepNumber;
+        } catch (std::exception &e) {
+            std::cout << "Accidental divsion by zero was detected" << std::endl;
         }
 
         if(abs(posX - newX) > 0 && abs(posY - newY) == 0 || abs(posX - newX) == 0 && abs(posY - newY) > 0){
