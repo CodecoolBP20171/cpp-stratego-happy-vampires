@@ -136,6 +136,7 @@ void Piece::setupTo(int &x, int &y) {
 
     posInArray = newY*sizeParams::BOARD_FIELDS_NUMBER+newX;
     std::cout << posInArray << std::endl;
+    setOnBoard(true);
 }
 
 void setSdl_rect(int &x, int &y) {
