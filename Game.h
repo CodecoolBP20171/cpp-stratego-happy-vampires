@@ -50,6 +50,10 @@ private:
     void flipAllPiecesOf(Color color);
     void convertClickedCoordsToArrayPlace(int &x, int &y);
     void  printGameState() const;
+    bool onInactiveField() const;
+    bool onRedSide() const;
+    bool onBlueSide() const;
+    bool onBoard() const;
 };
 
 

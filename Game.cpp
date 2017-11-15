@@ -184,13 +184,15 @@ void Game::initGame() {
     selectionRect.w = sizeParams::PIECE_SIZE;
     currentPlayer = Color::red;
     // should be initially:
-    //gameState = GameState::boardSetupState;
+    gameState = GameState::boardSetupState;
 
     // THE BELOW LINES ARE USED ONLY IN THE DEVELOPMENT PHASE, THEY WILL BE ALTERED IN THE FINAL GAME
+/*
     gameState = GameState::gameState;
     switchPlayers();
     flipAllPiecesOf(currentPlayer);
     switchPlayers();
+*/
 }
 
 void Game::gameLoop() {
@@ -238,40 +240,56 @@ void Game::gameLogic() {
     }
 }
 
-void Game::boardSetupLogic() {
+bool Game::onInactiveField() const {
     int inactiveFieldUpperLeftX = sizeParams::INACTIVE_OFFSET_X;
     int inactiveFieldUpperLeftY = sizeParams::INACTIVE_OFFSET_Y;
     int inactiveFieldBottomRightX = inactiveFieldUpperLeftX
                                     + sizeParams::INACTIVE_FIELDS_NUMBER_X * sizeParams::FIELD_SIZE;
     int inactiveFieldBottomRightY = inactiveFieldUpperLeftY
                                     + sizeParams::INACTIVE_FIELDS_NUMBER_Y * sizeParams::FIELD_SIZE;
-    bool onInactiveField = clickedX >= inactiveFieldUpperLeftX && clickedX <= inactiveFieldBottomRightX
-                         && clickedY >= inactiveFieldUpperLeftY && clickedY <= inactiveFieldBottomRightY;
+    return (clickedX >= inactiveFieldUpperLeftX && clickedX <= inactiveFieldBottomRightX
+                         && clickedY >= inactiveFieldUpperLeftY && clickedY <= inactiveFieldBottomRightY);
+}
 
+bool Game::onBoard() const {
+    int boardUpperLeftX = sizeParams::BOARD_X;
+    int boardUpperLeftY = sizeParams::BOARD_Y;
+    int boardBottomRightX = boardUpperLeftX
+                              + sizeParams::BOARD_FIELDS_NUMBER * sizeParams::FIELD_SIZE;
+    int boardBottomRightY = boardUpperLeftY
+                              + sizeParams::BOARD_FIELDS_NUMBER * sizeParams::FIELD_SIZE;
+    return (clickedX >= boardUpperLeftX && clickedX <= boardBottomRightX
+            && clickedY >= boardUpperLeftY && clickedY <= boardBottomRightY);
+}
+
+
+bool Game::onRedSide() const {
     //lower board side == red side
     int redSideUpperLeftX = sizeParams::BOARD_X;
     int redSideUpperLeftY = sizeParams::BOARD_Y + 6 * sizeParams::FIELD_SIZE;
     int redSideBottomRightX = redSideUpperLeftX
-                                    + sizeParams::BOARD_FIELDS_NUMBER * sizeParams::FIELD_SIZE;
+                              + sizeParams::BOARD_FIELDS_NUMBER * sizeParams::FIELD_SIZE;
     int redSideBottomRightY = redSideUpperLeftY
-                                    + sizeParams::BOARD_FIELDS_NUMBER * sizeParams::FIELD_SIZE;
-    bool onRedSide = clickedX >= redSideUpperLeftX && clickedX <= redSideBottomRightX
-                           && clickedY >= redSideUpperLeftY && clickedY <= redSideBottomRightY;
+                              + sizeParams::BOARD_FIELDS_NUMBER * sizeParams::FIELD_SIZE;
+    return (clickedX >= redSideUpperLeftX && clickedX <= redSideBottomRightX
+                     && clickedY >= redSideUpperLeftY && clickedY <= redSideBottomRightY);
+}
 
-    //uooer board side == blue side
+bool Game::onBlueSide() const {
+    //upper board side == blue side
     int blueSideUpperLeftX = sizeParams::BOARD_X;
     int blueSideUpperLeftY = sizeParams::BOARD_Y;
     int blueSideBottomRightX = blueSideUpperLeftX
-                              + sizeParams::BOARD_FIELDS_NUMBER * sizeParams::FIELD_SIZE;
+                               + sizeParams::BOARD_FIELDS_NUMBER * sizeParams::FIELD_SIZE;
     int blueSideBottomRightY = blueSideUpperLeftY
-                              + 3 * sizeParams::FIELD_SIZE;
-    bool onBlueSide = clickedX >= blueSideUpperLeftX && clickedX <= blueSideBottomRightX
-                     && clickedY >= blueSideUpperLeftY && clickedY <= blueSideBottomRightY;
+                               + 3 * sizeParams::FIELD_SIZE;
+    return (clickedX >= blueSideUpperLeftX && clickedX <= blueSideBottomRightX
+                      && clickedY >= blueSideUpperLeftY && clickedY <= blueSideBottomRightY);
+}
 
+void Game::boardSetupLogic() {
     std::shared_ptr<Piece> clickedPiece = getClickedPiece(clickedX, clickedY);
-
-    //isClickedOnBoard
-    if(onInactiveField) {
+if(onInactiveField()) {
         //std::cout << "clicked on inactive field" << std::endl;
         //std::shared_ptr<Piece> clickedPiece = getClickedPiece(clickedX, clickedY);
         //TODO it seems to be working, but not implementing exactly the flowchart, check it!!!
@@ -285,7 +303,7 @@ void Game::boardSetupLogic() {
                 std::cout << "You selected a " << selectedPiece->getColor() << " " << selectedPiece->getRank() << std::endl;
             }
         }
-    } else if ( (currentPlayer == red && onRedSide) || (currentPlayer == blue && onBlueSide) ) {
+    } else if ( (currentPlayer == red && onRedSide()) || (currentPlayer == blue && onBlueSide()) ) {
         std::cout << "click on current players side" << std::endl;
         if ( clickedPiece != selectedPiece) {
             //isOccupied
@@ -451,6 +469,14 @@ void Game::printGameState() const {
         else { std::cout << "on inactive" << std::endl; }
     } else { std::cout << "no selected piece" << std::endl; }
     std::cout << "clickedX " << clickedX << " clickedY " << " " << clickedY << std::endl;
+    std::cout << "clicked on ";
+    if (onInactiveField()) std::cout << "InactiveField" << std::endl;
+    else if (onBoard()) {
+        std::cout << "Board @ ";
+        if (onRedSide()) std::cout << "red side" << std::endl;
+        else if (onBlueSide()) std::cout << "blue side" << std::endl;
+        else std::cout << "middle field" << std::endl;
+    } else std::cout << "elsewhere" << std::endl;
     std::shared_ptr<Piece> clickedPiece = getClickedPiece(clickedX, clickedY);
     std::cout << "clickedPiece ";
     if (clickedPiece) {
