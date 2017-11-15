@@ -53,6 +53,7 @@ private:
     bool onInactiveField() const;
     bool onRedSide() const;
     bool onBlueSide() const;
+    bool onBoard() const;
 };
 
 

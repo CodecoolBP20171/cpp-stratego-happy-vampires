@@ -251,6 +251,18 @@ bool Game::onInactiveField() const {
                          && clickedY >= inactiveFieldUpperLeftY && clickedY <= inactiveFieldBottomRightY);
 }
 
+bool Game::onBoard() const {
+    int boardUpperLeftX = sizeParams::BOARD_X;
+    int boardUpperLeftY = sizeParams::BOARD_Y;
+    int boardBottomRightX = boardUpperLeftX
+                              + sizeParams::BOARD_FIELDS_NUMBER * sizeParams::FIELD_SIZE;
+    int boardBottomRightY = boardUpperLeftY
+                              + sizeParams::BOARD_FIELDS_NUMBER * sizeParams::FIELD_SIZE;
+    return (clickedX >= boardUpperLeftX && clickedX <= boardBottomRightX
+            && clickedY >= boardUpperLeftY && clickedY <= boardBottomRightY);
+}
+
+
 bool Game::onRedSide() const {
     //lower board side == red side
     int redSideUpperLeftX = sizeParams::BOARD_X;
@@ -457,6 +469,14 @@ void Game::printGameState() const {
         else { std::cout << "on inactive" << std::endl; }
     } else { std::cout << "no selected piece" << std::endl; }
     std::cout << "clickedX " << clickedX << " clickedY " << " " << clickedY << std::endl;
+    std::cout << "clicked on ";
+    if (onInactiveField()) std::cout << "InactiveField" << std::endl;
+    else if (onBoard()) {
+        std::cout << "Board @ ";
+        if (onRedSide()) std::cout << "red side" << std::endl;
+        else if (onBlueSide()) std::cout << "blue side" << std::endl;
+        else std::cout << "middle field" << std::endl;
+    } else std::cout << "elsewhere" << std::endl;
     std::shared_ptr<Piece> clickedPiece = getClickedPiece(clickedX, clickedY);
     std::cout << "clickedPiece ";
     if (clickedPiece) {
