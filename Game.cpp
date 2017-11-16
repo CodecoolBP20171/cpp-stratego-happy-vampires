@@ -62,38 +62,42 @@ void Game::loadTextures() {
 void Game::createPieces() {
     // TODO create all 80 pieces: Béci::subclasses will be needed for this (Dani task)
 
-    pieceContainer.emplace_back(std::shared_ptr<Piece>
-     (new Soldier(0, 0, Rank::majorRank, Color::red,
+    boardArray[0] = std::make_shared<Soldier>
+     (0, 0, Rank::majorRank, Color::red,
      textureMap[Textures::red7Texture]->getSDLTexture(),
-     textureMap[Textures::redBackTexture]->getSDLTexture(), true, false)));
+     textureMap[Textures::redBackTexture]->getSDLTexture(), true, false);
 
-    pieceContainer.emplace_back(std::shared_ptr<Piece>
-        (new Flag(9, 9, Rank::bombRank, Color::blue,
+    boardArray[99] = std::make_shared<Flag>
+        (9, 9, Rank::bombRank, Color::blue,
          textureMap[Textures::blueBombTexture]->getSDLTexture(),
-         textureMap[Textures::blueBackTexture]->getSDLTexture(), true, false)));
+         textureMap[Textures::blueBackTexture]->getSDLTexture(), true, false);
 
-    pieceContainer.emplace_back(std::shared_ptr<Piece>
-        (new Soldier(0, 1, Rank::majorRank, Color::red,
+    boardArray[10] = std::make_shared<Soldier>
+        (0, 1, Rank::majorRank, Color::red,
          textureMap[Textures::red7Texture]->getSDLTexture(),
-         textureMap[Textures::redBackTexture]->getSDLTexture(), true, false)));
+         textureMap[Textures::redBackTexture]->getSDLTexture(), true, false);
 
-    pieceContainer.emplace_back(std::shared_ptr<Piece>(new Soldier(1, 1, Rank::majorRank, Color::red,
-    textureMap[Textures::red7Texture]->getSDLTexture(), textureMap[Textures::redBackTexture]->getSDLTexture(), true, false)));
+    boardArray[11] = std::make_shared<Soldier>
+        (1, 1, Rank::majorRank, Color::red,
+        textureMap[Textures::red7Texture]->getSDLTexture(),
+        textureMap[Textures::redBackTexture]->getSDLTexture(), true, false);
 
-    pieceContainer.emplace_back(std::shared_ptr<Piece>(new Soldier(0, 2, Rank::majorRank, Color::red,
-    textureMap[Textures::red7Texture]->getSDLTexture(), textureMap[Textures::redBackTexture]->getSDLTexture(), true, false)));
+    boardArray[20] = std::make_shared<Soldier>
+        (0, 2, Rank::majorRank, Color::red,
+        textureMap[Textures::red7Texture]->getSDLTexture(),
+        textureMap[Textures::redBackTexture]->getSDLTexture(), true, false);
 
 
-    pieceContainer.emplace_back(std::shared_ptr<Piece>
-        (new Soldier(7, 7, Rank::majorRank, Color::blue,
+    boardArray[77] = std::make_shared<Soldier>
+        (7, 7, Rank::majorRank, Color::blue,
         textureMap[Textures::blue7Texture]->getSDLTexture(),
-        textureMap[Textures::blueBackTexture]->getSDLTexture(), true, false)));
+        textureMap[Textures::blueBackTexture]->getSDLTexture(), true, false);
 
-    pieceContainer.emplace_back(std::shared_ptr<Piece>
-     (new Scout(8, 8, Rank::scoutRank, Color::blue,
-      textureMap[Textures::blue2Texture]->getSDLTexture(),
-      textureMap[Textures::blueBackTexture]->getSDLTexture(), true, false)));
-
+    boardArray[88] = std::make_shared<Scout>
+        (8, 8, Rank::scoutRank, Color::blue,
+        textureMap[Textures::blue2Texture]->getSDLTexture(),
+        textureMap[Textures::blueBackTexture]->getSDLTexture(), true, false);
+/*
     // initilaizing red setup
     inactiveArray[0] = std::make_shared<Flag>
         (0, 0, Rank::flagRank, Color::red,
@@ -159,7 +163,7 @@ void Game::createPieces() {
         (0, 7, Rank::marshallRank, Color::red,
          textureMap[Textures::red10Texture]->getSDLTexture(),
          textureMap[Textures::redBackTexture]->getSDLTexture(), false, false);
-
+*/
     boardArray[42] = std::make_shared<Barrier>(2, 4, Rank::barrierRank, Color::neutral);
     boardArray[43] = std::make_shared<Barrier>(2, 5, Rank::barrierRank, Color::neutral);
     boardArray[46] = std::make_shared<Barrier>(3, 4, Rank::barrierRank, Color::neutral);
@@ -175,15 +179,15 @@ void Game::initGame() {
     selectionRect.w = sizeParams::PIECE_SIZE;
     currentPlayer = Color::red;
     // should be initially:
-    gameState = GameState::boardSetupState;
+    //gameState = GameState::boardSetupState;
 
     // THE BELOW LINES ARE USED ONLY IN THE DEVELOPMENT PHASE, THEY WILL BE ALTERED IN THE FINAL GAME
-/*
+
     gameState = GameState::gameState;
     switchPlayers();
-    flipAllPiecesOf(currentPlayer);
+    flipAllPiecesOfCurrentPlayer();
     switchPlayers();
-*/
+
 }
 
 void Game::gameLoop() {
@@ -346,9 +350,9 @@ void Game::gameStateLogic() {
                     // waitForClick = true; and check this variable on the top of this function
                     // and if it is true -> proceed "playback" of the action,
                     // a few additional obj vars could be necessary to achieve this
-                    flipAllPiecesOf(currentPlayer);
+                    flipAllPiecesOfCurrentPlayer();
                     switchPlayers();
-                    flipAllPiecesOf(currentPlayer);
+                    flipAllPiecesOfCurrentPlayer();
                 }
             }
         }
@@ -447,10 +451,12 @@ void Game::switchPlayers() {
     currentPlayer = (currentPlayer == Color::red ? Color::blue : Color::red);
 }
 
-void Game::flipAllPiecesOf(Color color) {
-    for(int i = 0; i < pieceContainer.size(); i++){
-        if(pieceContainer[i]->getColor() == currentPlayer){
-            pieceContainer[i]->flip();
+void Game::flipAllPiecesOfCurrentPlayer() {
+    for(auto &piece : boardArray) {
+        if(piece) {
+            if (piece->getColor() == currentPlayer) {
+                piece->flip();
+            }
         }
     }
 }

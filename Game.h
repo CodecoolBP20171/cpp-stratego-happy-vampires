@@ -47,7 +47,7 @@ private:
     void renderAll();
     void gameStateLogic();
     void boardSetupLogic();
-    void flipAllPiecesOf(Color color);
+    void flipAllPiecesOfCurrentPlayer();
     void convertClickedCoordsToArrayPlace(int &x, int &y);
     void  printGameState() const;
     bool onInactiveField() const;
