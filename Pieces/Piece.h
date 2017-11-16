@@ -27,9 +27,9 @@ namespace sizeParams {
     const int BOARD_FIELDS_NUMBER = 10;
 
     const int INACTIVE_OFFSET_X = 737;
-    const int INACTIVE_OFFSET_Y = 74;
+    const int INACTIVE_OFFSET_Y = 5;
     const int INACTIVE_FIELDS_NUMBER_X = 8;
-    const int INACTIVE_FIELDS_NUMBER_Y = 8;
+    const int INACTIVE_FIELDS_NUMBER_Y = 10;
 
     // calculated values, do not touch
     const int PIECE_FIELD_DIFF = (FIELD_SIZE - PIECE_SIZE) / 2;
@@ -129,7 +129,7 @@ public:
     int getPosInArray() const;
     void setPosInArray(int posInArray);
     void setupTo(int &x, int &y);
-    void setupToInactive(std::array<std::shared_ptr<Piece>, 64> &inactiveArray);
+    void setupToInactive(std::array<std::shared_ptr<Piece>, 80> &inactiveArray);
     virtual FightWinner attack(std::shared_ptr<Piece> defender){};
 protected:
     Color color;

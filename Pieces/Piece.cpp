@@ -140,7 +140,8 @@ void Piece::setupTo(int &x, int &y) {
     setOnBoard(true);
 }
 
-void Piece::setupToInactive(std::array<std::shared_ptr<Piece>, 64> &inactiveArray) {
+void Piece::setupToInactive(std::array<std::shared_ptr<Piece>, 80> &inactiveArray) {
+// TODO check the maths
 //    int newPosX = (int) x / sizeParams::FIELD_SIZE * sizeParams::FIELD_SIZE;
 //    int newPosY = (int) y / sizeParams::FIELD_SIZE * sizeParams::FIELD_SIZE;
 //
