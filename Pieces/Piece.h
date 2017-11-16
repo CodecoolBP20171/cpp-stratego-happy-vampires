@@ -91,6 +91,13 @@ enum Textures {
     selectionTexture
 };
 
+enum FightWinner {
+    attacker,
+    defender,
+    draw
+};
+
+
 class Piece {
 public:
     Piece(int x, int y,
@@ -122,7 +129,7 @@ public:
     int getPosInArray() const;
     void setPosInArray(int posInArray);
     void setupTo(int &x, int &y);
-    virtual void attack(std::shared_ptr<Piece> defender){};
+    virtual FightWinner attack(std::shared_ptr<Piece> defender){};
 protected:
     Color color;
     Rank rank;

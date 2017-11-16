@@ -18,7 +18,6 @@ enum GameState {
 };
 
 class Game {
-
 public:
     void run();
 

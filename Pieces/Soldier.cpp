@@ -34,7 +34,11 @@ bool Soldier::moveTo(int x, int y, const std::array<std::shared_ptr<Piece>, 100>
     return canMove;
 }
 
-void Soldier::attack(std::shared_ptr<Piece> defender) {
+FightWinner Soldier::attack(std::shared_ptr<Piece> defender) {
     // TODO Soldier defeats soldiers weaker than it and the flag, draws with same ranked enemy
     std::cout << "Soldier attacks " << defender->getColor() << " " << defender->getRank() << std::endl;
+    if(this->getRank() == defender->getRank()){
+        return FightWinner::draw;
+    }
+    return (this->getRank() > defender->getRank() ? FightWinner::attacker : FightWinner::defender);
 }

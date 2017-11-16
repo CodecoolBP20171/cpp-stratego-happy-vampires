@@ -338,7 +338,10 @@ void Game::gameStateLogic() {
                     selectPiece(clickedPiece);
                 }
             } else if(clickedPiece->getColor() == enemyColor() && selectedPiece) {
-                selectedPiece->attack(clickedPiece);
+                // TODO commit fight
+                // attacker = selectedPiece, defender = clickedPiece
+                FightWinner fightwinner = selectedPiece->attack(clickedPiece);
+                std::cout << "And the winner is: " << fightwinner << std::endl;
             }
 
         } else { // the user clicked on an empty field // later: or to an enemy
