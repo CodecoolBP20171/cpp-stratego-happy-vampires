@@ -13,7 +13,6 @@ class Soldier : public Piece {
 public:
     Soldier(int x, int y, Rank rank, Color color, SDL_Texture *faceUpTexture = nullptr, SDL_Texture *backGroundTexture = nullptr, bool toBoard = false, bool isFaceDown = true);
     bool canMove() override {return true;}
-    // TODO virtual moveTo should be implemented here!!
     bool moveTo(int x, int y, const std::vector<std::shared_ptr<Piece>> &pieceContainer) override;
     virtual void attack(std::shared_ptr<Piece> piece);
 };

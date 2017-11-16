@@ -27,9 +27,8 @@ void Game::run() {
 }
 
 void Game::loadTextures() {
-    // TODO collect all pictures for pieces: Béci
+    // TODO collect nicer pictures for pieces: Béci
     // TODO Design final background: Béci
-    // TODO import all textures: Béci
     textureMap[Textures::boardTexture] = display.loadTexture("../pic/strategoBoard.png");
     textureMap[Textures::redBackTexture] = display.loadTexture("../pic/redBack.png");
     textureMap[Textures::redFlagTexture] = display.loadTexture("../pic/redFlag.png");
@@ -62,13 +61,6 @@ void Game::loadTextures() {
 
 void Game::createPieces() {
     // TODO create all 80 pieces: Béci::subclasses will be needed for this (Dani task)
-    // TODO by default we should create the pieces @ the inactive,
-    // but for testing it should be convenient to create some to the board...but how???
-
-    // pieceContainer.emplace_back(std::unique_ptr<Piece> (new Bomb(1, 1, Rank::bombRank, Color::red, textureMap[Textures::bombTexture]->getSDLTexture(), textureMap[Textures::redBackTexture]->getSDLTexture(), false)));
-    // pieceContainer.emplace_back(std::unique_ptr<Piece> (new Bomb(4, 4, Rank::bombRank, Color::red, textureMap[Textures::bombTexture]->getSDLTexture(), textureMap[Textures::redBackTexture]->getSDLTexture(), false)));
-    // pieceContainer.emplace_back(std::unique_ptr<Piece> (new Bomb(8, 6, Rank::bombRank, Color::red, textureMap[Textures::bombTexture]->getSDLTexture(), textureMap[Textures::redBackTexture]->getSDLTexture(), false)));
-
 
     pieceContainer.emplace_back(std::shared_ptr<Piece>
      (new Soldier(0, 0, Rank::majorRank, Color::red,
@@ -168,9 +160,6 @@ void Game::createPieces() {
          textureMap[Textures::red10Texture]->getSDLTexture(),
          textureMap[Textures::redBackTexture]->getSDLTexture(), false, false);
 
-// TODO barriers should be created in a nice for loop, the coordinates should be
-    // in n(coordinate) x "defaultUnit" format. "defaultUnit" will be a const, now we use a magic number (100) for it
-
     boardArray[42] = std::make_shared<Barrier>(2, 4, Rank::barrierRank, Color::neutral);
     boardArray[43] = std::make_shared<Barrier>(2, 5, Rank::barrierRank, Color::neutral);
     boardArray[46] = std::make_shared<Barrier>(3, 4, Rank::barrierRank, Color::neutral);
@@ -179,8 +168,6 @@ void Game::createPieces() {
     boardArray[53] = std::make_shared<Barrier>(6, 5, Rank::barrierRank, Color::neutral);
     boardArray[56] = std::make_shared<Barrier>(7, 4, Rank::barrierRank, Color::neutral);
     boardArray[57] = std::make_shared<Barrier>(7, 5, Rank::barrierRank, Color::neutral);
-
-    // TODO barriers should be created in a nice for loop
 }
 
 void Game::initGame() {
@@ -297,6 +284,7 @@ void Game::boardSetupLogic() {
         //std::cout << "clicked on inactive field" << std::endl;
         //std::shared_ptr<Piece> clickedPiece = getClickedPiece(clickedX, clickedY);
         //TODO it seems to be working, but not implementing exactly the flowchart, check it!!!
+        // when there is a selected piece and the user clicks on a diferent piece, deselect the old selection and select clicked
         if (clickedPiece) {
             std::cout << "You clicked on a " << clickedPiece->getColor() << " "
                       << clickedPiece->getRank() << " "

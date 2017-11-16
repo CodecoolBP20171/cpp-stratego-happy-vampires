@@ -16,9 +16,8 @@
 // TODO: the enums and/or the namespace should go inside of the class (?)
 
 namespace sizeParams {
-    //TODO: program should be prepared to the case when PIECE_SIZE is < than FIELD_SIZE
     //TODO the display-dependent consts (offsets) should be moved to display class
-    const int PIECE_SIZE = 59; //TODO discuss why was it 59
+    const int PIECE_SIZE = 59;
     const int FIELD_SIZE = 69;
 
     const int BOARD_X = 0;
@@ -94,7 +93,6 @@ enum Textures {
 
 class Piece {
 public:
-    //TODO discuss wether the isFaceDown param of the constructor was int intentionally
     Piece(int x, int y,
           Rank rank, Color color,
           SDL_Texture *faceUpTexture, SDL_Texture *backGroundTexture,

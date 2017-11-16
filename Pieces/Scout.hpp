@@ -14,7 +14,6 @@ public:
           bool toBoard, bool isFaceDown) : Soldier(x, y, rank, color, faceUpTexture, backGroundTexture, toBoard, isFaceDown){}
 
         bool moveTo(int x, int y, const std::vector<std::shared_ptr<Piece>> &pieceContainer) override {
-        // TODO DEBUG: JUMPS OVER PIECES IF THERE IS AN EMPTY FIELD BETWEEN THEM -> DEBUG
         bool canMove = false;
         int newX = (int) x / sizeParams::FIELD_SIZE * sizeParams::FIELD_SIZE;
         int newY = (int) y / sizeParams::FIELD_SIZE * sizeParams::FIELD_SIZE;

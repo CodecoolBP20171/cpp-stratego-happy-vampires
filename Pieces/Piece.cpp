@@ -94,7 +94,6 @@ void Piece::printInfo() {
 }
 
 void Piece::setTo(int &x, int &y) {
-    //TODO 100 -> const, finish function, but why const??? ---> Simply to avoid magic number usage
     //bool canSet = false;
     int newX = (int) x / sizeParams::FIELD_SIZE * sizeParams::FIELD_SIZE;
     int newY = (int) y / sizeParams::FIELD_SIZE * sizeParams::FIELD_SIZE;
