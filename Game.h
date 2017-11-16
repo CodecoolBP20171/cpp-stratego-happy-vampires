@@ -27,7 +27,7 @@ private:
     std::shared_ptr<Piece> selectedPiece;
     std::map<Textures, std::unique_ptr<Texture>> textureMap;
     std::vector<std::shared_ptr<Piece>> pieceContainer;
-    std::array<std::shared_ptr<Piece>, 64> inactiveArray;
+    std::array<std::shared_ptr<Piece>, 80> inactiveArray;
     std::array<std::shared_ptr<Piece>, 100> boardArray;
     int clickedX, clickedY;
     GameState gameState;
