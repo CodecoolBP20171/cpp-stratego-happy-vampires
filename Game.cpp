@@ -22,6 +22,7 @@ void Game::run() {
     display.init();
     loadTextures();
     createPieces();
+    createButtons();
     initGame();
     gameLoop();
 }
@@ -57,11 +58,13 @@ void Game::loadTextures() {
     textureMap[Textures::blue9Texture] = display.loadTexture("../pic/blue9.png");
     textureMap[Textures::blue10Texture] = display.loadTexture("../pic/blue10.png");
     textureMap[Textures::selectionTexture] = display.loadTexture("../pic/selection.png");
+    textureMap[Textures::activeLogoTexture] = display.loadTexture("../pic/hv_logo.png");
+    textureMap[Textures::inactiveLogoTexture] = display.loadTexture("../pic/hv_logo_inactive.png");
 }
 
 void Game::createPieces() {
     // TODO create all 80 pieces: Béci::subclasses will be needed for this (Dani task)
-
+/*
     boardArray[0] = std::make_shared<Scout>
      (0, 0, Rank::scoutRank, Color::red,
      textureMap[Textures::red2Texture]->getSDLTexture(),
@@ -102,7 +105,7 @@ void Game::createPieces() {
         (8, 8, Rank::scoutRank, Color::blue,
         textureMap[Textures::blue2Texture]->getSDLTexture(),
         textureMap[Textures::blueBackTexture]->getSDLTexture(), true, false);
-/*
+*/
     // initilaizing red setup
     inactiveArray[0] = std::make_shared<Flag>
         (0, 0, Rank::flagRank, Color::red,
@@ -168,7 +171,7 @@ void Game::createPieces() {
         (0, 7, Rank::marshallRank, Color::red,
          textureMap[Textures::red10Texture]->getSDLTexture(),
          textureMap[Textures::redBackTexture]->getSDLTexture(), false, false);
-*/
+
     boardArray[42] = std::make_shared<Barrier>(2, 4, Rank::barrierRank, Color::neutral);
     boardArray[43] = std::make_shared<Barrier>(2, 5, Rank::barrierRank, Color::neutral);
     boardArray[46] = std::make_shared<Barrier>(3, 4, Rank::barrierRank, Color::neutral);
@@ -179,20 +182,26 @@ void Game::createPieces() {
     boardArray[57] = std::make_shared<Barrier>(7, 5, Rank::barrierRank, Color::neutral);
 }
 
+void Game::createButtons() {
+    buttonArray[0] = std::make_shared<Button>
+            (6, 9,
+             textureMap[Textures::activeLogoTexture]->getSDLTexture(),
+             textureMap[Textures::inactiveLogoTexture]->getSDLTexture(), false);
+}
+
 void Game::initGame() {
     selectionRect.h = sizeParams::PIECE_SIZE;
     selectionRect.w = sizeParams::PIECE_SIZE;
     currentPlayer = Color::red;
     // should be initially:
-    //gameState = GameState::boardSetupState;
+    gameState = GameState::boardSetupState;
 
     // THE BELOW LINES ARE USED ONLY IN THE DEVELOPMENT PHASE, THEY WILL BE ALTERED IN THE FINAL GAME
 
-    gameState = GameState::gameState;
+    /*gameState = GameState::gameState;
     switchPlayers();
     flipAllPiecesOfCurrentPlayer();
-    switchPlayers();
-
+    switchPlayers();*/
 }
 
 void Game::gameLoop() {
@@ -289,7 +298,9 @@ bool Game::onBlueSide() const {
 
 void Game::boardSetupLogic() {
     std::shared_ptr<Piece> clickedPiece = getClickedPiece(clickedX, clickedY);
-    if(onInactiveField()) {
+    std::shared_ptr<Button> clickedButton = getClickedButton(clickedX, clickedY);
+    if (clickedButton && clickedButton == buttonArray[Buttons::next]) { clickedButton->setActive(false);}
+    if(!buttonArray[Buttons::next]->isActive() && onInactiveField()) {
         //std::cout << "clicked on inactive field" << std::endl;
         //std::shared_ptr<Piece> clickedPiece = getClickedPiece(clickedX, clickedY);
         //TODO it seems to be working, but not implementing exactly the flowchart, check it!!!
@@ -297,7 +308,7 @@ void Game::boardSetupLogic() {
         if (clickedPiece) {
             std::cout << "You clicked on a " << clickedPiece->getColor() << " "
                       << clickedPiece->getRank() << " "
-                        << " @ array index " << clickedPiece->getPosInArray() << std::endl;
+                      << " @ array index " << clickedPiece->getPosInArray() << std::endl;
             if(selectedPiece) {
                 std::cout << "deselect" << std::endl;
                 deselect();
@@ -322,9 +333,14 @@ void Game::boardSetupLogic() {
                 int newPos = selectedPiece->getPosInArray(); //std::cout << "newPos " << newPos << std::endl;
                 boardArray[newPos] = std::move(inactiveArray[oldPos]);
                 deselect();
+                buttonArray[Buttons::next]->setActive(true);
             }
         }
     }
+//-----------
+//            }
+//        }
+//    }
 }
 
 void Game::gameStateLogic() {
@@ -398,6 +414,12 @@ void Game::renderAll() {
             if(piece == selectedPiece) { graphicallySelect(); }
         }
     }
+    for(auto &button : buttonArray) {
+        if (button) {
+            button->render(display.getRenderer());
+        }
+    }
+
     SDL_RenderPresent(display.getRenderer());
 }
 
@@ -480,6 +502,25 @@ std::shared_ptr<Piece> Game::getClickedPiece(const int &x, const int &y) const {
                 piece->setIsClicked(true);
                 result = piece;
                 return result;
+            }
+        }
+    }
+}
+
+std::shared_ptr<Button> Game::getClickedButton(const int &x, const int &y) const {
+    std::shared_ptr<Button> result = nullptr;
+    for(auto & button : buttonArray) {
+        if (button) {
+            if (x > button->getSdl_rect().x &&
+                x < button->getSdl_rect().x + sizeParams::FIELD_SIZE &&
+                y > button->getSdl_rect().y &&
+                y < button->getSdl_rect().y + sizeParams::FIELD_SIZE) {
+                if (button->isActive()) {
+                    button->setClicked(true);
+                    std::cout << "button clicked\n";
+                    result = button;
+                    return result;
+                }
             }
         }
     }

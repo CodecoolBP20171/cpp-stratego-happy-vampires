@@ -126,6 +126,10 @@ void Piece::setupTo(int &x, int &y) {
      */
     int newPosX = (int) x / sizeParams::FIELD_SIZE * sizeParams::FIELD_SIZE;
     int newPosY = (int) y / sizeParams::FIELD_SIZE * sizeParams::FIELD_SIZE;
+    //TODO debug newPos maths to avoid setting up to same place
+    //int newPosX = (x - sizeParams::BOARD_OFFSET_X) / sizeParams::FIELD_SIZE * sizeParams::FIELD_SIZE;
+    //int newPosY = (y - sizeParams::BOARD_OFFSET_Y) / sizeParams::FIELD_SIZE * sizeParams::FIELD_SIZE;
+
     posX = newPosX;
     posY = newPosY;
 

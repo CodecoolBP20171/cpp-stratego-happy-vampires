@@ -11,6 +11,7 @@
 #include <map>
 #include "Display.h"
 #include "Pieces/Piece.h"
+#include "Button.h"
 
 enum GameState {
     boardSetupState,
@@ -29,17 +30,20 @@ private:
     std::vector<std::shared_ptr<Piece>> pieceContainer;
     std::array<std::shared_ptr<Piece>, 80> inactiveArray;
     std::array<std::shared_ptr<Piece>, 100> boardArray;
+    std::array<std::shared_ptr<Button>, 1> buttonArray;
     int clickedX, clickedY;
     GameState gameState;
     SDL_Rect selectionRect;
     void loadTextures();
     bool handleEvents(SDL_Event &event);
     void createPieces();
+    void createButtons();
     void gameLoop();
     void selectPiece(std::shared_ptr<Piece> &clickedPiece);
     void deselect();
     void graphicallySelect();
     std::shared_ptr<Piece> getClickedPiece(const int &x, const int &y) const;
+    std::shared_ptr<Button> getClickedButton(const int &x, const int &y) const;
     void initGame();
     void switchPlayers();
     void gameLogic();
