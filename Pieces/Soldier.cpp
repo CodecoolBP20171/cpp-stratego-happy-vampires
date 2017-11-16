@@ -10,8 +10,8 @@ Soldier::Soldier(int x, int y, Rank rank, Color color, SDL_Texture *faceUpTextur
 bool Soldier::moveTo(int x, int y, const std::array<std::shared_ptr<Piece>, 100> &boardArray) {
     // TODO: passing pieceConatiner to this function is not necessay -> Dani delete
     bool canMove = false;
-    int newX = (int) x / sizeParams::FIELD_SIZE * sizeParams::FIELD_SIZE;
-    int newY = (int) y / sizeParams::FIELD_SIZE * sizeParams::FIELD_SIZE;
+    int newX = (x - sizeParams::BOARD_OFFSET_X) / sizeParams::FIELD_SIZE * sizeParams::FIELD_SIZE;
+    int newY = (y - sizeParams::BOARD_OFFSET_Y) / sizeParams::FIELD_SIZE * sizeParams::FIELD_SIZE;
     //std::cout << "newX: " << newX << " oldX: " << posX << std::endl;
     //if((posX + 100 == newX || posX - 100 == newX) || (posY + 100 == newY || posY - 100 == newY)) {
     if(abs(posX + posY - newX - newY) == sizeParams::FIELD_SIZE) {

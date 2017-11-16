@@ -62,9 +62,9 @@ void Game::loadTextures() {
 void Game::createPieces() {
     // TODO create all 80 pieces: Béci::subclasses will be needed for this (Dani task)
 
-    boardArray[0] = std::make_shared<Soldier>
-     (0, 0, Rank::majorRank, Color::red,
-     textureMap[Textures::red7Texture]->getSDLTexture(),
+    boardArray[0] = std::make_shared<Scout>
+     (0, 0, Rank::scoutRank, Color::red,
+     textureMap[Textures::red2Texture]->getSDLTexture(),
      textureMap[Textures::redBackTexture]->getSDLTexture(), true, false);
 
     boardArray[99] = std::make_shared<Flag>
