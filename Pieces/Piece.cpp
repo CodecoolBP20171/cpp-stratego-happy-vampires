@@ -140,6 +140,36 @@ void Piece::setupTo(int &x, int &y) {
     setOnBoard(true);
 }
 
+void Piece::setupToInactive(std::array<std::shared_ptr<Piece>, 64> &inactiveArray) {
+//    int newPosX = (int) x / sizeParams::FIELD_SIZE * sizeParams::FIELD_SIZE;
+//    int newPosY = (int) y / sizeParams::FIELD_SIZE * sizeParams::FIELD_SIZE;
+//
+//
+//    int newX = (newPosX-sizeParams::BOARD_X)/sizeParams::FIELD_SIZE;
+//    int newY = (newPosY-sizeParams::BOARD_Y)/sizeParams::FIELD_SIZE;
+    for(int i=0; i<inactiveArray.size(); i++) {
+        if(inactiveArray[i] == nullptr){
+            posX = sizeParams::INACTIVE_OFFSET_X + sizeParams::FIELD_SIZE * (i % sizeParams::INACTIVE_FIELDS_NUMBER_X);
+            // TODO: check if posY calclulation is correct
+            posY = sizeParams::INACTIVE_OFFSET_Y + sizeParams::FIELD_SIZE * (i / sizeParams::INACTIVE_FIELDS_NUMBER_Y);
+            sdl_rect.x = posX + sizeParams::PIECE_FIELD_DIFF;
+            sdl_rect.y = posY + sizeParams::PIECE_FIELD_DIFF;
+            posInArray = i;
+            break;
+        }
+    }
+//    posX = 800;
+//    posY = 100;
+//    sdl_rect.x = posX + sizeParams::PIECE_FIELD_DIFF;
+//    sdl_rect.y = posY + sizeParams::PIECE_FIELD_DIFF;
+//
+//    posInArray = 0;
+//    posInArray = newY*sizeParams::BOARD_FIELDS_NUMBER+newX;
+//    std::cout << posInArray << std::endl;
+
+    setOnBoard(false);
+}
+
 void setSdl_rect(int &x, int &y) {
 
 }

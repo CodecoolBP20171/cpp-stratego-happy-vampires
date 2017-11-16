@@ -73,9 +73,9 @@ void Game::createPieces() {
          textureMap[Textures::blueBackTexture]->getSDLTexture(), true, false);
 
     boardArray[10] = std::make_shared<Soldier>
-        (0, 1, Rank::majorRank, Color::red,
-         textureMap[Textures::red7Texture]->getSDLTexture(),
-         textureMap[Textures::redBackTexture]->getSDLTexture(), true, false);
+        (0, 1, Rank::majorRank, Color::blue,
+         textureMap[Textures::blue7Texture]->getSDLTexture(),
+         textureMap[Textures::blueBackTexture]->getSDLTexture(), true, false);
 
     boardArray[11] = std::make_shared<Soldier>
         (1, 1, Rank::majorRank, Color::red,
@@ -86,6 +86,11 @@ void Game::createPieces() {
         (0, 2, Rank::majorRank, Color::red,
         textureMap[Textures::red7Texture]->getSDLTexture(),
         textureMap[Textures::redBackTexture]->getSDLTexture(), true, false);
+
+    boardArray[30] = std::make_shared<Flag>
+         (0, 3, Rank::flagRank, Color::blue,
+         textureMap[Textures::blueFlagTexture]->getSDLTexture(),
+         textureMap[Textures::blueBackTexture]->getSDLTexture(), true, false);
 
 
     boardArray[77] = std::make_shared<Soldier>
@@ -334,18 +339,24 @@ void Game::gameStateLogic() {
             // if it is the current player's piece
             if (currentPlayer == clickedPiece->getColor()) {
                 // select the clicked piece
-                if(clickedPiece->canMove() && clickedPiece->isNotBlocked(boardArray)) {
+                if (clickedPiece->canMove() && clickedPiece->isNotBlocked(boardArray)) {
                     selectPiece(clickedPiece);
                 }
+            } else if(clickedPiece->getColor() == enemyColor() && selectedPiece) {
+                // TODO commit fight
+                // attacker = selectedPiece, defender = clickedPiece
+                FightWinner fightwinner = selectedPiece->attack(clickedPiece);
+                //std::cout << "And the winner is: " << fightwinner << std::endl;
+                executeFight(selectedPiece, clickedPiece, fightwinner);
             }
-            // st like else if(currentPlayer == enemyColor && selectedPiece) -> attack
+
         } else { // the user clicked on an empty field // later: or to an enemy
             // if there is a piece selected
             if (selectedPiece) {
                 // if the piece can move to that empty field, move there
-                int oldPos = selectedPiece->getPosInArray(); std::cout << "oldPos " << oldPos << std::endl;
+                int oldPos = selectedPiece->getPosInArray(); //std::cout << "oldPos " << oldPos << std::endl;
                 if (selectedPiece->moveTo(clickedX, clickedY, boardArray)) {
-                    int newPos = selectedPiece->getPosInArray(); std::cout << "newPos " << newPos << std::endl;
+                    int newPos = selectedPiece->getPosInArray(); //std::cout << "newPos " << newPos << std::endl;
                     boardArray[newPos] = std::move(boardArray[oldPos]);
 
                     deselect();
@@ -405,6 +416,29 @@ void Game::selectPiece(std::shared_ptr<Piece> &clickedPiece) {
 
 void Game::deselect() {
     selectedPiece = nullptr;
+}
+
+void Game::executeFight(std::shared_ptr<Piece> attacker, std::shared_ptr<Piece> defender, FightWinner winner) {
+    defender->flip();
+    if(defender->getRank() == Rank::flagRank) {
+        gameOver(attacker);
+    }
+    if(winner == FightWinner::attacker){
+
+        int oldPos = defender->getPosInArray(); //std::cout << "oldPos " << oldPos << std::endl;
+        defender->setupToInactive(inactiveArray);
+        int newPos = defender->getPosInArray(); //std::cout << "newPos " << newPos << std::endl;
+        inactiveArray[newPos] = std::move(boardArray[oldPos]);
+
+        deselect();
+        flipAllPiecesOfCurrentPlayer();
+        switchPlayers();
+        flipAllPiecesOfCurrentPlayer();
+    } else if(winner == FightWinner::defender){
+
+    } else {
+        // if draw
+    }
 }
 
 void Game::graphicallySelect() {
@@ -515,4 +549,13 @@ void Game::printGameState() const {
         }
         std::cout << std::endl;
     }
+}
+
+Color Game::enemyColor() {
+    return (currentPlayer == Color::red ? Color::blue : Color::red);
+}
+
+void Game::gameOver(std::shared_ptr<Piece> gameWinner) {
+    std::cout << "Game over. The " << (gameWinner->getColor() == Color::red ? "red" : "blue") << " player wins!"  << std::endl;
+    // TODO do something else here! for example, gameState could be gameOver in order to avoid further piece movement + a gameover screen...
 }

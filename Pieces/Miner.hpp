@@ -12,7 +12,7 @@ class Miner : public Soldier {
 public:
     Miner(int x, int y, Rank rank, Color color, SDL_Texture *faceUpTexture, SDL_Texture *backGroundTexture,
           bool toBoard, bool isFaceDown) : Soldier(x, y, rank, color, faceUpTexture, backGroundTexture, toBoard, isFaceDown){}
-    void attack(std::shared_ptr<Piece> piece) override {
+    FightWinner attack(std::shared_ptr<Piece> piece) override {
         // TODO: Miner defeats soldiers weaker than it and the flag and the bomb, draws with same ranked enemy
         std::cout << "Miner attacks" << std::endl;
     }
