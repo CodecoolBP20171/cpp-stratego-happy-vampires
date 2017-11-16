@@ -13,7 +13,7 @@ public:
     Scout(int x, int y, Rank rank, Color color, SDL_Texture *faceUpTexture, SDL_Texture *backGroundTexture,
           bool toBoard, bool isFaceDown) : Soldier(x, y, rank, color, faceUpTexture, backGroundTexture, toBoard, isFaceDown){}
 
-        bool moveTo(int x, int y, const std::vector<std::shared_ptr<Piece>> &pieceContainer) override {
+    bool moveTo(int x, int y, const std::array<std::shared_ptr<Piece>, 100> &boardArray) override {
         bool canMove = false;
         int newX = (int) x / sizeParams::FIELD_SIZE * sizeParams::FIELD_SIZE;
         int newY = (int) y / sizeParams::FIELD_SIZE * sizeParams::FIELD_SIZE;
@@ -30,11 +30,11 @@ public:
 
             for(int i = 1; i < stepNumber; i++) {
                 if(abs(newX - posX) == 0){
-                    if(isThereAPieceInTheWay(posX, posY + i * stepSize, pieceContainer)){
+                    if(isThereAPieceInTheWay(posX, posY + i * stepSize, boardArray)){
                         return false;
                     }
                 } else if(abs(newY - posY) == 0){
-                    if(isThereAPieceInTheWay(posX + i * stepSize, posY, pieceContainer)){
+                    if(isThereAPieceInTheWay(posX + i * stepSize, posY, boardArray)){
                         return false;
                     }
                 }
@@ -48,11 +48,13 @@ public:
         return canMove;
     }
 
-    bool isThereAPieceInTheWay(int x, int y, const std::vector<std::shared_ptr<Piece>> &pieceContainer) const {
-        for(int i = 0; i < pieceContainer.size(); i++){
-            if(x == pieceContainer[i]->getPosX() &&
-               y == pieceContainer[i]->getPosY()) {
-                return true;
+    bool isThereAPieceInTheWay(int x, int y, const std::array<std::shared_ptr<Piece>, 100> &boardArray) const {
+        for(auto& piece : boardArray) {
+            if (piece) {
+                if (x == piece->getPosX() &&
+                    y == piece->getPosY()) {
+                    return true;
+                }
             }
         }
         return false;

@@ -146,12 +146,13 @@ void setSdl_rect(int &x, int &y) {
 
 }
 
-bool Piece::isNotBlocked(const std::vector<std::shared_ptr<Piece>> &pieceContainer) const {
+bool Piece::isNotBlocked(const std::array<std::shared_ptr<Piece>, 100> &boardArray) const {
     for(int i = -1; i < 2; i++){
         for(int j = -1; j < 2; j++){
             if(abs(i + j) == 1) {
                 //std::cout << "X: " << posX + i * 100 << " Y: " << posY + j * 100 << std::endl;
-                if (canGoToNeighbour(posX + i * sizeParams::FIELD_SIZE, posY + j * sizeParams::FIELD_SIZE, pieceContainer)){
+                if (isOccupiedByMyTeammate(posX + i * sizeParams::FIELD_SIZE, posY + j * sizeParams::FIELD_SIZE,
+                                           boardArray)){
                     return true;
                 }
             }
@@ -160,16 +161,19 @@ bool Piece::isNotBlocked(const std::vector<std::shared_ptr<Piece>> &pieceContain
     return false;
 }
 
-bool Piece::canGoToNeighbour(const int &x, const int &y, const std::vector<std::shared_ptr<Piece>> &pieceContainer) const {
+bool Piece::isOccupiedByMyTeammate(const int &x, const int &y,
+                                   const std::array<std::shared_ptr<Piece>, 100> &boardArray) const {
     // TODO i.e. isOnBoard:
     if (x < sizeParams::BOARD_X || x > sizeParams::BOARD_MAX_X || y < sizeParams::BOARD_Y || y > sizeParams::BOARD_MAX_Y){
         return false;
     }
-    for(int i = 0; i < pieceContainer.size(); i++){
-        if(x == pieceContainer[i]->getPosX() &&
-           y == pieceContainer[i]->getPosY() &&
-           pieceContainer[i]->getColor() == color) {
-            return false;
+    for(auto &piece : boardArray) {
+        if(piece) {
+            if(x == piece->getPosX() &&
+               y == piece->getPosY() &&
+               piece->getColor() == color) {
+                return false;
+            }
         }
     }
     return true;

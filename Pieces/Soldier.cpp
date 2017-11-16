@@ -7,7 +7,7 @@
 Soldier::Soldier(int x, int y, Rank rank, Color color, SDL_Texture *faceUpTexture, SDL_Texture *backGroundTexture, bool toBoard,
                  bool isFaceDown) : Piece(x, y, rank, color, faceUpTexture, backGroundTexture, toBoard, isFaceDown){}
 
-bool Soldier::moveTo(int x, int y, const std::vector<std::shared_ptr<Piece>> &pieceContainer) {
+bool Soldier::moveTo(int x, int y, const std::array<std::shared_ptr<Piece>, 100> &boardArray) {
     // TODO: passing pieceConatiner to this function is not necessay -> Dani delete
     bool canMove = false;
     int newX = (int) x / sizeParams::FIELD_SIZE * sizeParams::FIELD_SIZE;
