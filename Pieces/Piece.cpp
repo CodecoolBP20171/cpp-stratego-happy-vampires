@@ -33,16 +33,22 @@ Piece::Piece(int x, int y,
         posY = y * sizeParams::FIELD_SIZE + sizeParams::INACTIVE_FIELDS_NUMBER_Y;
         sdl_rect.x = posX + sizeParams::PIECE_FIELD_DIFF + sizeParams::INACTIVE_OFFSET_X;
         sdl_rect.y = posY + sizeParams::PIECE_FIELD_DIFF + sizeParams::INACTIVE_OFFSET_Y;
+        posInArray = y*sizeParams::INACTIVE_FIELDS_NUMBER_X+x;
     } else {
         posX = x * sizeParams::FIELD_SIZE + sizeParams::BOARD_X;
         posY = y * sizeParams::FIELD_SIZE + sizeParams::BOARD_Y;
         sdl_rect.x = posX + sizeParams::PIECE_FIELD_DIFF + sizeParams::BOARD_OFFSET_X;
         sdl_rect.y = posY + sizeParams::PIECE_FIELD_DIFF + sizeParams::BOARD_OFFSET_Y;
+        posInArray = y*sizeParams::BOARD_FIELDS_NUMBER+x;
     }
+    randomAngle = std::rand() % 9 - 4;
 }
 
 void Piece::render(SDL_Renderer* renderer){
-    SDL_RenderCopy(renderer, (isFaceDown ? backTexture : faceUpTexture), NULL, &sdl_rect);
+    if (isOnBoard()) SDL_RenderCopy(renderer, (isFaceDown ? backTexture : faceUpTexture), NULL, &sdl_rect);
+    else {
+        SDL_RenderCopyEx(renderer, (isFaceDown ? backTexture : faceUpTexture), NULL, &sdl_rect, randomAngle, NULL, SDL_FLIP_NONE);
+    }
 }
 
 int Piece::getPosX() const {
@@ -101,10 +107,40 @@ void Piece::setTo(int &x, int &y) {
     sdl_rect.x = newX + sizeParams::PIECE_FIELD_DIFF + sizeParams::BOARD_OFFSET_X;
     sdl_rect.y = newY + sizeParams::PIECE_FIELD_DIFF + sizeParams::BOARD_OFFSET_Y;
 
-    std::cout << this->posX << " " << this->posY << std::endl;
+    //std::cout << this->posX << " " << this->posY << std::endl;
+
+//    posInArray = y*sizeParams::INACTIVE_FIELDS_NUMBER_X+x;
+//    posInArray = y*sizeParams::BOARD_FIELDS_NUMBER+x;
+
         //canSet = true;
     //}
     //return canSet;
+}
+
+void Piece::setupTo(int &x, int &y) {
+    /*
+    posX = x * sizeParams::FIELD_SIZE + sizeParams::BOARD_X;
+    posY = y * sizeParams::FIELD_SIZE + sizeParams::BOARD_Y;
+    sdl_rect.x = posX + sizeParams::PIECE_FIELD_DIFF + sizeParams::BOARD_OFFSET_X;
+    sdl_rect.y = posY + sizeParams::PIECE_FIELD_DIFF + sizeParams::BOARD_OFFSET_Y;
+    posInArray = y*sizeParams::BOARD_FIELDS_NUMBER+x;
+     */
+    int newPosX = (int) x / sizeParams::FIELD_SIZE * sizeParams::FIELD_SIZE;
+    int newPosY = (int) y / sizeParams::FIELD_SIZE * sizeParams::FIELD_SIZE;
+    posX = newPosX;
+    posY = newPosY;
+
+    int newX = (newPosX-sizeParams::BOARD_X)/sizeParams::FIELD_SIZE;
+    int newY = (newPosY-sizeParams::BOARD_Y)/sizeParams::FIELD_SIZE;
+    x = newX;
+    y = newY;
+
+    sdl_rect.x = newPosX + sizeParams::PIECE_FIELD_DIFF + sizeParams::BOARD_OFFSET_X;
+    sdl_rect.y = newPosY + sizeParams::PIECE_FIELD_DIFF + sizeParams::BOARD_OFFSET_Y;
+
+    posInArray = newY*sizeParams::BOARD_FIELDS_NUMBER+newX;
+    std::cout << posInArray << std::endl;
+    setOnBoard(true);
 }
 
 void setSdl_rect(int &x, int &y) {
@@ -158,4 +194,12 @@ bool Piece::isClicked() const {
 
 void Piece::setIsClicked(bool isClicked) {
     Piece::Clicked = isClicked;
+}
+
+int Piece::getPosInArray() const {
+    return posInArray;
+}
+
+void Piece::setPosInArray(int posInArray) {
+    Piece::posInArray = posInArray;
 }
