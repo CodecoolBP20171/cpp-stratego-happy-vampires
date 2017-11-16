@@ -54,6 +54,8 @@ private:
     bool onRedSide() const;
     bool onBlueSide() const;
     bool onBoard() const;
+
+    Color enemyColor();
 };
 
 

@@ -73,9 +73,9 @@ void Game::createPieces() {
          textureMap[Textures::blueBackTexture]->getSDLTexture(), true, false);
 
     boardArray[10] = std::make_shared<Soldier>
-        (0, 1, Rank::majorRank, Color::red,
-         textureMap[Textures::red7Texture]->getSDLTexture(),
-         textureMap[Textures::redBackTexture]->getSDLTexture(), true, false);
+        (0, 1, Rank::majorRank, Color::blue,
+         textureMap[Textures::blue7Texture]->getSDLTexture(),
+         textureMap[Textures::blueBackTexture]->getSDLTexture(), true, false);
 
     boardArray[11] = std::make_shared<Soldier>
         (1, 1, Rank::majorRank, Color::red,
@@ -334,18 +334,20 @@ void Game::gameStateLogic() {
             // if it is the current player's piece
             if (currentPlayer == clickedPiece->getColor()) {
                 // select the clicked piece
-                if(clickedPiece->canMove() && clickedPiece->isNotBlocked(boardArray)) {
+                if (clickedPiece->canMove() && clickedPiece->isNotBlocked(boardArray)) {
                     selectPiece(clickedPiece);
                 }
+            } else if(clickedPiece->getColor() == enemyColor() && selectedPiece) {
+                selectedPiece->attack(clickedPiece);
             }
-            // st like else if(currentPlayer == enemyColor && selectedPiece) -> attack
+
         } else { // the user clicked on an empty field // later: or to an enemy
             // if there is a piece selected
             if (selectedPiece) {
                 // if the piece can move to that empty field, move there
-                int oldPos = selectedPiece->getPosInArray(); std::cout << "oldPos " << oldPos << std::endl;
+                int oldPos = selectedPiece->getPosInArray(); //std::cout << "oldPos " << oldPos << std::endl;
                 if (selectedPiece->moveTo(clickedX, clickedY, boardArray)) {
-                    int newPos = selectedPiece->getPosInArray(); std::cout << "newPos " << newPos << std::endl;
+                    int newPos = selectedPiece->getPosInArray(); //std::cout << "newPos " << newPos << std::endl;
                     boardArray[newPos] = std::move(boardArray[oldPos]);
 
                     deselect();
@@ -515,4 +517,8 @@ void Game::printGameState() const {
         }
         std::cout << std::endl;
     }
+}
+
+Color Game::enemyColor() {
+    return (currentPlayer == Color::red ? Color::blue : Color::red);
 }

@@ -122,6 +122,7 @@ public:
     int getPosInArray() const;
     void setPosInArray(int posInArray);
     void setupTo(int &x, int &y);
+    virtual void attack(std::shared_ptr<Piece> defender){};
 protected:
     Color color;
     Rank rank;
