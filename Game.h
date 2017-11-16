@@ -63,6 +63,17 @@ private:
     void executeFight(std::shared_ptr<Piece> shared_ptr, std::shared_ptr<Piece> sharedPtr, FightWinner winner);
 
     void gameOver(std::shared_ptr<Piece> shared_ptr);
+
+    void initRedSetup();
+    void initBlueSetup();
+    void initRedSetupForTesting();
+    void initBlueSetupForTesting();
+    bool isRedSetup();
+    bool isBlueSetup();
+    bool redSetup = false;
+    bool blueSetup = false;
+    bool waitingForSwitchPlayers = false;
+    bool blueSetupPhase = false;
 };
 
 
