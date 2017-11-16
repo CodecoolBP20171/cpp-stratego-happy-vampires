@@ -110,7 +110,7 @@ public:
     void setColor(Color color);
     void printInfo();
     virtual bool canMove() = 0;
-    virtual bool moveTo(int x, int y, const std::vector<std::shared_ptr<Piece>> &pieceContainer){};
+    virtual bool moveTo(int x, int y, const std::array<std::shared_ptr<Piece>, 100> &boardArray){};
     void setTo(int &x, int &y);
     bool isNotBlocked(const std::array<std::shared_ptr<Piece>, 100> &boardArray) const;
     const SDL_Rect &getSdl_rect() const;

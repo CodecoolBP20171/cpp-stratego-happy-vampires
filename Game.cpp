@@ -343,7 +343,7 @@ void Game::gameStateLogic() {
             // if there is a piece selected
             if (selectedPiece) {
                 // if the piece can move to that empty field, move there
-                if (selectedPiece->moveTo(clickedX, clickedY, pieceContainer)) {
+                if (selectedPiece->moveTo(clickedX, clickedY, boardArray)) {
                     deselect();
                     // TODO: here we should wait for the click... HOW????
                     // maybe: use a Game obj var to mark this point, for example
