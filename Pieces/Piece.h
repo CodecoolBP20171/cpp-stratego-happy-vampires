@@ -112,7 +112,7 @@ public:
     virtual bool canMove() = 0;
     virtual bool moveTo(int x, int y, const std::vector<std::shared_ptr<Piece>> &pieceContainer){};
     void setTo(int &x, int &y);
-    bool isNotBlocked(const std::vector<std::shared_ptr<Piece>> &pieceContainer) const;
+    bool isNotBlocked(const std::array<std::shared_ptr<Piece>, 100> &boardArray) const;
     const SDL_Rect &getSdl_rect() const;
     void setSdl_rect(int &x, int &y);
     bool isOnBoard() const;
@@ -130,7 +130,7 @@ protected:
     SDL_Rect sdl_rect;
     int posX, posY, posInArray;
     bool isFaceDown;
-    bool canGoToNeighbour(const int &x, const int &y, const std::vector<std::shared_ptr<Piece>> &pieceContainer) const;
+    bool isOccupiedByMyTeammate(const int &x, const int &y, const std::array<std::shared_ptr<Piece>, 100> &boardArray) const;
     bool OnBoard = false;
     bool Clicked = false;
     int randomAngle;

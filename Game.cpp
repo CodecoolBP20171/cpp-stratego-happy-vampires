@@ -220,7 +220,7 @@ bool Game::handleEvents(SDL_Event &event) {
         int x, y;
         SDL_GetMouseState( &x, &y );
         clickedX = x; clickedY = y;
-        convertClickedCoordsToArrayPlace(x, y);
+        // convertClickedCoordsToArrayPlace(x, y);
         //std::cout << "click @ " << clickedX << " " << clickedY << std::endl;
         printGameState();
     }
@@ -334,7 +334,7 @@ void Game::gameStateLogic() {
             // if it is the current player's piece
             if (currentPlayer == clickedPiece->getColor()) {
                 // select the clicked piece
-                if(clickedPiece->canMove() && clickedPiece->isNotBlocked(pieceContainer)) {
+                if(clickedPiece->canMove() && clickedPiece->isNotBlocked(boardArray)) {
                     selectPiece(clickedPiece);
                 }
             }
