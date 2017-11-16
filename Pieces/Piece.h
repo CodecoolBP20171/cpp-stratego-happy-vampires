@@ -129,6 +129,7 @@ public:
     int getPosInArray() const;
     void setPosInArray(int posInArray);
     void setupTo(int &x, int &y);
+    void setupToInactive(std::array<std::shared_ptr<Piece>, 64> &inactiveArray);
     virtual FightWinner attack(std::shared_ptr<Piece> defender){};
 protected:
     Color color;

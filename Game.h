@@ -55,6 +55,10 @@ private:
     bool onBoard() const;
 
     Color enemyColor();
+
+    void executeFight(std::shared_ptr<Piece> shared_ptr, std::shared_ptr<Piece> sharedPtr, FightWinner winner);
+
+    void gameOver(std::shared_ptr<Piece> shared_ptr);
 };
 
 
