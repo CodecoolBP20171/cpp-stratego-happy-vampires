@@ -26,7 +26,9 @@ bool Soldier::moveTo(int x, int y, const std::array<std::shared_ptr<Piece>, 100>
 //        posY = y * sizeParams::FIELD_SIZE + sizeParams::BOARD_Y;
 //        sdl_rect.x = posX + sizeParams::PIECE_FIELD_DIFF + sizeParams::BOARD_OFFSET_X;
 //        sdl_rect.y = posY + sizeParams::PIECE_FIELD_DIFF + sizeParams::BOARD_OFFSET_Y;
-
+        int newIndexX = (posX-sizeParams::BOARD_X)/sizeParams::FIELD_SIZE;
+        int newIndexY = (posY-sizeParams::BOARD_Y)/sizeParams::FIELD_SIZE;
+        posInArray = newIndexY*sizeParams::BOARD_FIELDS_NUMBER+newIndexX;
         canMove = true;
     }
     return canMove;

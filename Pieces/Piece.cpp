@@ -131,8 +131,6 @@ void Piece::setupTo(int &x, int &y) {
 
     int newX = (newPosX-sizeParams::BOARD_X)/sizeParams::FIELD_SIZE;
     int newY = (newPosY-sizeParams::BOARD_Y)/sizeParams::FIELD_SIZE;
-    x = newX;
-    y = newY;
 
     sdl_rect.x = newPosX + sizeParams::PIECE_FIELD_DIFF + sizeParams::BOARD_OFFSET_X;
     sdl_rect.y = newPosY + sizeParams::PIECE_FIELD_DIFF + sizeParams::BOARD_OFFSET_Y;

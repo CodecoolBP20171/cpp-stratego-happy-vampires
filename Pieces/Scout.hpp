@@ -21,8 +21,9 @@ public:
         int stepSize = 0;
         try {
             //to prevent program from accidental division by zero
+            if (stepNumber == 0) {throw std::runtime_error("");}
             stepSize = (abs(newX - posX) == 0 ? newY - posY : newX - posX) / stepNumber;
-        } catch (std::exception &e) {
+        } catch (std::runtime_error &e) {
             std::cout << "Accidental divsion by zero was detected" << std::endl;
         }
 
@@ -43,6 +44,9 @@ public:
             sdl_rect.y = newY + sizeParams::PIECE_FIELD_DIFF + sizeParams::BOARD_OFFSET_Y;
             posX = newX + sizeParams::BOARD_X;
             posY = newY + sizeParams::BOARD_Y;
+            int newIndexX = (posX-sizeParams::BOARD_X)/sizeParams::FIELD_SIZE;
+            int newIndexY = (posY-sizeParams::BOARD_Y)/sizeParams::FIELD_SIZE;
+            posInArray = newIndexY*sizeParams::BOARD_FIELDS_NUMBER+newIndexX;
             canMove = true;
         }
         return canMove;

@@ -343,7 +343,11 @@ void Game::gameStateLogic() {
             // if there is a piece selected
             if (selectedPiece) {
                 // if the piece can move to that empty field, move there
+                int oldPos = selectedPiece->getPosInArray(); std::cout << "oldPos " << oldPos << std::endl;
                 if (selectedPiece->moveTo(clickedX, clickedY, boardArray)) {
+                    int newPos = selectedPiece->getPosInArray(); std::cout << "newPos " << newPos << std::endl;
+                    boardArray[newPos] = std::move(boardArray[oldPos]);
+
                     deselect();
                     // TODO: here we should wait for the click... HOW????
                     // maybe: use a Game obj var to mark this point, for example
