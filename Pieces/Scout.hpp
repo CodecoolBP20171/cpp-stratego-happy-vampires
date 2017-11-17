@@ -63,6 +63,43 @@ public:
         }
         return false;
     }
+
+    bool isInAttackPosition(std::shared_ptr<Piece> defender, const std::array<std::shared_ptr<Piece>, 100> &boardArray) const override {
+        int attackerX = this->getPosInArray() % sizeParams::BOARD_FIELDS_NUMBER;
+        int attackerY = this->getPosInArray() / sizeParams::BOARD_FIELDS_NUMBER;
+        int defenderX = defender->getPosInArray() % sizeParams::BOARD_FIELDS_NUMBER;
+        int defenderY = defender->getPosInArray() / sizeParams::BOARD_FIELDS_NUMBER;
+        int stepNumber = std::max(abs(attackerX - defenderX), abs(attackerY - defenderY));
+        int stepDirection = (abs(defenderX - attackerX) == 0 ? defenderY - attackerY : defenderX - attackerX) / stepNumber;
+        if(abs(attackerX - defenderX) > 0 && abs(attackerY - defenderY) == 0 || abs(attackerX - defenderX) == 0 && abs(attackerY - defenderY) > 0){
+        for(int i = 1; i < stepNumber; i++) {
+            if(abs(attackerX - defenderX) == 0){
+               if(isThereAPieceInTheWayByIndex(attackerX, attackerY + i * stepDirection, boardArray)){
+                    return false;
+                }
+            } else if(abs(attackerY - defenderY) == 0){
+                if(isThereAPieceInTheWayByIndex(attackerX + i * stepDirection, attackerY, boardArray)){
+                    return false;
+                }
+            }
+        }
+        return true;
+    } else {
+        return false;
+    }
+}
+
+    bool isThereAPieceInTheWayByIndex(int x, int y, const std::array<std::shared_ptr<Piece>, 100> &boardArray) const {
+        std::cout << "examinedX: " << x << std::endl;
+        std::cout << "examinedY: " << y << std::endl;
+        int posIndex = y * sizeParams::BOARD_FIELDS_NUMBER + x;
+        std::cout << "posindex: " << posIndex << std::endl;
+        if(boardArray[posIndex] == nullptr){
+            return false;
+        } else {
+            return true;
+        }
+    }
 };
 
 

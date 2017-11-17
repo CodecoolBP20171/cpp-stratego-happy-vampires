@@ -63,7 +63,6 @@ void Game::loadTextures() {
 }
 
 void Game::createPieces() {
-    // TODO create all 80 pieces: Béci::subclasses will be needed for this (Dani task)
 /*
     boardArray[0] = std::make_shared<Scout>
      (0, 0, Rank::scoutRank, Color::red,
@@ -559,10 +558,6 @@ void Game::boardSetupLogic() {
             }
         }
     }
-//-----------
-//            }
-//        }
-//    }
 }
 
 void Game::gameStateLogic() {
@@ -583,9 +578,11 @@ void Game::gameStateLogic() {
             } else if(clickedPiece->getColor() == enemyColor() && selectedPiece) {
                 // TODO commit fight
                 // attacker = selectedPiece, defender = clickedPiece
-                FightWinner fightwinner = selectedPiece->attack(clickedPiece);
-                //std::cout << "And the winner is: " << fightwinner << std::endl;
-                executeFight(selectedPiece, clickedPiece, fightwinner);
+                if(selectedPiece->isInAttackPosition(clickedPiece, boardArray)) {
+                    FightWinner fightwinner = selectedPiece->attack(clickedPiece);
+                    //std::cout << "And the winner is: " << fightwinner << std::endl;
+                    executeFight(selectedPiece, clickedPiece, fightwinner);
+                }
             }
 
         } else { // the user clicked on an empty field // later: or to an enemy
@@ -669,6 +666,9 @@ void Game::executeFight(std::shared_ptr<Piece> attacker, std::shared_ptr<Piece> 
         gameOver(attacker);
     }
     if(winner == FightWinner::attacker){
+        // TODO: attacker should be moved to the place of the loser
+        //attacker->setupTo(clickedX, clickedY);
+        //boardArray[attacker->getPosInArray()] = std::move(inactiveArray[defender->getPosInArray()]);
         defender->flip();
         loser1 = defender;
     } else if(winner == FightWinner::defender){
