@@ -17,9 +17,6 @@ public:
         bool canMove = false;
         int newX = (x - sizeParams::BOARD_OFFSET_X) / sizeParams::FIELD_SIZE * sizeParams::FIELD_SIZE;
         int newY = (y - sizeParams::BOARD_OFFSET_Y) / sizeParams::FIELD_SIZE * sizeParams::FIELD_SIZE;
-
-        std::cout << "Clicked x = " << x << "Clicked y = " << y << " New x = " << newX << " New y = " << newY << std::endl;
-
         int stepNumber = std::max(abs(newX - posX), abs(newY - posY)) / sizeParams::FIELD_SIZE;
         int stepSize = 0;
         try {

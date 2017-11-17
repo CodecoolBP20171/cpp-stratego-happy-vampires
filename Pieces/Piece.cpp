@@ -15,17 +15,6 @@ Piece::Piece(int x, int y,
           backTexture(backGroundTexture),
           isFaceDown(isFaceDown)
 {
-//    sdl_rect.x = posX = x * sizeParams::PIECE_SIZE + sizeParams::BOARD_X;
-//    sdl_rect.y = posY = y * sizeParams::PIECE_SIZE + sizeParams::BOARD_Y;
-/*
-    sdl_rect.x = x * sizeParams::FIELD_SIZE + sizeParams::BOARD_X + sizeParams::PIECE_FIELD_DIFF;
-    sdl_rect.y = y * sizeParams::FIELD_SIZE + sizeParams::BOARD_Y + sizeParams::PIECE_FIELD_DIFF;
-    posX = x * sizeParams::FIELD_SIZE + sizeParams::BOARD_X;
-    posY = y * sizeParams::FIELD_SIZE + sizeParams::BOARD_Y;
-
-    sdl_rect.w = sizeParams::PIECE_SIZE;
-    sdl_rect.h = sizeParams::PIECE_SIZE;
-*/
     sdl_rect.w = sizeParams::PIECE_SIZE;
     sdl_rect.h = sizeParams::PIECE_SIZE;
     if (!toBoard) {
@@ -69,7 +58,6 @@ void Piece::setPosY(int posY) {
 
 void Piece::flip() {
     isFaceDown = !isFaceDown;
-    //std::cout << "flipped, isFaceDown: " << isFaceDown << std::endl;
 }
 
 Rank Piece::getRank() const {
@@ -94,41 +82,16 @@ void Piece::printInfo() {
 }
 
 void Piece::setTo(int &x, int &y) {
-    //bool canSet = false;
     int newX = (int) x / sizeParams::FIELD_SIZE * sizeParams::FIELD_SIZE;
     int newY = (int) y / sizeParams::FIELD_SIZE * sizeParams::FIELD_SIZE;
-    //std::cout << "newX: " << newX << " oldX: " << posX << std::endl;
-    //if((posX + 100 == newX || posX - 100 == newX) || (posY + 100 == newY || posY - 100 == newY)) {
-    //if(abs(posX + posY - newX - newY) == 100) {
-
-    //posX = newX * sizeParams::FIELD_SIZE + sizeParams::BOARD_X;
-    //posY = newY * sizeParams::FIELD_SIZE + sizeParams::BOARD_Y;
     sdl_rect.x = newX + sizeParams::PIECE_FIELD_DIFF + sizeParams::BOARD_OFFSET_X;
     sdl_rect.y = newY + sizeParams::PIECE_FIELD_DIFF + sizeParams::BOARD_OFFSET_Y;
-
-    //std::cout << this->posX << " " << this->posY << std::endl;
-
-//    posInArray = y*sizeParams::INACTIVE_FIELDS_NUMBER_X+x;
-//    posInArray = y*sizeParams::BOARD_FIELDS_NUMBER+x;
-
-        //canSet = true;
-    //}
-    //return canSet;
 }
 
 void Piece::setupTo(int &x, int &y) {
-    /*
-    posX = x * sizeParams::FIELD_SIZE + sizeParams::BOARD_X;
-    posY = y * sizeParams::FIELD_SIZE + sizeParams::BOARD_Y;
-    sdl_rect.x = posX + sizeParams::PIECE_FIELD_DIFF + sizeParams::BOARD_OFFSET_X;
-    sdl_rect.y = posY + sizeParams::PIECE_FIELD_DIFF + sizeParams::BOARD_OFFSET_Y;
-    posInArray = y*sizeParams::BOARD_FIELDS_NUMBER+x;
-     */
     int newPosX = (int) x / sizeParams::FIELD_SIZE * sizeParams::FIELD_SIZE;
     int newPosY = (int) y / sizeParams::FIELD_SIZE * sizeParams::FIELD_SIZE;
     //TODO debug newPos maths to avoid setting up to same place
-    //int newPosX = (x - sizeParams::BOARD_OFFSET_X) / sizeParams::FIELD_SIZE * sizeParams::FIELD_SIZE;
-    //int newPosY = (y - sizeParams::BOARD_OFFSET_Y) / sizeParams::FIELD_SIZE * sizeParams::FIELD_SIZE;
 
     posX = newPosX;
     posY = newPosY;
@@ -145,33 +108,16 @@ void Piece::setupTo(int &x, int &y) {
 }
 
 void Piece::setupToInactive(std::array<std::shared_ptr<Piece>, 80> &inactiveArray) {
-// TODO check the maths
-//    int newPosX = (int) x / sizeParams::FIELD_SIZE * sizeParams::FIELD_SIZE;
-//    int newPosY = (int) y / sizeParams::FIELD_SIZE * sizeParams::FIELD_SIZE;
-//
-//
-//    int newX = (newPosX-sizeParams::BOARD_X)/sizeParams::FIELD_SIZE;
-//    int newY = (newPosY-sizeParams::BOARD_Y)/sizeParams::FIELD_SIZE;
     for(int i=0; i<inactiveArray.size(); i++) {
         if(inactiveArray[i] == nullptr){
             posX = sizeParams::INACTIVE_OFFSET_X + sizeParams::FIELD_SIZE * (i % sizeParams::INACTIVE_FIELDS_NUMBER_X);
-            // TODO: check if posY calclulation is correct
-            posY = sizeParams::INACTIVE_OFFSET_Y + sizeParams::FIELD_SIZE * (i / sizeParams::INACTIVE_FIELDS_NUMBER_Y);
+            posY = sizeParams::INACTIVE_OFFSET_Y + sizeParams::FIELD_SIZE * (i / sizeParams::INACTIVE_FIELDS_NUMBER_X);
             sdl_rect.x = posX + sizeParams::PIECE_FIELD_DIFF;
             sdl_rect.y = posY + sizeParams::PIECE_FIELD_DIFF;
             posInArray = i;
             break;
         }
     }
-//    posX = 800;
-//    posY = 100;
-//    sdl_rect.x = posX + sizeParams::PIECE_FIELD_DIFF;
-//    sdl_rect.y = posY + sizeParams::PIECE_FIELD_DIFF;
-//
-//    posInArray = 0;
-//    posInArray = newY*sizeParams::BOARD_FIELDS_NUMBER+newX;
-//    std::cout << posInArray << std::endl;
-
     setOnBoard(false);
 }
 
@@ -183,7 +129,6 @@ bool Piece::isNotBlocked(const std::array<std::shared_ptr<Piece>, 100> &boardArr
     for(int i = -1; i < 2; i++){
         for(int j = -1; j < 2; j++){
             if(abs(i + j) == 1) {
-                //std::cout << "X: " << posX + i * 100 << " Y: " << posY + j * 100 << std::endl;
                 if (isOccupiedByMyTeammate(posX + i * sizeParams::FIELD_SIZE, posY + j * sizeParams::FIELD_SIZE,
                                            boardArray)){
                     return true;

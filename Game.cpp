@@ -689,19 +689,11 @@ void Game::executeFight(std::shared_ptr<Piece> attacker, std::shared_ptr<Piece> 
 }
 
 void Game::graphicallySelect() {
-    // TODO: might be improved, low priority
     int x1 = selectedPiece->getSdl_rect().x;
-    //int x2 = selectedPiece->getSdl_rect().x + sizeParams::PIECE_SIZE;
     int y1 = selectedPiece->getSdl_rect().y;
-    //int y2 = selectedPiece->getSdl_rect().y + sizeParams::PIECE_SIZE;
     selectionRect.x = x1;
     selectionRect.y = y1;
     SDL_RenderCopy(display.getRenderer(), textureMap[Textures::selectionTexture]->getSDLTexture(), NULL, &selectionRect);
-//    SDL_SetRenderDrawColor(display.getRenderer(), 0, 0, 255, 255);
-//    SDL_RenderDrawLine( display.getRenderer(), x1, y1, x1, y2 );
-//    SDL_RenderDrawLine( display.getRenderer(), x1, y1, x2, y1 );
-//    SDL_RenderDrawLine( display.getRenderer(), x2, y1, x2, y2 );
-//    SDL_RenderDrawLine( display.getRenderer(), x1, y2, x2, y2 );
 }
 
 std::shared_ptr<Piece> Game::getClickedPiece(const int &x, const int &y) const {
