@@ -139,9 +139,9 @@ public:
 protected:
     Color color;
     Rank rank;
+    SDL_Rect sdl_rect;
     SDL_Texture *faceUpTexture = nullptr;
     SDL_Texture *backTexture = nullptr;
-    SDL_Rect sdl_rect;
     int posX, posY, posInArray;
     bool isFaceDown;
     bool isOccupiedByMyTeammate(const int &x, const int &y, const std::array<std::shared_ptr<Piece>, 100> &boardArray) const;
