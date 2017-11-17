@@ -88,7 +88,9 @@ enum Textures {
     blue8Texture,
     blue9Texture,
     blue10Texture,
-    selectionTexture
+    selectionTexture,
+    activeLogoTexture,
+    inactiveLogoTexture,
 };
 
 enum FightWinner {
