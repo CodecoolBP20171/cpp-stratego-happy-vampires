@@ -40,7 +40,6 @@ namespace sizeParams {
 
 enum Rank {
     flagRank,
-    bombRank,
     spyRank,
     scoutRank,
     minerRank,
@@ -51,6 +50,7 @@ enum Rank {
     colonelRank,
     generalRank,
     marshallRank,
+    bombRank,
     barrierRank
 };
 

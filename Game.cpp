@@ -663,26 +663,29 @@ void Game::deselect() {
 }
 
 void Game::executeFight(std::shared_ptr<Piece> attacker, std::shared_ptr<Piece> defender, FightWinner winner) {
-    defender->flip();
+    std::shared_ptr<Piece> loser1;
+    std::shared_ptr<Piece> loser2 = nullptr;
     if(defender->getRank() == Rank::flagRank) {
         gameOver(attacker);
     }
     if(winner == FightWinner::attacker){
-
-        int oldPos = defender->getPosInArray(); //std::cout << "oldPos " << oldPos << std::endl;
-        defender->setupToInactive(inactiveArray);
-        int newPos = defender->getPosInArray(); //std::cout << "newPos " << newPos << std::endl;
-        inactiveArray[newPos] = std::move(boardArray[oldPos]);
-
-        deselect();
-        flipAllPiecesOfCurrentPlayer();
-        switchPlayers();
-        flipAllPiecesOfCurrentPlayer();
+        defender->flip();
+        loser1 = defender;
     } else if(winner == FightWinner::defender){
-
+        loser1 = attacker;
     } else {
-        // if draw
+        loser1 = defender;
+        loser2 = attacker;
     }
+    throwOutLoserToInactivePieces(loser1);
+    if(loser2) {
+        loser1->flip();
+        throwOutLoserToInactivePieces(loser2);
+    }
+    deselect();
+    flipAllPiecesOfCurrentPlayer();
+    switchPlayers();
+    flipAllPiecesOfCurrentPlayer();
 }
 
 void Game::graphicallySelect() {
@@ -837,4 +840,11 @@ bool Game::isBlueSetup() {
     }
     blueSetup = true;
     return true;
+}
+
+void Game::throwOutLoserToInactivePieces(std::shared_ptr<Piece> loser) {
+    int oldPos = loser->getPosInArray(); //std::cout << "oldPos " << oldPos << std::endl;
+    loser->setupToInactive(inactiveArray);
+    int newPos = loser->getPosInArray(); //std::cout << "newPos " << newPos << std::endl;
+    inactiveArray[newPos] = std::move(boardArray[oldPos]);
 }

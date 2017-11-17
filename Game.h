@@ -74,6 +74,8 @@ private:
     bool blueSetup = false;
     bool waitingForSwitchPlayers = false;
     bool blueSetupPhase = false;
+
+    void throwOutLoserToInactivePieces(std::shared_ptr<Piece> shared_ptr);
 };
 
 
