@@ -124,6 +124,8 @@ public:
     bool isNotBlocked(const std::array<std::shared_ptr<Piece>, 100> &boardArray) const;
     const SDL_Rect &getSdl_rect() const;
     void setSdl_rect(int &x, int &y);
+    int getSdl_rectX(){return sdl_rect.x;}
+    int getSdl_rectY(){return sdl_rect.y;}
     bool isOnBoard() const;
     void setOnBoard(bool isOnBoard);
     bool isClicked() const;
