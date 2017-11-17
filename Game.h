@@ -76,6 +76,8 @@ private:
     bool blueSetupPhase = false;
 
     void throwOutLoserToInactivePieces(std::shared_ptr<Piece> shared_ptr);
+
+    void initSetupForGameLogicTesting();
 };
 
 

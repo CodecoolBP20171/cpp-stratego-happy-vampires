@@ -121,8 +121,9 @@ void Piece::setupToInactive(std::array<std::shared_ptr<Piece>, 80> &inactiveArra
     setOnBoard(false);
 }
 
-void setSdl_rect(int &x, int &y) {
-
+void Piece::setSdl_rect(int &x, int &y) {
+    sdl_rect.x = x;
+    sdl_rect.y = y;
 }
 
 bool Piece::isNotBlocked(const std::array<std::shared_ptr<Piece>, 100> &boardArray) const {

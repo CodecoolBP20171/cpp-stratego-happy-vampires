@@ -187,6 +187,7 @@ void Game::initRedSetup() {
 }
 
 void Game::initRedSetupForTesting() {
+
     inactiveArray[0] = std::make_shared<Flag>
             (0, 0, flagRank, red,
              textureMap[redFlagTexture]->getSDLTexture(),
@@ -402,11 +403,12 @@ void Game::initGame() {
     gameState = GameState::boardSetupState;
 
     // THE BELOW LINES ARE USED ONLY IN THE DEVELOPMENT PHASE, THEY WILL BE ALTERED IN THE FINAL GAME
-
-    /*gameState = GameState::gameState;
+/*
+    gameState = GameState::gameState;
     switchPlayers();
     flipAllPiecesOfCurrentPlayer();
-    switchPlayers();*/
+    switchPlayers();
+*/
 }
 
 void Game::gameLoop() {
@@ -662,13 +664,18 @@ void Game::deselect() {
 void Game::executeFight(std::shared_ptr<Piece> attacker, std::shared_ptr<Piece> defender, FightWinner winner) {
     std::shared_ptr<Piece> loser1;
     std::shared_ptr<Piece> loser2 = nullptr;
+    int defenderPosX, defenderPosY, defenderSDLRectX, defenderSDLRectY, defenderPosInArray, attackerPosInArray;
     if(defender->getRank() == Rank::flagRank) {
         gameOver(attacker);
     }
     if(winner == FightWinner::attacker){
-        // TODO: attacker should be moved to the place of the loser
-        //attacker->setupTo(clickedX, clickedY);
-        //boardArray[attacker->getPosInArray()] = std::move(inactiveArray[defender->getPosInArray()]);
+        // TODO: "moving attacker to the place of defender if attacker wins" solution could be much nicer
+        defenderPosX = defender->getPosX();
+        defenderPosY = defender->getPosY();
+        defenderSDLRectX = defender->getSdl_rectX();
+        defenderSDLRectY = defender->getSdl_rectY();
+        defenderPosInArray = defender->getPosInArray();
+        attackerPosInArray = attacker->getPosInArray();
         defender->flip();
         loser1 = defender;
     } else if(winner == FightWinner::defender){
@@ -678,6 +685,16 @@ void Game::executeFight(std::shared_ptr<Piece> attacker, std::shared_ptr<Piece> 
         loser2 = attacker;
     }
     throwOutLoserToInactivePieces(loser1);
+
+    if(winner == FightWinner::attacker) {
+        attacker->setPosX(defenderPosX);
+        attacker->setPosY(defenderPosY);
+        attacker->setSdl_rect(defenderSDLRectX, defenderSDLRectY);
+        attacker->setPosInArray(defenderPosInArray);
+        boardArray[defenderPosInArray] = attacker;
+        boardArray[attackerPosInArray] = nullptr;
+    }
+
     if(loser2) {
         loser1->flip();
         throwOutLoserToInactivePieces(loser2);
