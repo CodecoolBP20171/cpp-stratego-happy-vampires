@@ -63,7 +63,6 @@ void Game::loadTextures() {
 }
 
 void Game::createPieces() {
-    // TODO create all 80 pieces: Béci::subclasses will be needed for this (Dani task)
 /*
     boardArray[0] = std::make_shared<Scout>
      (0, 0, Rank::scoutRank, Color::red,
@@ -559,10 +558,6 @@ void Game::boardSetupLogic() {
             }
         }
     }
-//-----------
-//            }
-//        }
-//    }
 }
 
 void Game::gameStateLogic() {
@@ -583,9 +578,11 @@ void Game::gameStateLogic() {
             } else if(clickedPiece->getColor() == enemyColor() && selectedPiece) {
                 // TODO commit fight
                 // attacker = selectedPiece, defender = clickedPiece
-                FightWinner fightwinner = selectedPiece->attack(clickedPiece);
-                //std::cout << "And the winner is: " << fightwinner << std::endl;
-                executeFight(selectedPiece, clickedPiece, fightwinner);
+                if(selectedPiece->isInAttackPosition(clickedPiece, boardArray)) {
+                    FightWinner fightwinner = selectedPiece->attack(clickedPiece);
+                    //std::cout << "And the winner is: " << fightwinner << std::endl;
+                    executeFight(selectedPiece, clickedPiece, fightwinner);
+                }
             }
 
         } else { // the user clicked on an empty field // later: or to an enemy
@@ -663,42 +660,40 @@ void Game::deselect() {
 }
 
 void Game::executeFight(std::shared_ptr<Piece> attacker, std::shared_ptr<Piece> defender, FightWinner winner) {
-    defender->flip();
+    std::shared_ptr<Piece> loser1;
+    std::shared_ptr<Piece> loser2 = nullptr;
     if(defender->getRank() == Rank::flagRank) {
         gameOver(attacker);
     }
     if(winner == FightWinner::attacker){
-
-        int oldPos = defender->getPosInArray(); //std::cout << "oldPos " << oldPos << std::endl;
-        defender->setupToInactive(inactiveArray);
-        int newPos = defender->getPosInArray(); //std::cout << "newPos " << newPos << std::endl;
-        inactiveArray[newPos] = std::move(boardArray[oldPos]);
-
-        deselect();
-        flipAllPiecesOfCurrentPlayer();
-        switchPlayers();
-        flipAllPiecesOfCurrentPlayer();
+        // TODO: attacker should be moved to the place of the loser
+        //attacker->setupTo(clickedX, clickedY);
+        //boardArray[attacker->getPosInArray()] = std::move(inactiveArray[defender->getPosInArray()]);
+        defender->flip();
+        loser1 = defender;
     } else if(winner == FightWinner::defender){
-
+        loser1 = attacker;
     } else {
-        // if draw
+        loser1 = defender;
+        loser2 = attacker;
     }
+    throwOutLoserToInactivePieces(loser1);
+    if(loser2) {
+        loser1->flip();
+        throwOutLoserToInactivePieces(loser2);
+    }
+    deselect();
+    flipAllPiecesOfCurrentPlayer();
+    switchPlayers();
+    flipAllPiecesOfCurrentPlayer();
 }
 
 void Game::graphicallySelect() {
-    // TODO: might be improved, low priority
     int x1 = selectedPiece->getSdl_rect().x;
-    //int x2 = selectedPiece->getSdl_rect().x + sizeParams::PIECE_SIZE;
     int y1 = selectedPiece->getSdl_rect().y;
-    //int y2 = selectedPiece->getSdl_rect().y + sizeParams::PIECE_SIZE;
     selectionRect.x = x1;
     selectionRect.y = y1;
     SDL_RenderCopy(display.getRenderer(), textureMap[Textures::selectionTexture]->getSDLTexture(), NULL, &selectionRect);
-//    SDL_SetRenderDrawColor(display.getRenderer(), 0, 0, 255, 255);
-//    SDL_RenderDrawLine( display.getRenderer(), x1, y1, x1, y2 );
-//    SDL_RenderDrawLine( display.getRenderer(), x1, y1, x2, y1 );
-//    SDL_RenderDrawLine( display.getRenderer(), x2, y1, x2, y2 );
-//    SDL_RenderDrawLine( display.getRenderer(), x1, y2, x2, y2 );
 }
 
 std::shared_ptr<Piece> Game::getClickedPiece(const int &x, const int &y) const {
@@ -837,4 +832,11 @@ bool Game::isBlueSetup() {
     }
     blueSetup = true;
     return true;
+}
+
+void Game::throwOutLoserToInactivePieces(std::shared_ptr<Piece> loser) {
+    int oldPos = loser->getPosInArray(); //std::cout << "oldPos " << oldPos << std::endl;
+    loser->setupToInactive(inactiveArray);
+    int newPos = loser->getPosInArray(); //std::cout << "newPos " << newPos << std::endl;
+    inactiveArray[newPos] = std::move(boardArray[oldPos]);
 }

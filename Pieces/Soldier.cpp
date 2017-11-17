@@ -42,3 +42,12 @@ FightWinner Soldier::attack(std::shared_ptr<Piece> defender) {
     }
     return (this->getRank() > defender->getRank() ? FightWinner::attacker : FightWinner::defender);
 }
+
+bool Soldier::isInAttackPosition(std::shared_ptr<Piece> defender,
+                               const std::array<std::shared_ptr<Piece>, 100> &boardArray) const {
+    int attackerX = this->getPosInArray() % sizeParams::BOARD_FIELDS_NUMBER;
+    int attackerY = this->getPosInArray() / sizeParams::BOARD_FIELDS_NUMBER;
+    int defenderX = defender->getPosInArray() % sizeParams::BOARD_FIELDS_NUMBER;
+    int defenderY = defender->getPosInArray() / sizeParams::BOARD_FIELDS_NUMBER;
+    return abs(attackerX + attackerY - defenderX - defenderY) == 1;
+}

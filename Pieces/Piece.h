@@ -40,7 +40,6 @@ namespace sizeParams {
 
 enum Rank {
     flagRank,
-    bombRank,
     spyRank,
     scoutRank,
     minerRank,
@@ -51,6 +50,7 @@ enum Rank {
     colonelRank,
     generalRank,
     marshallRank,
+    bombRank,
     barrierRank
 };
 
@@ -133,6 +133,7 @@ public:
     void setupTo(int &x, int &y);
     void setupToInactive(std::array<std::shared_ptr<Piece>, 80> &inactiveArray);
     virtual FightWinner attack(std::shared_ptr<Piece> defender){};
+    virtual bool isInAttackPosition(std::shared_ptr<Piece> defender, const std::array<std::shared_ptr<Piece>, 100> &boardArray) const{};
 protected:
     Color color;
     Rank rank;
