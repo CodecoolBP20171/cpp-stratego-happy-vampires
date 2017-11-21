@@ -126,11 +126,6 @@ void Piece::setSdl_rect(int &x, int &y) {
 }
 
 bool Piece::isNotBlocked(const std::array<std::shared_ptr<Piece>, 100> &boardArray) const {
-    for (auto& piece : boardArray) if (piece) std::cout << piece->posInArray << " " << piece->getRank() << "\n";
-    if(boardArray[0]) std::cout << "\n 0 " << boardArray[0]->getRank() << std::endl;
-    if(boardArray[1]) std::cout << "\n 1 " << boardArray[1]->getRank() << std::endl;
-    if(boardArray[2]) std::cout << "\n 2 " << boardArray[2]->getRank() << std::endl;
-    if(boardArray[11]) std::cout << "\n 11 " << boardArray[11]->getRank() << std::endl;
     int blockCounter = 0;
     int y = posInArray / sizeParams::BOARD_FIELDS_NUMBER; //deliberate integer division
     int x = posInArray % sizeParams::BOARD_FIELDS_NUMBER;
@@ -146,41 +141,16 @@ bool Piece::isNotBlocked(const std::array<std::shared_ptr<Piece>, 100> &boardArr
             }
         }
     }
-    std::cout << "blockCounter " << blockCounter << "\n";
     return blockCounter < 4;
 }
 
 bool Piece::isOccupiedByMyTeammate(const int &x, const int &y,
                                    const std::array<std::shared_ptr<Piece>, 100> &boardArray) const {
-
-    // TODO i.e. isOnBoard:
-/*
-    if (x < sizeParams::BOARD_X || x > sizeParams::BOARD_MAX_X || y < sizeParams::BOARD_Y || y > sizeParams::BOARD_MAX_Y){
-        return false;
-    }
-*/
-    std::cout << "x " << x << " y " << y << std::endl;
     int arrayPos = y*sizeParams::BOARD_FIELDS_NUMBER+x;
-    std::cout << "arrayPos " << arrayPos << std::endl;
     if (boardArray[arrayPos]) {
-        std::cout << "rank " << boardArray[arrayPos]->getRank() << std::endl;
-        std::cout << "return true\n";
         return true;
     }
-    std::cout << "return false\n";
     return false;
-/*
-    for(auto &piece : boardArray) {
-        if(piece) {
-            if(x == piece->getPosX() &&
-               y == piece->getPosY() &&
-               piece->getColor() == color) {
-                return false;
-            }
-        }
-    }
-    return true;
-    */
 }
 
 const SDL_Rect &Piece::getSdl_rect() const {
