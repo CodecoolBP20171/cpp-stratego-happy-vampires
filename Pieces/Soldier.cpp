@@ -4,8 +4,8 @@
 
 #include "Soldier.h"
 
-Soldier::Soldier(int x, int y, Rank rank, Color color, SDL_Texture *faceUpTexture, SDL_Texture *backGroundTexture, bool toBoard,
-                 bool isFaceDown) : Piece(x, y, rank, color, faceUpTexture, backGroundTexture, toBoard, isFaceDown){}
+Soldier::Soldier(Rank rank, Color color, SDL_Texture *faceUpTexture, SDL_Texture *backGroundTexture, bool toBoard,
+                 bool isFaceDown) : Piece(rank, color, faceUpTexture, backGroundTexture, toBoard, isFaceDown){}
 
 bool Soldier::moveTo(int x, int y, const std::array<std::shared_ptr<Piece>, 100> &boardArray) {
     // TODO: passing pieceConatiner to this function is not necessay -> Dani delete

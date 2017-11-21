@@ -4,8 +4,7 @@
 
 #include "Piece.h"
 
-Piece::Piece(int x, int y,
-             Rank rank, Color color,
+Piece::Piece(Rank rank, Color color,
              SDL_Texture *faceUpTexture = nullptr, SDL_Texture *backGroundTexture = nullptr,
              bool toBoard = false,
              bool isFaceDown = false)
@@ -17,7 +16,7 @@ Piece::Piece(int x, int y,
 {
     sdl_rect.w = sizeParams::PIECE_SIZE;
     sdl_rect.h = sizeParams::PIECE_SIZE;
-    if (!toBoard) {
+    /*if (!toBoard) {
         posX = x * sizeParams::FIELD_SIZE + sizeParams::INACTIVE_FIELDS_NUMBER_X;
         posY = y * sizeParams::FIELD_SIZE + sizeParams::INACTIVE_FIELDS_NUMBER_Y;
         sdl_rect.x = posX + sizeParams::PIECE_FIELD_DIFF + sizeParams::INACTIVE_OFFSET_X;
@@ -29,7 +28,7 @@ Piece::Piece(int x, int y,
         sdl_rect.x = posX + sizeParams::PIECE_FIELD_DIFF + sizeParams::BOARD_OFFSET_X;
         sdl_rect.y = posY + sizeParams::PIECE_FIELD_DIFF + sizeParams::BOARD_OFFSET_Y;
         posInArray = y*sizeParams::BOARD_FIELDS_NUMBER+x;
-    }
+    }*/
     randomAngle = std::rand() % 9 - 4;
 }
 

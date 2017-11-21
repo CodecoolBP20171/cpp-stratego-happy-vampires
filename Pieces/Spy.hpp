@@ -10,8 +10,8 @@
 
 class Spy : public Soldier {
 public:
-    Spy(int x, int y, Rank rank, Color color, SDL_Texture *faceUpTexture, SDL_Texture *backGroundTexture,
-        bool toBoard, bool isFaceDown) : Soldier(x, y, rank, color, faceUpTexture, backGroundTexture, toBoard, isFaceDown){}
+    Spy(Rank rank, Color color, SDL_Texture *faceUpTexture, SDL_Texture *backGroundTexture,
+        bool toBoard, bool isFaceDown) : Soldier(rank, color, faceUpTexture, backGroundTexture, toBoard, isFaceDown){}
 
     FightWinner attack(std::shared_ptr<Piece> defender) override {
         // TODO: Spy can only defeat the marshall and the flag; draws with a spy

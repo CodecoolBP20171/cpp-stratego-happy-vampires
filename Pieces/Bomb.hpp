@@ -10,8 +10,8 @@
 
 class Bomb : public Thing {
 public:
-    Bomb(int x, int y, Rank rank, Color color, SDL_Texture *faceUpTexture = nullptr, SDL_Texture *backGroundTexture = nullptr, bool toBoard = false, bool isFaceDown = true)
-            : Thing(x, y, rank, color, faceUpTexture, backGroundTexture, toBoard, isFaceDown){}
+    Bomb(Rank rank, Color color, SDL_Texture *faceUpTexture = nullptr, SDL_Texture *backGroundTexture = nullptr, bool toBoard = false, bool isFaceDown = true)
+            : Thing(rank, color, faceUpTexture, backGroundTexture, toBoard, isFaceDown){}
 };
 
 

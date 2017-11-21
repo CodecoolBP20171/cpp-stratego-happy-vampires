@@ -116,24 +116,26 @@ void Game::createPieces() {
              textureMap[redBackTexture]->getSDLTexture(), true, false));
 
      */
-    board.addToBoard(2, 4, std::make_shared<Barrier>(4, 2, Rank::barrierRank, Color::neutral));
-    board.addToBoard(3, 4, std::make_shared<Barrier>(4, 3, Rank::barrierRank, Color::neutral));
-    board.addToBoard(6, 4, std::make_shared<Barrier>(4, 6, Rank::barrierRank, Color::neutral));
-    board.addToBoard(7, 4, std::make_shared<Barrier>(4, 7, Rank::barrierRank, Color::neutral));
-    board.addToBoard(2, 5, std::make_shared<Barrier>(5, 2, Rank::barrierRank, Color::neutral));
-    board.addToBoard(3, 5, std::make_shared<Barrier>(5, 3, Rank::barrierRank, Color::neutral));
-    board.addToBoard(6, 5, std::make_shared<Barrier>(5, 6, Rank::barrierRank, Color::neutral));
-    board.addToBoard(7, 5, std::make_shared<Barrier>(5, 7, Rank::barrierRank, Color::neutral));
-    boardArray[43] = std::make_shared<Barrier>(2, 5, Rank::barrierRank, Color::neutral);
+    board.addToBoard(2, 4, std::make_shared<Barrier>(Rank::barrierRank, Color::neutral));
+    board.addToBoard(3, 4, std::make_shared<Barrier>(Rank::barrierRank, Color::neutral));
+    board.addToBoard(6, 4, std::make_shared<Barrier>(Rank::barrierRank, Color::neutral));
+    board.addToBoard(7, 4, std::make_shared<Barrier>(Rank::barrierRank, Color::neutral));
+    board.addToBoard(2, 5, std::make_shared<Barrier>(Rank::barrierRank, Color::neutral));
+    board.addToBoard(3, 5, std::make_shared<Barrier>(Rank::barrierRank, Color::neutral));
+    board.addToBoard(6, 5, std::make_shared<Barrier>(Rank::barrierRank, Color::neutral));
+    board.addToBoard(7, 5, std::make_shared<Barrier>(Rank::barrierRank, Color::neutral));
+    /*boardArray[43] = std::make_shared<Barrier>(2, 5, Rank::barrierRank, Color::neutral);
     boardArray[46] = std::make_shared<Barrier>(3, 4, Rank::barrierRank, Color::neutral);
     boardArray[47] = std::make_shared<Barrier>(3, 5, Rank::barrierRank, Color::neutral);
     boardArray[52] = std::make_shared<Barrier>(6, 4, Rank::barrierRank, Color::neutral);
     boardArray[53] = std::make_shared<Barrier>(6, 5, Rank::barrierRank, Color::neutral);
     boardArray[56] = std::make_shared<Barrier>(7, 4, Rank::barrierRank, Color::neutral);
     boardArray[57] = std::make_shared<Barrier>(7, 5, Rank::barrierRank, Color::neutral);
+     */
 }
 
 void Game::initRedSetup() {
+    /*
     inactiveArray[0] = std::make_shared<Flag>
         (0, 0, flagRank, red,
          textureMap[redFlagTexture]->getSDLTexture(),
@@ -198,6 +200,7 @@ void Game::initRedSetup() {
         (0, 7, marshallRank, red,
          textureMap[red10Texture]->getSDLTexture(),
          textureMap[redBackTexture]->getSDLTexture(), false, false);
+         */
 }
 
 void Game::initRedSetupForTesting() {
@@ -214,24 +217,24 @@ void Game::initRedSetupForTesting() {
     }
      */
     board.addToBoard(0, 0, std::make_shared<Soldier>
-            (0, 0, majorRank, red,
+            (majorRank, red,
              textureMap[red7Texture]->getSDLTexture(),
              textureMap[redBackTexture]->getSDLTexture(), true, false));
     board.addToBoard(1, 0, std::make_shared<Soldier>
-            (0, 1, majorRank, red,
+            (majorRank, red,
              textureMap[red7Texture]->getSDLTexture(),
              textureMap[redBackTexture]->getSDLTexture(), true, false));
     board.addToBoard(0, 1, std::make_shared<Soldier>
-            (1, 0, majorRank, red,
+            (majorRank, red,
              textureMap[red7Texture]->getSDLTexture(),
              textureMap[redBackTexture]->getSDLTexture(), true, false));
     board.addToBoard(0, 3, std::make_shared<Scout>
-            (3, 0, scoutRank, red,
+            (scoutRank, red,
              textureMap[red2Texture]->getSDLTexture(),
              textureMap[redBackTexture]->getSDLTexture(), true, false));
 
     board.addToBoard(9, 9, std::make_shared<Soldier>
-            (9, 9, majorRank, blue,
+            (majorRank, blue,
              textureMap[blue7Texture]->getSDLTexture(),
              textureMap[blueBackTexture]->getSDLTexture(), true, false));
 
@@ -294,6 +297,7 @@ void Game::initRedSetupForTesting() {
 }
 
 void Game::initBlueSetupForTesting() {
+    /*
     inactiveArray[0] = std::make_shared<Flag>
             (0, 0, flagRank, blue,
              textureMap[blueFlagTexture]->getSDLTexture(),
@@ -358,9 +362,11 @@ void Game::initBlueSetupForTesting() {
             (0, 7, marshallRank, blue,
              textureMap[blue10Texture]->getSDLTexture(),
              textureMap[blueBackTexture]->getSDLTexture(), false, false);
+             */
 }
 
 void Game::initBlueSetup() {
+    /*
     inactiveArray[0] = std::make_shared<Flag>
             (0, 0, flagRank, blue,
              textureMap[blueFlagTexture]->getSDLTexture(),
@@ -425,6 +431,7 @@ void Game::initBlueSetup() {
             (0, 7, marshallRank, blue,
              textureMap[blue10Texture]->getSDLTexture(),
              textureMap[blueBackTexture]->getSDLTexture(), false, false);
+             */
 }
 
 void Game::createButtons() {

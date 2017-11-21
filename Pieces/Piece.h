@@ -102,8 +102,7 @@ enum FightWinner {
 
 class Piece {
 public:
-    Piece(int x, int y,
-          Rank rank, Color color,
+    Piece(Rank rank, Color color,
           SDL_Texture *faceUpTexture, SDL_Texture *backGroundTexture,
           bool toBoard,
           bool isFaceDown);

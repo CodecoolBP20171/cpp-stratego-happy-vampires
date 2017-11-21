@@ -10,8 +10,8 @@
 
 class Scout : public Soldier {
 public:
-    Scout(int x, int y, Rank rank, Color color, SDL_Texture *faceUpTexture, SDL_Texture *backGroundTexture,
-          bool toBoard, bool isFaceDown) : Soldier(x, y, rank, color, faceUpTexture, backGroundTexture, toBoard, isFaceDown){}
+    Scout(Rank rank, Color color, SDL_Texture *faceUpTexture, SDL_Texture *backGroundTexture,
+          bool toBoard, bool isFaceDown) : Soldier(rank, color, faceUpTexture, backGroundTexture, toBoard, isFaceDown){}
 
     bool moveTo(int x, int y, const std::array<std::shared_ptr<Piece>, 100> &boardArray) override {
         bool canMove = false;
