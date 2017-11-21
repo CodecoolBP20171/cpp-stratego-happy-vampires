@@ -88,21 +88,13 @@ void Piece::setTo(int &x, int &y) {
 }
 
 void Piece::setupTo(int &x, int &y) {
-    int newPosX = (int) x / sizeParams::FIELD_SIZE * sizeParams::FIELD_SIZE;
-    int newPosY = (int) y / sizeParams::FIELD_SIZE * sizeParams::FIELD_SIZE;
-    //TODO debug newPos maths to avoid setting up to same place
-
-    posX = newPosX;
-    posY = newPosY;
-
-    int newX = (newPosX-sizeParams::BOARD_X)/sizeParams::FIELD_SIZE;
-    int newY = (newPosY-sizeParams::BOARD_Y)/sizeParams::FIELD_SIZE;
-
-    sdl_rect.x = newPosX + sizeParams::PIECE_FIELD_DIFF + sizeParams::BOARD_OFFSET_X;
-    sdl_rect.y = newPosY + sizeParams::PIECE_FIELD_DIFF + sizeParams::BOARD_OFFSET_Y;
-
-    posInArray = newY*sizeParams::BOARD_FIELDS_NUMBER+newX;
-    std::cout << posInArray << std::endl;
+    int newX = (x - sizeParams::BOARD_OFFSET_X) / sizeParams::FIELD_SIZE;
+    int newY = (y - sizeParams::BOARD_OFFSET_Y) / sizeParams::FIELD_SIZE;
+    int currX = posInArray % sizeParams::BOARD_FIELDS_NUMBER;
+    int currY = posInArray / sizeParams::BOARD_FIELDS_NUMBER;
+    posInArray = newY * sizeParams::BOARD_FIELDS_NUMBER + newX;
+    sdl_rect.x = newX * sizeParams::FIELD_SIZE + sizeParams::PIECE_FIELD_DIFF + sizeParams::BOARD_OFFSET_X;
+    sdl_rect.y = newY * sizeParams::FIELD_SIZE + sizeParams::PIECE_FIELD_DIFF + sizeParams::BOARD_OFFSET_Y;
     setOnBoard(true);
 }
 
