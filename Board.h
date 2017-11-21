@@ -12,12 +12,12 @@
 
 class Board {
 
-    void graphicallySelect(SDL_Renderer *renderer, std::shared_ptr<Piece> &selectedPiece);
+    void graphicallySelect(SDL_Renderer *renderer, std::shared_ptr<Piece> &selectedPiece, std::shared_ptr<Texture> &texture);
 
 public:
     void addToBoard(int x, int y, std::shared_ptr<Piece> piece);
     void removeFromBoard(int x, int y);
-    void renderPieces(SDL_Renderer *renderer, std::shared_ptr<Piece> &selectedPiece);
+    void renderPieces(SDL_Renderer *renderer, std::shared_ptr<Piece> &selectedPiece, std::shared_ptr<Texture> &texture);
     //void addToInactive(int x, int y, std::shared_ptr<Piece> piece);
 
     std::shared_ptr<Piece> getClickedPiece(const int &x, const int &y) const;
@@ -26,6 +26,10 @@ public:
 private:
     std::array<std::shared_ptr<Piece>, 80> inactiveArray;
     std::array<std::shared_ptr<Piece>, 100> boardArray;
+public:
+    void setBoardArray(const std::shared_ptr<Piece> piece);
+    void removeFromPosInArray(int oldPos);
+
 public:
     const std::array<std::shared_ptr<Piece>, 100> &getBoardArray() const;
 };

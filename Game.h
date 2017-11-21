@@ -26,7 +26,7 @@ public:
     std::array<std::shared_ptr<Piece>, 100> boardArray;
     Display display;
     std::shared_ptr<Piece> selectedPiece;
-    std::map<Textures, std::unique_ptr<Texture>> textureMap;
+    std::map<Textures, std::shared_ptr<Texture>> textureMap;
 private:
     Color currentPlayer;
     std::vector<std::shared_ptr<Piece>> pieceContainer;

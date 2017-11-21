@@ -16,7 +16,7 @@ public:
     Display() : window(nullptr), renderer(nullptr) {}
     ~Display();
     bool init();
-    std::unique_ptr<Texture> loadTexture(const std::string& filename);
+    std::shared_ptr<Texture> loadTexture(const std::string& filename);
     // just to check SDL's bitmap loader
     Texture loadBMP(const std::string& filename);
     void getWindowSize(int& width, int& height);

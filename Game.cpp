@@ -109,7 +109,21 @@ void Game::createPieces() {
     //initRedSetup();
     initRedSetupForTesting();
 
-    boardArray[42] = std::make_shared<Barrier>(2, 4, Rank::barrierRank, Color::neutral);
+    /*
+     *     board.addToBoard(0, 0, std::make_shared<Soldier>
+            (0, 0, majorRank, red,
+             textureMap[red7Texture]->getSDLTexture(),
+             textureMap[redBackTexture]->getSDLTexture(), true, false));
+
+     */
+    board.addToBoard(2, 4, std::make_shared<Barrier>(4, 2, Rank::barrierRank, Color::neutral));
+    board.addToBoard(3, 4, std::make_shared<Barrier>(4, 3, Rank::barrierRank, Color::neutral));
+    board.addToBoard(6, 4, std::make_shared<Barrier>(4, 6, Rank::barrierRank, Color::neutral));
+    board.addToBoard(7, 4, std::make_shared<Barrier>(4, 7, Rank::barrierRank, Color::neutral));
+    board.addToBoard(2, 5, std::make_shared<Barrier>(5, 2, Rank::barrierRank, Color::neutral));
+    board.addToBoard(3, 5, std::make_shared<Barrier>(5, 3, Rank::barrierRank, Color::neutral));
+    board.addToBoard(6, 5, std::make_shared<Barrier>(5, 6, Rank::barrierRank, Color::neutral));
+    board.addToBoard(7, 5, std::make_shared<Barrier>(5, 7, Rank::barrierRank, Color::neutral));
     boardArray[43] = std::make_shared<Barrier>(2, 5, Rank::barrierRank, Color::neutral);
     boardArray[46] = std::make_shared<Barrier>(3, 4, Rank::barrierRank, Color::neutral);
     boardArray[47] = std::make_shared<Barrier>(3, 5, Rank::barrierRank, Color::neutral);
@@ -199,10 +213,28 @@ void Game::initRedSetupForTesting() {
                  textureMap[redBackTexture]->getSDLTexture(), true, false);
     }
      */
-    board.addToBoard(0, 0, std::make_shared<Spy>
-            (0, 0, spyRank, red,
-             textureMap[red1Texture]->getSDLTexture(),
+    board.addToBoard(0, 0, std::make_shared<Soldier>
+            (0, 0, majorRank, red,
+             textureMap[red7Texture]->getSDLTexture(),
              textureMap[redBackTexture]->getSDLTexture(), true, false));
+    board.addToBoard(1, 0, std::make_shared<Soldier>
+            (0, 1, majorRank, red,
+             textureMap[red7Texture]->getSDLTexture(),
+             textureMap[redBackTexture]->getSDLTexture(), true, false));
+    board.addToBoard(0, 1, std::make_shared<Soldier>
+            (1, 0, majorRank, red,
+             textureMap[red7Texture]->getSDLTexture(),
+             textureMap[redBackTexture]->getSDLTexture(), true, false));
+    board.addToBoard(0, 3, std::make_shared<Scout>
+            (3, 0, scoutRank, red,
+             textureMap[red2Texture]->getSDLTexture(),
+             textureMap[redBackTexture]->getSDLTexture(), true, false));
+
+    board.addToBoard(9, 9, std::make_shared<Soldier>
+            (9, 9, majorRank, blue,
+             textureMap[blue7Texture]->getSDLTexture(),
+             textureMap[blueBackTexture]->getSDLTexture(), true, false));
+
 //    boardArray[0] = std::make_shared<Spy>
 //            (6, 6, spyRank, red,
 //             textureMap[red1Texture]->getSDLTexture(),
@@ -598,11 +630,11 @@ void Game::gameStateLogic() {
             // if there is a piece selected
             if (selectedPiece) {
                 // if the piece can move to that empty field, move there
-                int oldPos = selectedPiece->getPosInArray(); //std::cout << "oldPos " << oldPos << std::endl;
-                if (selectedPiece->moveTo(clickedX, clickedY, boardArray)) {
-                    int newPos = selectedPiece->getPosInArray(); //std::cout << "newPos " << newPos << std::endl;
-                    boardArray[newPos] = std::move(boardArray[oldPos]);
-
+                int oldPos = selectedPiece->getPosInArray(); std::cout << "oldPos " << oldPos << std::endl;
+                if (selectedPiece->moveTo(clickedX, clickedY, board.getBoardArray())) {
+                    int newPos = selectedPiece->getPosInArray(); std::cout << "newPos " << newPos << std::endl;
+                    board.setBoardArray(selectedPiece);
+                    board.removeFromPosInArray(oldPos);
                     deselect();
                     // TODO: here we should wait for the click... HOW????
                     // maybe: use a Game obj var to mark this point, for example
@@ -622,7 +654,7 @@ void Game::renderAll() {
     SDL_RenderClear(display.getRenderer());
     textureMap[Textures::boardTexture]->render(display.getRenderer(), nullptr);
 
-    board.renderPieces(display.getRenderer(), selectedPiece);
+    board.renderPieces(display.getRenderer(), selectedPiece, textureMap[Textures::selectionTexture]);
 
 /*
     for(int i = 0; i < pieceContainer.size(); i++){
@@ -740,7 +772,7 @@ void Game::switchPlayers() {
 }
 
 void Game::flipAllPiecesOfCurrentPlayer() {
-    for(auto &piece : boardArray) {
+    for(auto &piece : board.getBoardArray()) {
         if(piece) {
             if (piece->getColor() == currentPlayer) {
                 piece->flip();
@@ -791,9 +823,9 @@ void Game::printGameState() const {
     std::cout << "\tboard\n";
     for (int h = 0; h < sizeParams::BOARD_FIELDS_NUMBER; ++h) {
         for(int w = 0; w < sizeParams::BOARD_FIELDS_NUMBER; ++w) {
-            if (boardArray[h*sizeParams::BOARD_FIELDS_NUMBER+w]) {
-                std::cout << boardArray[h*sizeParams::BOARD_FIELDS_NUMBER+w]->getColor() << " "
-                          << boardArray[h*sizeParams::BOARD_FIELDS_NUMBER+w]->getRank() << "\t\t";
+            if (board.getBoardArray()[h*sizeParams::BOARD_FIELDS_NUMBER+w]) {
+                std::cout << board.getBoardArray()[h*sizeParams::BOARD_FIELDS_NUMBER+w]->getColor() << " "
+                          << board.getBoardArray()[h*sizeParams::BOARD_FIELDS_NUMBER+w]->getRank() << "\t\t";
             } else {std::cout << "n" << " " << "n" << "\t\t";}
 
         }
