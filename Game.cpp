@@ -187,7 +187,7 @@ void Game::initRedSetup() {
 }
 
 void Game::initRedSetupForTesting() {
-
+    /*
     inactiveArray[0] = std::make_shared<Flag>
             (0, 0, flagRank, red,
              textureMap[redFlagTexture]->getSDLTexture(),
@@ -198,10 +198,16 @@ void Game::initRedSetupForTesting() {
                  textureMap[redBombTexture]->getSDLTexture(),
                  textureMap[redBackTexture]->getSDLTexture(), true, false);
     }
-    boardArray[66] = std::make_shared<Spy>
-            (6, 6, spyRank, red,
+     */
+    board.addToBoard(0, 0, std::make_shared<Spy>
+            (0, 0, spyRank, red,
              textureMap[red1Texture]->getSDLTexture(),
-             textureMap[redBackTexture]->getSDLTexture(), true, false);
+             textureMap[redBackTexture]->getSDLTexture(), true, false));
+//    boardArray[0] = std::make_shared<Spy>
+//            (6, 6, spyRank, red,
+//             textureMap[red1Texture]->getSDLTexture(),
+//             textureMap[redBackTexture]->getSDLTexture(), true, false);
+    /*
     for(int i = 0; i < 8; ++i) {
         boardArray[70 + i] = std::make_shared<Scout>
                 ((0+i), 7, scoutRank, red,
@@ -252,6 +258,7 @@ void Game::initRedSetupForTesting() {
             (0, 7, marshallRank, red,
              textureMap[red10Texture]->getSDLTexture(),
              textureMap[redBackTexture]->getSDLTexture(), false, false);
+             */
 }
 
 void Game::initBlueSetupForTesting() {
@@ -396,19 +403,19 @@ void Game::createButtons() {
 }
 
 void Game::initGame() {
-    selectionRect.h = sizeParams::PIECE_SIZE;
-    selectionRect.w = sizeParams::PIECE_SIZE;
+    board.selectionRect.h = sizeParams::PIECE_SIZE;
+    board.selectionRect.w = sizeParams::PIECE_SIZE;
     currentPlayer = Color::red;
     // should be initially:
-    gameState = GameState::boardSetupState;
+    //gameState = GameState::boardSetupState;
 
     // THE BELOW LINES ARE USED ONLY IN THE DEVELOPMENT PHASE, THEY WILL BE ALTERED IN THE FINAL GAME
-/*
+
     gameState = GameState::gameState;
     switchPlayers();
     flipAllPiecesOfCurrentPlayer();
     switchPlayers();
-*/
+
 }
 
 void Game::gameLoop() {
@@ -504,7 +511,7 @@ bool Game::onBlueSide() const {
 }
 
 void Game::boardSetupLogic() {
-    std::shared_ptr<Piece> clickedPiece = getClickedPiece(clickedX, clickedY);
+    std::shared_ptr<Piece> clickedPiece = board.getClickedPiece(clickedX, clickedY);
     std::shared_ptr<Button> clickedButton = getClickedButton(clickedX, clickedY);
     if (clickedButton && clickedButton == buttonArray[Buttons::next] && blueSetup) {
         gameState = GameState::gameState;
@@ -546,7 +553,7 @@ void Game::boardSetupLogic() {
         if ( clickedPiece != selectedPiece) {
             //isOccupied
             //TODO debug: sometimes I can put a piece on top of another
-            if (!getClickedPiece(clickedX, clickedY)) {
+            if (!board.getClickedPiece(clickedX, clickedY)) {
                 //moving
                 std::cout << "setup to board array index ";
                 //deselect();
@@ -568,19 +575,19 @@ void Game::gameStateLogic() {
     if(clickedX >= 0 && clickedY >= 0 && clickedX <= sizeParams::BOARD_MAX_X && clickedX <= sizeParams::BOARD_MAX_Y) {
         //std::cout << "clicked on the board!" << std::endl;
         // get clicked piece if the user clicked on a piece, nullptr otherwise
-        std::shared_ptr<Piece> clickedPiece = getClickedPiece(clickedX, clickedY);
+        std::shared_ptr<Piece> clickedPiece = board.getClickedPiece(clickedX, clickedY);
         // if the user clicked on a piece
         if (clickedPiece) {
             // if it is the current player's piece
             if (currentPlayer == clickedPiece->getColor()) {
                 // select the clicked piece
-                if (clickedPiece->canMove() && clickedPiece->isNotBlocked(boardArray)) {
+                if (clickedPiece->canMove() && clickedPiece->isNotBlocked(board.getBoardArray())) {
                     selectPiece(clickedPiece);
                 }
             } else if(clickedPiece->getColor() == enemyColor() && selectedPiece) {
                 // TODO commit fight
                 // attacker = selectedPiece, defender = clickedPiece
-                if(selectedPiece->isInAttackPosition(clickedPiece, boardArray)) {
+                if(selectedPiece->isInAttackPosition(clickedPiece, board.getBoardArray())) {
                     FightWinner fightwinner = selectedPiece->attack(clickedPiece);
                     //std::cout << "And the winner is: " << fightwinner << std::endl;
                     executeFight(selectedPiece, clickedPiece, fightwinner);
@@ -614,6 +621,9 @@ void Game::gameStateLogic() {
 void Game::renderAll() {
     SDL_RenderClear(display.getRenderer());
     textureMap[Textures::boardTexture]->render(display.getRenderer(), nullptr);
+
+    board.renderPieces(display.getRenderer(), selectedPiece);
+
 /*
     for(int i = 0; i < pieceContainer.size(); i++){
         pieceContainer[i]->render(display.getRenderer());
@@ -623,7 +633,7 @@ void Game::renderAll() {
         }
     }
 */
-    for(auto &piece : inactiveArray) {
+    /*for(auto &piece : inactiveArray) {
         if (piece) {
             piece->render(display.getRenderer());
             if(piece == selectedPiece) { graphicallySelect(); }
@@ -640,6 +650,7 @@ void Game::renderAll() {
             button->render(display.getRenderer());
         }
     }
+     */
 
     SDL_RenderPresent(display.getRenderer());
 }
@@ -705,42 +716,6 @@ void Game::executeFight(std::shared_ptr<Piece> attacker, std::shared_ptr<Piece> 
     flipAllPiecesOfCurrentPlayer();
 }
 
-void Game::graphicallySelect() {
-    int x1 = selectedPiece->getSdl_rect().x;
-    int y1 = selectedPiece->getSdl_rect().y;
-    selectionRect.x = x1;
-    selectionRect.y = y1;
-    SDL_RenderCopy(display.getRenderer(), textureMap[Textures::selectionTexture]->getSDLTexture(), NULL, &selectionRect);
-}
-
-std::shared_ptr<Piece> Game::getClickedPiece(const int &x, const int &y) const {
-    std::shared_ptr<Piece> result = nullptr;
-    for(auto & piece : inactiveArray) {
-        if (piece) {
-            if (x > piece->getSdl_rect().x &&
-                x < piece->getSdl_rect().x + sizeParams::FIELD_SIZE &&
-                y > piece->getSdl_rect().y &&
-                y < piece->getSdl_rect().y + sizeParams::FIELD_SIZE) {
-                piece->setIsClicked(true);
-                result = piece;
-                return result;
-            }
-        }
-    }
-    for(auto & piece : boardArray) {
-        if (piece) {
-            if (x > piece->getSdl_rect().x &&
-                x < piece->getSdl_rect().x + sizeParams::FIELD_SIZE &&
-                y > piece->getSdl_rect().y &&
-                y < piece->getSdl_rect().y + sizeParams::FIELD_SIZE) {
-                piece->setIsClicked(true);
-                result = piece;
-                return result;
-            }
-        }
-    }
-}
-
 std::shared_ptr<Button> Game::getClickedButton(const int &x, const int &y) const {
     std::shared_ptr<Button> result = nullptr;
     for(auto & button : buttonArray) {
@@ -796,7 +771,7 @@ void Game::printGameState() const {
         else if (onBlueSide()) std::cout << "blue side" << std::endl;
         else std::cout << "middle field" << std::endl;
     } else std::cout << "elsewhere" << std::endl;
-    std::shared_ptr<Piece> clickedPiece = getClickedPiece(clickedX, clickedY);
+    std::shared_ptr<Piece> clickedPiece = board.getClickedPiece(clickedX, clickedY);
     std::cout << "clickedPiece ";
     if (clickedPiece) {
         std::cout << clickedPiece->getColor() << " " << clickedPiece->getRank() << " ";

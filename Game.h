@@ -12,6 +12,7 @@
 #include "Display.h"
 #include "Pieces/Piece.h"
 #include "Button.h"
+#include "Board.h"
 
 enum GameState {
     boardSetupState,
@@ -22,18 +23,22 @@ class Game {
 public:
     void run();
 
-private:
+    std::array<std::shared_ptr<Piece>, 100> boardArray;
     Display display;
-    Color currentPlayer;
     std::shared_ptr<Piece> selectedPiece;
     std::map<Textures, std::unique_ptr<Texture>> textureMap;
+private:
+    Color currentPlayer;
     std::vector<std::shared_ptr<Piece>> pieceContainer;
+
+    Board board;
+    // delete these in the end:
     std::array<std::shared_ptr<Piece>, 80> inactiveArray;
-    std::array<std::shared_ptr<Piece>, 100> boardArray;
+
     std::array<std::shared_ptr<Button>, 1> buttonArray;
     int clickedX, clickedY;
     GameState gameState;
-    SDL_Rect selectionRect;
+
     void loadTextures();
     bool handleEvents(SDL_Event &event);
     void createPieces();
@@ -41,8 +46,7 @@ private:
     void gameLoop();
     void selectPiece(std::shared_ptr<Piece> &clickedPiece);
     void deselect();
-    void graphicallySelect();
-    std::shared_ptr<Piece> getClickedPiece(const int &x, const int &y) const;
+
     std::shared_ptr<Button> getClickedButton(const int &x, const int &y) const;
     void initGame();
     void switchPlayers();

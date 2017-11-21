@@ -90,10 +90,7 @@ public:
 }
 
     bool isThereAPieceInTheWayByIndex(int x, int y, const std::array<std::shared_ptr<Piece>, 100> &boardArray) const {
-        std::cout << "examinedX: " << x << std::endl;
-        std::cout << "examinedY: " << y << std::endl;
         int posIndex = y * sizeParams::BOARD_FIELDS_NUMBER + x;
-        std::cout << "posindex: " << posIndex << std::endl;
         if(boardArray[posIndex] == nullptr){
             return false;
         } else {
