@@ -28,8 +28,8 @@ void Board::addToButtons(int pos, std::shared_ptr<Button> button) {
     button->setPosInArray(pos);
     buttonArray[pos] = button;
     //buttonArray 0. elementh to inActiveArray 77. elementh
-    int buttonX = sizeParams::INACTIVE_OFFSET_X + (77+pos) * sizeParams::FIELD_SIZE;
-    int buttonY = sizeParams::INACTIVE_OFFSET_Y + 7 * sizeParams::FIELD_SIZE;
+    int buttonX = sizeParams::INACTIVE_OFFSET_X + (7+pos) * sizeParams::FIELD_SIZE;
+    int buttonY = sizeParams::INACTIVE_OFFSET_Y + 9 * sizeParams::FIELD_SIZE;
     button->sdl_rect.x = buttonX;
     button->sdl_rect.y = buttonY;
 }
