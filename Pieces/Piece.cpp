@@ -109,8 +109,8 @@ void Piece::setupTo(int &x, int &y) {
 void Piece::setupToInactive(std::array<std::shared_ptr<Piece>, 80> &inactiveArray) {
     for(int i=0; i<inactiveArray.size(); i++) {
         if(inactiveArray[i] == nullptr){
-            posX = sizeParams::INACTIVE_OFFSET_X + sizeParams::FIELD_SIZE * (i % sizeParams::INACTIVE_FIELDS_NUMBER_X);
-            posY = sizeParams::INACTIVE_OFFSET_Y + sizeParams::FIELD_SIZE * (i / sizeParams::INACTIVE_FIELDS_NUMBER_X);
+            int posX = sizeParams::INACTIVE_OFFSET_X + sizeParams::FIELD_SIZE * (i % sizeParams::INACTIVE_FIELDS_NUMBER_X);
+            int posY = sizeParams::INACTIVE_OFFSET_Y + sizeParams::FIELD_SIZE * (i / sizeParams::INACTIVE_FIELDS_NUMBER_X);
             sdl_rect.x = posX + sizeParams::PIECE_FIELD_DIFF;
             sdl_rect.y = posY + sizeParams::PIECE_FIELD_DIFF;
             posInArray = i;
