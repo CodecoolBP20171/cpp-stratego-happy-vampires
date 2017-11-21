@@ -40,18 +40,6 @@ public:
         return canMove;
     }
 
-    bool isThereAPieceInTheWay(int x, int y, const std::array<std::shared_ptr<Piece>, 100> &boardArray) const {
-        for(auto& piece : boardArray) {
-            if (piece) {
-                if (x == piece->getPosX() &&
-                    y == piece->getPosY()) {
-                    return true;
-                }
-            }
-        }
-        return false;
-    }
-
     bool isInAttackPosition(std::shared_ptr<Piece> defender, const std::array<std::shared_ptr<Piece>, 100> &boardArray) const override {
         int attackerX = this->getPosInArray() % sizeParams::BOARD_FIELDS_NUMBER;
         int attackerY = this->getPosInArray() / sizeParams::BOARD_FIELDS_NUMBER;
