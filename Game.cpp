@@ -612,34 +612,25 @@ void Game::gameStateLogic() {
     // TODO: apply full plan (flowchart), for example after move wait for click, etc.
     // TODO: if there is a click on the board -> can go to a separated function!
     if(clickedX >= 0 && clickedY >= 0 && clickedX <= sizeParams::BOARD_MAX_X && clickedX <= sizeParams::BOARD_MAX_Y) {
-        //std::cout << "clicked on the board!" << std::endl;
-        // get clicked piece if the user clicked on a piece, nullptr otherwise
         std::shared_ptr<Piece> clickedPiece = board.getClickedPiece(clickedX, clickedY);
-        // if the user clicked on a piece
         if (clickedPiece) {
-            // if it is the current player's piece
             if (currentPlayer == clickedPiece->getColor()) {
-                // select the clicked piece
                 if (clickedPiece->canMove() && clickedPiece->isNotBlocked(board.getBoardArray())) {
                     selectPiece(clickedPiece);
                 }
             } else if(clickedPiece->getColor() == enemyColor() && selectedPiece) {
-                // TODO commit fight
                 // attacker = selectedPiece, defender = clickedPiece
                 if(selectedPiece->isInAttackPosition(clickedPiece, board.getBoardArray())) {
                     FightWinner fightwinner = selectedPiece->attack(clickedPiece);
-                    //std::cout << "And the winner is: " << fightwinner << std::endl;
                     executeFight(selectedPiece, clickedPiece, fightwinner);
                 }
             }
 
-        } else { // the user clicked on an empty field // later: or to an enemy
-            // if there is a piece selected
+        } else {
             if (selectedPiece) {
-                // if the piece can move to that empty field, move there
-                int oldPos = selectedPiece->getPosInArray(); std::cout << "oldPos " << oldPos << std::endl;
+                int oldPos = selectedPiece->getPosInArray(); //std::cout << "oldPos " << oldPos << std::endl;
                 if (selectedPiece->moveTo(clickedX, clickedY, board.getBoardArray())) {
-                    int newPos = selectedPiece->getPosInArray(); std::cout << "newPos " << newPos << std::endl;
+                    //int newPos = selectedPiece->getPosInArray(); //std::cout << "newPos " << newPos << std::endl;
                     board.setBoardArray(selectedPiece);
                     board.removeFromPosInArray(oldPos);
                     deselect();
@@ -660,7 +651,6 @@ void Game::gameStateLogic() {
 void Game::renderAll() {
     SDL_RenderClear(display.getRenderer());
     textureMap[Textures::boardTexture]->render(display.getRenderer(), nullptr);
-
     board.renderPieces(display.getRenderer(), selectedPiece, textureMap[Textures::selectionTexture]);
 
 /*
@@ -690,7 +680,6 @@ void Game::renderAll() {
         }
     }
      */
-
     SDL_RenderPresent(display.getRenderer());
 }
 
