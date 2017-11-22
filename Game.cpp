@@ -591,7 +591,7 @@ void Game::boardSetupLogic() {
                 std::cout << "setup to board array index ";
                 //deselect();
                 int oldPos = selectedPiece->getPosInArray(); //std::cout << "oldPos " << oldPos << std::endl;
-
+                oldSDL_RectPosition = selectedPiece->getSdl_rect();
                 //selectedPiece->setupTo(clickedX, clickedY);
 
                 //int newPos = selectedPiece->getPosInArray(); //std::cout << "newPos " << newPos << std::endl;
@@ -627,17 +627,19 @@ void Game::gameStateLogic() {
 
         } else {
             if (selectedPiece) {
-                int oldPos = selectedPiece->getPosInArray(); //std::cout << "oldPos " << oldPos << std::endl;
+                int oldPosInArray = selectedPiece->getPosInArray(); //std::cout << "oldPos " << oldPos << std::endl;
+                oldSDL_RectPosition = selectedPiece->getSdl_rect();
                 if (selectedPiece->moveTo(clickedX, clickedY, board.getBoardArray())) {
                     //int newPos = selectedPiece->getPosInArray(); //std::cout << "newPos " << newPos << std::endl;
                     board.setBoardArray(selectedPiece);
-                    board.removeFromBoardArray(oldPos);
+                    board.removeFromBoardArray(oldPosInArray);
                     deselect();
                     // TODO: here we should wait for the click... HOW????
                     // maybe: use a Game obj var to mark this point, for example
                     // waitForClick = true; and check this variable on the top of this function
                     // and if it is true -> proceed "playback" of the action,
                     // a few additional obj vars could be necessary to achieve this
+
                     flipAllPiecesOfCurrentPlayer();
                     switchPlayers();
                     flipAllPiecesOfCurrentPlayer();
@@ -652,7 +654,8 @@ void Game::renderAll() {
     textureMap[Textures::boardTexture]->render(display.getRenderer(), nullptr);
     board.renderPieces(display.getRenderer(), selectedPiece, textureMap[Textures::selectionTexture]);
     board.renderButtons(display.getRenderer());
-
+    board.graphicallySelect(display.getRenderer(), oldSDL_RectPosition, textureMap[Textures::selectionTexture]);
+    if(selectedPiece) board.graphicallySelect(display.getRenderer(), selectedPiece->getSdl_rect(), textureMap[Textures::selectionTexture]);
 /*
     for(int i = 0; i < pieceContainer.size(); i++){
         pieceContainer[i]->render(display.getRenderer());

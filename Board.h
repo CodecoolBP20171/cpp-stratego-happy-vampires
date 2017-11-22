@@ -31,12 +31,12 @@ public:
     const std::array<std::shared_ptr<Piece>, 100> &getBoardArray() const;
     const std::array<std::shared_ptr<Button>, 1> &getButtonArray() const;
     const std::array<std::shared_ptr<Piece>, 80> &getInactiveArray() const;
-
+    void graphicallySelect(SDL_Renderer *renderer, SDL_Rect position, std::shared_ptr<Texture> &texture);
 private:
     std::array<std::shared_ptr<Piece>, 100> boardArray;
     std::array<std::shared_ptr<Piece>, 80> inactiveArray;
     std::array<std::shared_ptr<Button>, 1> buttonArray;
-    void graphicallySelect(SDL_Renderer *renderer, std::shared_ptr<Piece> &selectedPiece, std::shared_ptr<Texture> &texture);
+
 };
 
 
