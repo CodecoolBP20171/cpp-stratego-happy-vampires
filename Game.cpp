@@ -202,7 +202,7 @@ void Game::initRedSetup() {
 }
 
 void Game::initRedSetupForTesting() {
-
+/*
     board.addToBoard(0, 0, std::make_shared<Soldier>
             (majorRank, red,
              textureMap[red7Texture]->getSDLTexture(),
@@ -225,7 +225,7 @@ void Game::initRedSetupForTesting() {
              textureMap[blue7Texture]->getSDLTexture(),
              textureMap[blueBackTexture]->getSDLTexture(), true, false));
 
-/*
+*/
     board.addToInactive(0, 0, std::make_shared<Flag>
             (flagRank, red,
              textureMap[redFlagTexture]->getSDLTexture(),
@@ -291,7 +291,7 @@ void Game::initRedSetupForTesting() {
         (marshallRank, red,
          textureMap[red10Texture]->getSDLTexture(),
          textureMap[redBackTexture]->getSDLTexture(), false, false));
-*/}
+}
 
 void Game::initBlueSetupForTesting() {
     board.addToInactive(0, 0, std::make_shared<Flag>
@@ -438,15 +438,17 @@ void Game::initGame() {
     board.selectionRect.w = sizeParams::PIECE_SIZE;
     currentPlayer = Color::red;
     // should be initially:
-    //gameState = GameState::boardSetupState;
+    gameState = GameState::boardSetupState;
 
     // THE BELOW LINES ARE USED ONLY IN THE DEVELOPMENT PHASE, THEY WILL BE ALTERED IN THE FINAL GAME
 
 
+/*
     gameState = GameState::gameState;
     switchPlayers();
     flipAllPiecesOfCurrentPlayer();
     switchPlayers();
+*/
 
 
 }
