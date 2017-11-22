@@ -14,8 +14,6 @@ public:
         bool toBoard, bool isFaceDown) : Soldier(rank, color, faceUpTexture, backGroundTexture, toBoard, isFaceDown){}
 
     FightWinner attack(std::shared_ptr<Piece> defender) override {
-        // TODO: Spy can only defeat the marshall and the flag; draws with a spy
-        std::cout << "Spy attacks" << std::endl;
         if(this->getRank() == defender->getRank()){
             return FightWinner::draw;
         }

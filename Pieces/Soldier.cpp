@@ -8,7 +8,6 @@ Soldier::Soldier(Rank rank, Color color, SDL_Texture *faceUpTexture, SDL_Texture
                  bool isFaceDown) : Piece(rank, color, faceUpTexture, backGroundTexture, toBoard, isFaceDown){}
 
 bool Soldier::moveTo(int x, int y, const std::array<std::shared_ptr<Piece>, 100> &boardArray) {
-    // TODO: passing pieceConatiner to this function is not necessay -> Dani delete
     bool canMove = false;
     int newX = (x - sizeParams::BOARD_OFFSET_X) / sizeParams::FIELD_SIZE;
     int newY = (y - sizeParams::BOARD_OFFSET_Y) / sizeParams::FIELD_SIZE;
