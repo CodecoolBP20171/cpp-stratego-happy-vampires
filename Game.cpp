@@ -202,7 +202,29 @@ void Game::initRedSetup() {
 }
 
 void Game::initRedSetupForTesting() {
-    board.addToInactive(0, 0, std::make_shared<Flag>
+    board.addToBoard(0, 0, std::make_shared<Soldier>
+            (majorRank, red,
+             textureMap[red7Texture]->getSDLTexture(),
+             textureMap[redBackTexture]->getSDLTexture(), true, false));
+    board.addToBoard(1, 0, std::make_shared<Soldier>
+            (majorRank, red,
+             textureMap[red7Texture]->getSDLTexture(),
+             textureMap[redBackTexture]->getSDLTexture(), true, false));
+    board.addToBoard(0, 1, std::make_shared<Soldier>
+            (majorRank, red,
+             textureMap[red7Texture]->getSDLTexture(),
+             textureMap[redBackTexture]->getSDLTexture(), true, false));
+    board.addToBoard(0, 3, std::make_shared<Scout>
+            (scoutRank, red,
+             textureMap[red2Texture]->getSDLTexture(),
+             textureMap[redBackTexture]->getSDLTexture(), true, false));
+
+    board.addToBoard(9, 9, std::make_shared<Soldier>
+            (majorRank, blue,
+             textureMap[blue7Texture]->getSDLTexture(),
+             textureMap[blueBackTexture]->getSDLTexture(), true, false));
+
+    /*board.addToInactive(0, 0, std::make_shared<Flag>
             (flagRank, red,
              textureMap[redFlagTexture]->getSDLTexture(),
              textureMap[redBackTexture]->getSDLTexture(), false, false));
@@ -267,7 +289,7 @@ void Game::initRedSetupForTesting() {
         (marshallRank, red,
          textureMap[red10Texture]->getSDLTexture(),
          textureMap[redBackTexture]->getSDLTexture(), false, false));
-}
+*/}
 
 void Game::initBlueSetupForTesting() {
     board.addToInactive(0, 0, std::make_shared<Flag>
@@ -414,16 +436,16 @@ void Game::initGame() {
     board.selectionRect.w = sizeParams::PIECE_SIZE;
     currentPlayer = Color::red;
     // should be initially:
-    gameState = GameState::boardSetupState;
+    //gameState = GameState::boardSetupState;
 
     // THE BELOW LINES ARE USED ONLY IN THE DEVELOPMENT PHASE, THEY WILL BE ALTERED IN THE FINAL GAME
 
-/*
+
     gameState = GameState::gameState;
     switchPlayers();
     flipAllPiecesOfCurrentPlayer();
     switchPlayers();
-*/
+
 
 }
 
