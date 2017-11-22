@@ -43,17 +43,21 @@ void Board::renderPieces(SDL_Renderer *renderer, std::shared_ptr<Piece> &selecte
     for(auto &piece : boardArray) {
         if (piece) {
             piece->render(renderer);
+/*
             if(piece == selectedPiece) {
-                graphicallySelect(renderer, selectedPiece, texture);
+                graphicallySelect(renderer, selectedPiece->getSdl_rect(), texture);
             }
+*/
         }
     }
     for(auto &piece : inactiveArray) {
         if (piece) {
             piece->render(renderer);
+/*
             if(piece == selectedPiece) {
-                graphicallySelect(renderer, selectedPiece, texture);
+                graphicallySelect(renderer, selectedPiece->getSdl_rect(), texture);
             }
+*/
         }
     }
 }
@@ -117,12 +121,14 @@ const std::array<std::shared_ptr<Piece>, 100> &Board::getBoardArray() const {
     return boardArray;
 }
 
-void Board::graphicallySelect(SDL_Renderer *renderer, std::shared_ptr<Piece> &selectedPiece, std::shared_ptr<Texture> &texture) {
-    int x1 = selectedPiece->getSdl_rect().x;
-    int y1 = selectedPiece->getSdl_rect().y;
-    selectionRect.x = x1;
-    selectionRect.y = y1;
-    SDL_RenderCopy(renderer, texture->getSDLTexture(), NULL, &selectionRect);
+void Board::graphicallySelect(SDL_Renderer *renderer, SDL_Rect position, std::shared_ptr<Texture> &texture) {
+    if ( position.x != -1) {
+        int x1 = position.x;
+        int y1 = position.y;
+        selectionRect.x = x1;
+        selectionRect.y = y1;
+        SDL_RenderCopy(renderer, texture->getSDLTexture(), NULL, &selectionRect);
+    }
 }
 
 void Board::setBoardArray(const std::shared_ptr<Piece> piece) {

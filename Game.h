@@ -21,6 +21,9 @@ enum GameState {
 
 class Game {
 public:
+    Game() {
+        oldSDL_RectPosition.x = -1;
+    }
     void run();
 
 private:
@@ -36,7 +39,7 @@ private:
     bool blueSetup = false;
     bool waitingForSwitchPlayers = false;
     bool blueSetupPhase = false;
-
+    SDL_Rect oldSDL_RectPosition;
     void loadTextures();
     bool handleEvents(SDL_Event &event);
     void createPieces();
