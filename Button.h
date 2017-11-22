@@ -14,8 +14,9 @@ enum Buttons {
 
 class Button {
 public:
-    Button(SDL_Texture *activeTexture, SDL_Texture *inactiveTexture,
-          bool isActive);
+    SDL_Rect sdl_rect;
+
+    Button(SDL_Texture *activeTexture, SDL_Texture *inactiveTexture, bool isActive);
     void render(SDL_Renderer* renderer);
     void push();
     const SDL_Rect &getSdl_rect() const;
@@ -23,18 +24,14 @@ public:
     void setClicked(bool isClicked);
     bool isActive() const;
     void setActive(bool isActive);
-    SDL_Rect sdl_rect;
+    int getPosInArray() const;
+    void setPosInArray(int posInArray);
 protected:
     SDL_Texture *activeTexture = nullptr;
     SDL_Texture *inactiveTexture = nullptr;
-    int posX, posY;
     bool active;
     bool clicked = false;
     int posInArray;
-public:
-    int getPosInArray() const;
-
-    void setPosInArray(int posInArray);
 };
 
 

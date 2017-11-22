@@ -107,10 +107,6 @@ public:
           bool toBoard,
           bool isFaceDown);
     void render(SDL_Renderer* renderer);
-    int getPosY() const;
-    void setPosY(int posY);
-    int getPosX() const;
-    void setPosX(int posX);
     void flip();
     Rank getRank() const;
     void setRank(Rank rank);
@@ -141,7 +137,7 @@ protected:
     SDL_Rect sdl_rect;
     SDL_Texture *faceUpTexture = nullptr;
     SDL_Texture *backTexture = nullptr;
-    int posX, posY, posInArray;
+    int posInArray;
     bool isFaceDown;
     bool isOccupiedByMyTeammate(const int &x, const int &y, const std::array<std::shared_ptr<Piece>, 100> &boardArray) const;
     bool OnBoard = false;

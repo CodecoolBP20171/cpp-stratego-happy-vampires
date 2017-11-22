@@ -16,19 +16,6 @@ Piece::Piece(Rank rank, Color color,
 {
     sdl_rect.w = sizeParams::PIECE_SIZE;
     sdl_rect.h = sizeParams::PIECE_SIZE;
-    /*if (!toBoard) {
-        posX = x * sizeParams::FIELD_SIZE + sizeParams::INACTIVE_FIELDS_NUMBER_X;
-        posY = y * sizeParams::FIELD_SIZE + sizeParams::INACTIVE_FIELDS_NUMBER_Y;
-        sdl_rect.x = posX + sizeParams::PIECE_FIELD_DIFF + sizeParams::INACTIVE_OFFSET_X;
-        sdl_rect.y = posY + sizeParams::PIECE_FIELD_DIFF + sizeParams::INACTIVE_OFFSET_Y;
-        posInArray = y*sizeParams::INACTIVE_FIELDS_NUMBER_X+x;
-    } else {
-        posX = x * sizeParams::FIELD_SIZE + sizeParams::BOARD_X;
-        posY = y * sizeParams::FIELD_SIZE + sizeParams::BOARD_Y;
-        sdl_rect.x = posX + sizeParams::PIECE_FIELD_DIFF + sizeParams::BOARD_OFFSET_X;
-        sdl_rect.y = posY + sizeParams::PIECE_FIELD_DIFF + sizeParams::BOARD_OFFSET_Y;
-        posInArray = y*sizeParams::BOARD_FIELDS_NUMBER+x;
-    }*/
     randomAngle = std::rand() % 9 - 4;
 }
 
@@ -37,22 +24,6 @@ void Piece::render(SDL_Renderer* renderer){
     else {
         SDL_RenderCopyEx(renderer, (isFaceDown ? backTexture : faceUpTexture), NULL, &sdl_rect, randomAngle, NULL, SDL_FLIP_NONE);
     }
-}
-
-int Piece::getPosX() const {
-    return posX;
-}
-
-void Piece::setPosX(int posX) {
-    Piece::posX = posX;
-}
-
-int Piece::getPosY() const {
-    return posY;
-}
-
-void Piece::setPosY(int posY) {
-    Piece::posY = posY;
 }
 
 void Piece::flip() {
@@ -139,7 +110,7 @@ bool Piece::isNotBlocked(const std::array<std::shared_ptr<Piece>, 100> &boardArr
 bool Piece::isOccupiedByMyTeammate(const int &x, const int &y,
                                    const std::array<std::shared_ptr<Piece>, 100> &boardArray) const {
     int arrayPos = y*sizeParams::BOARD_FIELDS_NUMBER+x;
-    if (boardArray[arrayPos]) {
+    if (boardArray[arrayPos] && boardArray[arrayPos]->getColor() == color) {
         return true;
     }
     return false;

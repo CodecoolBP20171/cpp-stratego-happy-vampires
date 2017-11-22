@@ -26,7 +26,8 @@ public:
     SDL_Rect selectionRect;
     void setBoardArray(const std::shared_ptr<Piece> piece);
     void setToInactiveArray(const std::shared_ptr<Piece> piece);
-    void removeFromPosInArray(int oldPos);
+    void removeFromBoardArray(int oldPos);
+    void removeFromInactiveArray(int oldPos);
     const std::array<std::shared_ptr<Piece>, 100> &getBoardArray() const;
     const std::array<std::shared_ptr<Button>, 1> &getButtonArray() const;
     const std::array<std::shared_ptr<Piece>, 80> &getInactiveArray() const;

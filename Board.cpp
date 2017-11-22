@@ -146,8 +146,12 @@ void Board::setToInactiveArray(const std::shared_ptr<Piece> piece) {
     piece->setOnBoard(false);
 }
 
-void Board::removeFromPosInArray(int oldPos) {
+void Board::removeFromBoardArray(int oldPos) {
     boardArray[oldPos] = nullptr;
+}
+
+void Board::removeFromInactiveArray(int oldPos) {
+    inactiveArray[oldPos] = nullptr;
 }
 
 const std::array<std::shared_ptr<Button>, 1> &Board::getButtonArray() const {

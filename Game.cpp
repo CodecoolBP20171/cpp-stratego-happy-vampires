@@ -202,6 +202,7 @@ void Game::initRedSetup() {
 }
 
 void Game::initRedSetupForTesting() {
+/*
     board.addToBoard(0, 0, std::make_shared<Soldier>
             (majorRank, red,
              textureMap[red7Texture]->getSDLTexture(),
@@ -224,7 +225,8 @@ void Game::initRedSetupForTesting() {
              textureMap[blue7Texture]->getSDLTexture(),
              textureMap[blueBackTexture]->getSDLTexture(), true, false));
 
-    /*board.addToInactive(0, 0, std::make_shared<Flag>
+*/
+    board.addToInactive(0, 0, std::make_shared<Flag>
             (flagRank, red,
              textureMap[redFlagTexture]->getSDLTexture(),
              textureMap[redBackTexture]->getSDLTexture(), false, false));
@@ -289,7 +291,7 @@ void Game::initRedSetupForTesting() {
         (marshallRank, red,
          textureMap[red10Texture]->getSDLTexture(),
          textureMap[redBackTexture]->getSDLTexture(), false, false));
-*/}
+}
 
 void Game::initBlueSetupForTesting() {
     board.addToInactive(0, 0, std::make_shared<Flag>
@@ -436,15 +438,15 @@ void Game::initGame() {
     board.selectionRect.w = sizeParams::PIECE_SIZE;
     currentPlayer = Color::red;
     // should be initially:
-    //gameState = GameState::boardSetupState;
+    gameState = GameState::boardSetupState;
 
     // THE BELOW LINES ARE USED ONLY IN THE DEVELOPMENT PHASE, THEY WILL BE ALTERED IN THE FINAL GAME
 
 
-    gameState = GameState::gameState;
+    /*gameState = GameState::gameState;
     switchPlayers();
     flipAllPiecesOfCurrentPlayer();
-    switchPlayers();
+    switchPlayers();*/
 
 
 }
@@ -595,7 +597,7 @@ void Game::boardSetupLogic() {
                 //int newPos = selectedPiece->getPosInArray(); //std::cout << "newPos " << newPos << std::endl;
                 selectedPiece->setupTo(clickedX, clickedY);
                 board.setBoardArray(selectedPiece);
-                board.removeFromPosInArray(oldPos);
+                board.removeFromInactiveArray(oldPos);
                 //boardArray[newPos] = std::move(inactiveArray[oldPos]);
                 deselect();
                 if(isRedSetup() && !blueSetupPhase) board.getButtonArray()[Buttons::next]->setActive(true);
@@ -629,7 +631,7 @@ void Game::gameStateLogic() {
                 if (selectedPiece->moveTo(clickedX, clickedY, board.getBoardArray())) {
                     //int newPos = selectedPiece->getPosInArray(); //std::cout << "newPos " << newPos << std::endl;
                     board.setBoardArray(selectedPiece);
-                    board.removeFromPosInArray(oldPos);
+                    board.removeFromBoardArray(oldPos);
                     deselect();
                     // TODO: here we should wait for the click... HOW????
                     // maybe: use a Game obj var to mark this point, for example
@@ -725,7 +727,7 @@ void Game::executeFight(std::shared_ptr<Piece> attacker, std::shared_ptr<Piece> 
         attacker->setSdl_rect(defenderSDLRectX, defenderSDLRectY);
         attacker->setPosInArray(defenderPosInArray);
         board.setBoardArray(attacker);
-        board.removeFromPosInArray(attackerPosInArray);
+        board.removeFromBoardArray(attackerPosInArray);
     }
 
     if(loser2) {
@@ -849,7 +851,7 @@ bool Game::isBlueSetup() {
 }
 
 void Game::throwOutLoserToInactivePieces(std::shared_ptr<Piece> loser) {
-    int oldPos = loser->getPosInArray(); //std::cout << "oldPos " << oldPos << std::endl;
+    int oldPos = loser->getPosInArray();
     board.setToInactiveArray(loser);
-    board.removeFromPosInArray(oldPos);
+    board.removeFromBoardArray(oldPos);
 }
