@@ -25,16 +25,15 @@ public:
     std::shared_ptr<Button> getClickedButton(const int &x, const int &y) const;
     SDL_Rect selectionRect;
     void setBoardArray(const std::shared_ptr<Piece> piece);
+    void setToInactiveArray(const std::shared_ptr<Piece> piece);
     void removeFromPosInArray(int oldPos);
     const std::array<std::shared_ptr<Piece>, 100> &getBoardArray() const;
     const std::array<std::shared_ptr<Button>, 1> &getButtonArray() const;
-private:
-    std::array<std::shared_ptr<Piece>, 80> inactiveArray;
-public:
     const std::array<std::shared_ptr<Piece>, 80> &getInactiveArray() const;
 
 private:
     std::array<std::shared_ptr<Piece>, 100> boardArray;
+    std::array<std::shared_ptr<Piece>, 80> inactiveArray;
     std::array<std::shared_ptr<Button>, 1> buttonArray;
     void graphicallySelect(SDL_Renderer *renderer, std::shared_ptr<Piece> &selectedPiece, std::shared_ptr<Texture> &texture);
 };

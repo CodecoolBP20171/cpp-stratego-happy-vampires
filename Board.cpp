@@ -130,6 +130,22 @@ void Board::setBoardArray(const std::shared_ptr<Piece> piece) {
     boardArray[newPosInArray] = piece;
 }
 
+void Board::setToInactiveArray(const std::shared_ptr<Piece> piece) {
+    for(int i=0; i<inactiveArray.size(); i++) {
+        if(inactiveArray[i] == nullptr){
+            int posX = sizeParams::INACTIVE_OFFSET_X + sizeParams::FIELD_SIZE * (i % sizeParams::INACTIVE_FIELDS_NUMBER_X);
+            int posY = sizeParams::INACTIVE_OFFSET_Y + sizeParams::FIELD_SIZE * (i / sizeParams::INACTIVE_FIELDS_NUMBER_X);
+            int x = posX + sizeParams::PIECE_FIELD_DIFF;
+            int y = posY + sizeParams::PIECE_FIELD_DIFF;
+            piece->setSdl_rect(x, y);
+            piece->setPosInArray(i);
+            inactiveArray[i] = piece;
+            break;
+        }
+    }
+    piece->setOnBoard(false);
+}
+
 void Board::removeFromPosInArray(int oldPos) {
     boardArray[oldPos] = nullptr;
 }

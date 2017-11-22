@@ -701,14 +701,12 @@ void Game::deselect() {
 void Game::executeFight(std::shared_ptr<Piece> attacker, std::shared_ptr<Piece> defender, FightWinner winner) {
     std::shared_ptr<Piece> loser1;
     std::shared_ptr<Piece> loser2 = nullptr;
-    int defenderPosX, defenderPosY, defenderSDLRectX, defenderSDLRectY, defenderPosInArray, attackerPosInArray;
+    int defenderSDLRectX, defenderSDLRectY, defenderPosInArray, attackerPosInArray;
     if(defender->getRank() == Rank::flagRank) {
         gameOver(attacker);
     }
     if(winner == FightWinner::attacker){
         // TODO: "moving attacker to the place of defender if attacker wins" solution could be much nicer
-        defenderPosX = defender->getPosX();
-        defenderPosY = defender->getPosY();
         defenderSDLRectX = defender->getSdl_rectX();
         defenderSDLRectY = defender->getSdl_rectY();
         defenderPosInArray = defender->getPosInArray();
@@ -724,12 +722,10 @@ void Game::executeFight(std::shared_ptr<Piece> attacker, std::shared_ptr<Piece> 
     throwOutLoserToInactivePieces(loser1);
 
     if(winner == FightWinner::attacker) {
-        attacker->setPosX(defenderPosX);
-        attacker->setPosY(defenderPosY);
         attacker->setSdl_rect(defenderSDLRectX, defenderSDLRectY);
         attacker->setPosInArray(defenderPosInArray);
-        boardArray[defenderPosInArray] = attacker;
-        boardArray[attackerPosInArray] = nullptr;
+        board.setBoardArray(attacker);
+        board.removeFromPosInArray(attackerPosInArray);
     }
 
     if(loser2) {
@@ -854,7 +850,6 @@ bool Game::isBlueSetup() {
 
 void Game::throwOutLoserToInactivePieces(std::shared_ptr<Piece> loser) {
     int oldPos = loser->getPosInArray(); //std::cout << "oldPos " << oldPos << std::endl;
-    loser->setupToInactive(inactiveArray);
-    int newPos = loser->getPosInArray(); //std::cout << "newPos " << newPos << std::endl;
-    inactiveArray[newPos] = std::move(boardArray[oldPos]);
+    board.setToInactiveArray(loser);
+    board.removeFromPosInArray(oldPos);
 }
