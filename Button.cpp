@@ -6,16 +6,12 @@
 #include "Pieces/Piece.h"
 
 
-Button::Button(int x, int y, SDL_Texture *activeTexture, SDL_Texture *inactiveTexture, bool isActive)
+Button::Button(SDL_Texture *activeTexture, SDL_Texture *inactiveTexture, bool isActive)
     :   activeTexture(activeTexture),
         inactiveTexture(inactiveTexture),
         active(isActive) {
     sdl_rect.w = sizeParams::PIECE_SIZE;
     sdl_rect.h = sizeParams::PIECE_SIZE;
-    posX = x * sizeParams::FIELD_SIZE + sizeParams::INACTIVE_FIELDS_NUMBER_X;
-    posY = y * sizeParams::FIELD_SIZE + sizeParams::INACTIVE_FIELDS_NUMBER_Y;
-    sdl_rect.x = posX + sizeParams::PIECE_FIELD_DIFF + sizeParams::INACTIVE_OFFSET_X;
-    sdl_rect.y = posY + sizeParams::PIECE_FIELD_DIFF + sizeParams::INACTIVE_OFFSET_Y;
 }
 
 void Button::render(SDL_Renderer *renderer) {
@@ -37,7 +33,6 @@ bool Button::isClicked() const {
 void Button::setClicked(bool isClicked) {
     if(!active) {
         clicked = isClicked;
-
     }
 }
 
@@ -47,4 +42,12 @@ bool Button::isActive() const {
 
 void Button::setActive(bool isActive) {
     Button::active = isActive;
+}
+
+int Button::getPosInArray() const {
+    return posInArray;
+}
+
+void Button::setPosInArray(int posInArray) {
+    Button::posInArray = posInArray;
 }

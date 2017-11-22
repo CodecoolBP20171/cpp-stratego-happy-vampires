@@ -4,8 +4,7 @@
 
 #include "Piece.h"
 
-Piece::Piece(int x, int y,
-             Rank rank, Color color,
+Piece::Piece(Rank rank, Color color,
              SDL_Texture *faceUpTexture = nullptr, SDL_Texture *backGroundTexture = nullptr,
              bool toBoard = false,
              bool isFaceDown = false)
@@ -17,19 +16,6 @@ Piece::Piece(int x, int y,
 {
     sdl_rect.w = sizeParams::PIECE_SIZE;
     sdl_rect.h = sizeParams::PIECE_SIZE;
-    if (!toBoard) {
-        posX = x * sizeParams::FIELD_SIZE + sizeParams::INACTIVE_FIELDS_NUMBER_X;
-        posY = y * sizeParams::FIELD_SIZE + sizeParams::INACTIVE_FIELDS_NUMBER_Y;
-        sdl_rect.x = posX + sizeParams::PIECE_FIELD_DIFF + sizeParams::INACTIVE_OFFSET_X;
-        sdl_rect.y = posY + sizeParams::PIECE_FIELD_DIFF + sizeParams::INACTIVE_OFFSET_Y;
-        posInArray = y*sizeParams::INACTIVE_FIELDS_NUMBER_X+x;
-    } else {
-        posX = x * sizeParams::FIELD_SIZE + sizeParams::BOARD_X;
-        posY = y * sizeParams::FIELD_SIZE + sizeParams::BOARD_Y;
-        sdl_rect.x = posX + sizeParams::PIECE_FIELD_DIFF + sizeParams::BOARD_OFFSET_X;
-        sdl_rect.y = posY + sizeParams::PIECE_FIELD_DIFF + sizeParams::BOARD_OFFSET_Y;
-        posInArray = y*sizeParams::BOARD_FIELDS_NUMBER+x;
-    }
     randomAngle = std::rand() % 9 - 4;
 }
 
@@ -38,22 +24,6 @@ void Piece::render(SDL_Renderer* renderer){
     else {
         SDL_RenderCopyEx(renderer, (isFaceDown ? backTexture : faceUpTexture), NULL, &sdl_rect, randomAngle, NULL, SDL_FLIP_NONE);
     }
-}
-
-int Piece::getPosX() const {
-    return posX;
-}
-
-void Piece::setPosX(int posX) {
-    Piece::posX = posX;
-}
-
-int Piece::getPosY() const {
-    return posY;
-}
-
-void Piece::setPosY(int posY) {
-    Piece::posY = posY;
 }
 
 void Piece::flip() {
@@ -89,29 +59,21 @@ void Piece::setTo(int &x, int &y) {
 }
 
 void Piece::setupTo(int &x, int &y) {
-    int newPosX = (int) x / sizeParams::FIELD_SIZE * sizeParams::FIELD_SIZE;
-    int newPosY = (int) y / sizeParams::FIELD_SIZE * sizeParams::FIELD_SIZE;
-    //TODO debug newPos maths to avoid setting up to same place
-
-    posX = newPosX;
-    posY = newPosY;
-
-    int newX = (newPosX-sizeParams::BOARD_X)/sizeParams::FIELD_SIZE;
-    int newY = (newPosY-sizeParams::BOARD_Y)/sizeParams::FIELD_SIZE;
-
-    sdl_rect.x = newPosX + sizeParams::PIECE_FIELD_DIFF + sizeParams::BOARD_OFFSET_X;
-    sdl_rect.y = newPosY + sizeParams::PIECE_FIELD_DIFF + sizeParams::BOARD_OFFSET_Y;
-
-    posInArray = newY*sizeParams::BOARD_FIELDS_NUMBER+newX;
-    std::cout << posInArray << std::endl;
+    int newX = (x - sizeParams::BOARD_OFFSET_X) / sizeParams::FIELD_SIZE;
+    int newY = (y - sizeParams::BOARD_OFFSET_Y) / sizeParams::FIELD_SIZE;
+    int currX = posInArray % sizeParams::BOARD_FIELDS_NUMBER;
+    int currY = posInArray / sizeParams::BOARD_FIELDS_NUMBER;
+    posInArray = newY * sizeParams::BOARD_FIELDS_NUMBER + newX;
+    sdl_rect.x = newX * sizeParams::FIELD_SIZE + sizeParams::PIECE_FIELD_DIFF + sizeParams::BOARD_OFFSET_X;
+    sdl_rect.y = newY * sizeParams::FIELD_SIZE + sizeParams::PIECE_FIELD_DIFF + sizeParams::BOARD_OFFSET_Y;
     setOnBoard(true);
 }
 
 void Piece::setupToInactive(std::array<std::shared_ptr<Piece>, 80> &inactiveArray) {
     for(int i=0; i<inactiveArray.size(); i++) {
         if(inactiveArray[i] == nullptr){
-            posX = sizeParams::INACTIVE_OFFSET_X + sizeParams::FIELD_SIZE * (i % sizeParams::INACTIVE_FIELDS_NUMBER_X);
-            posY = sizeParams::INACTIVE_OFFSET_Y + sizeParams::FIELD_SIZE * (i / sizeParams::INACTIVE_FIELDS_NUMBER_X);
+            int posX = sizeParams::INACTIVE_OFFSET_X + sizeParams::FIELD_SIZE * (i % sizeParams::INACTIVE_FIELDS_NUMBER_X);
+            int posY = sizeParams::INACTIVE_OFFSET_Y + sizeParams::FIELD_SIZE * (i / sizeParams::INACTIVE_FIELDS_NUMBER_X);
             sdl_rect.x = posX + sizeParams::PIECE_FIELD_DIFF;
             sdl_rect.y = posY + sizeParams::PIECE_FIELD_DIFF;
             posInArray = i;
@@ -127,35 +89,31 @@ void Piece::setSdl_rect(int &x, int &y) {
 }
 
 bool Piece::isNotBlocked(const std::array<std::shared_ptr<Piece>, 100> &boardArray) const {
+    int blockCounter = 0;
+    int y = posInArray / sizeParams::BOARD_FIELDS_NUMBER; //deliberate integer division
+    int x = posInArray % sizeParams::BOARD_FIELDS_NUMBER;
     for(int i = -1; i < 2; i++){
         for(int j = -1; j < 2; j++){
             if(abs(i + j) == 1) {
-                if (isOccupiedByMyTeammate(posX + i * sizeParams::FIELD_SIZE, posY + j * sizeParams::FIELD_SIZE,
-                                           boardArray)){
-                    return true;
+                if (x + i < 0 || x + i > 9
+                    || y + j < 0 || y + j > 9) {
+                    ++blockCounter;
+                } else if (isOccupiedByMyTeammate(x + i, y + j, boardArray)){
+                    ++blockCounter;
                 }
             }
         }
     }
-    return false;
+    return blockCounter < 4;
 }
 
 bool Piece::isOccupiedByMyTeammate(const int &x, const int &y,
                                    const std::array<std::shared_ptr<Piece>, 100> &boardArray) const {
-    // TODO i.e. isOnBoard:
-    if (x < sizeParams::BOARD_X || x > sizeParams::BOARD_MAX_X || y < sizeParams::BOARD_Y || y > sizeParams::BOARD_MAX_Y){
-        return false;
+    int arrayPos = y*sizeParams::BOARD_FIELDS_NUMBER+x;
+    if (boardArray[arrayPos] && boardArray[arrayPos]->getColor() == color) {
+        return true;
     }
-    for(auto &piece : boardArray) {
-        if(piece) {
-            if(x == piece->getPosX() &&
-               y == piece->getPosY() &&
-               piece->getColor() == color) {
-                return false;
-            }
-        }
-    }
-    return true;
+    return false;
 }
 
 const SDL_Rect &Piece::getSdl_rect() const {

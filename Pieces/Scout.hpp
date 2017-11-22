@@ -10,58 +10,34 @@
 
 class Scout : public Soldier {
 public:
-    Scout(int x, int y, Rank rank, Color color, SDL_Texture *faceUpTexture, SDL_Texture *backGroundTexture,
-          bool toBoard, bool isFaceDown) : Soldier(x, y, rank, color, faceUpTexture, backGroundTexture, toBoard, isFaceDown){}
+    Scout(Rank rank, Color color, SDL_Texture *faceUpTexture, SDL_Texture *backGroundTexture,
+          bool toBoard, bool isFaceDown) : Soldier(rank, color, faceUpTexture, backGroundTexture, toBoard, isFaceDown){}
 
     bool moveTo(int x, int y, const std::array<std::shared_ptr<Piece>, 100> &boardArray) override {
         bool canMove = false;
-        int newX = (x - sizeParams::BOARD_OFFSET_X) / sizeParams::FIELD_SIZE * sizeParams::FIELD_SIZE;
-        int newY = (y - sizeParams::BOARD_OFFSET_Y) / sizeParams::FIELD_SIZE * sizeParams::FIELD_SIZE;
-        int stepNumber = std::max(abs(newX - posX), abs(newY - posY)) / sizeParams::FIELD_SIZE;
-        int stepSize = 0;
-        try {
-            //to prevent program from accidental division by zero
-            if (stepNumber == 0) {throw std::runtime_error("");}
-            stepSize = (abs(newX - posX) == 0 ? newY - posY : newX - posX) / stepNumber;
-        } catch (std::runtime_error &e) {
-            std::cout << "Accidental divsion by zero was detected" << std::endl;
-        }
-
-        if(abs(posX - newX) > 0 && abs(posY - newY) == 0 || abs(posX - newX) == 0 && abs(posY - newY) > 0){
-
+        int newX = (x - sizeParams::BOARD_OFFSET_X) / sizeParams::FIELD_SIZE;
+        int newY = (y - sizeParams::BOARD_OFFSET_Y) / sizeParams::FIELD_SIZE;
+        int currX = posInArray % sizeParams::BOARD_FIELDS_NUMBER;
+        int currY = posInArray / sizeParams::BOARD_FIELDS_NUMBER;
+        int stepNumber = std::max(abs(newX - currX), abs(newY - currY));
+        if(abs(currX - newX) > 0 && abs(currY - newY) == 0 || abs(currX - newX) == 0 && abs(currY - newY) > 0){
             for(int i = 1; i < stepNumber; i++) {
-                if(abs(newX - posX) == 0){
-                    if(isThereAPieceInTheWay(posX, posY + i * stepSize, boardArray)){
+                if(abs(newX - currX) == 0){
+                    if(isThereAPieceInTheWayByIndex(currX, currY + i, boardArray)){
                         return false;
                     }
-                } else if(abs(newY - posY) == 0){
-                    if(isThereAPieceInTheWay(posX + i * stepSize, posY, boardArray)){
+                } else if(abs(newY - currY) == 0){
+                    if(isThereAPieceInTheWayByIndex(currX + i, currY, boardArray)){
                         return false;
                     }
                 }
             }
-            sdl_rect.x = newX + sizeParams::PIECE_FIELD_DIFF + sizeParams::BOARD_OFFSET_X;
-            sdl_rect.y = newY + sizeParams::PIECE_FIELD_DIFF + sizeParams::BOARD_OFFSET_Y;
-            posX = newX + sizeParams::BOARD_X;
-            posY = newY + sizeParams::BOARD_Y;
-            int newIndexX = (posX-sizeParams::BOARD_X)/sizeParams::FIELD_SIZE;
-            int newIndexY = (posY-sizeParams::BOARD_Y)/sizeParams::FIELD_SIZE;
-            posInArray = newIndexY*sizeParams::BOARD_FIELDS_NUMBER+newIndexX;
+            sdl_rect.x = newX * sizeParams::FIELD_SIZE + sizeParams::PIECE_FIELD_DIFF + sizeParams::BOARD_OFFSET_X;
+            sdl_rect.y = newY * sizeParams::FIELD_SIZE + sizeParams::PIECE_FIELD_DIFF + sizeParams::BOARD_OFFSET_Y;
+            posInArray = newY * sizeParams::BOARD_FIELDS_NUMBER + newX;
             canMove = true;
         }
         return canMove;
-    }
-
-    bool isThereAPieceInTheWay(int x, int y, const std::array<std::shared_ptr<Piece>, 100> &boardArray) const {
-        for(auto& piece : boardArray) {
-            if (piece) {
-                if (x == piece->getPosX() &&
-                    y == piece->getPosY()) {
-                    return true;
-                }
-            }
-        }
-        return false;
     }
 
     bool isInAttackPosition(std::shared_ptr<Piece> defender, const std::array<std::shared_ptr<Piece>, 100> &boardArray) const override {
@@ -90,10 +66,7 @@ public:
 }
 
     bool isThereAPieceInTheWayByIndex(int x, int y, const std::array<std::shared_ptr<Piece>, 100> &boardArray) const {
-        std::cout << "examinedX: " << x << std::endl;
-        std::cout << "examinedY: " << y << std::endl;
         int posIndex = y * sizeParams::BOARD_FIELDS_NUMBER + x;
-        std::cout << "posindex: " << posIndex << std::endl;
         if(boardArray[posIndex] == nullptr){
             return false;
         } else {
