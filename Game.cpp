@@ -202,7 +202,7 @@ void Game::initRedSetup() {
 }
 
 void Game::initRedSetupForTesting() {
-/*
+
     board.addToBoard(0, 0, std::make_shared<Soldier>
             (majorRank, red,
              textureMap[red7Texture]->getSDLTexture(),
@@ -225,7 +225,7 @@ void Game::initRedSetupForTesting() {
              textureMap[blue7Texture]->getSDLTexture(),
              textureMap[blueBackTexture]->getSDLTexture(), true, false));
 
-*/
+/*
     board.addToInactive(0, 0, std::make_shared<Flag>
             (flagRank, red,
              textureMap[redFlagTexture]->getSDLTexture(),
@@ -291,7 +291,7 @@ void Game::initRedSetupForTesting() {
         (marshallRank, red,
          textureMap[red10Texture]->getSDLTexture(),
          textureMap[redBackTexture]->getSDLTexture(), false, false));
-}
+*/}
 
 void Game::initBlueSetupForTesting() {
     board.addToInactive(0, 0, std::make_shared<Flag>
@@ -438,15 +438,15 @@ void Game::initGame() {
     board.selectionRect.w = sizeParams::PIECE_SIZE;
     currentPlayer = Color::red;
     // should be initially:
-    gameState = GameState::boardSetupState;
+    //gameState = GameState::boardSetupState;
 
     // THE BELOW LINES ARE USED ONLY IN THE DEVELOPMENT PHASE, THEY WILL BE ALTERED IN THE FINAL GAME
 
 
-    /*gameState = GameState::gameState;
+    gameState = GameState::gameState;
     switchPlayers();
     flipAllPiecesOfCurrentPlayer();
-    switchPlayers();*/
+    switchPlayers();
 
 
 }
@@ -483,7 +483,7 @@ bool Game::handleEvents(SDL_Event &event) {
         clickedX = x; clickedY = y;
         // convertClickedCoordsToArrayPlace(x, y);
         //std::cout << "click @ " << clickedX << " " << clickedY << std::endl;
-        printGameState();
+        //printGameState();
     }
     return quit;
 }
@@ -591,7 +591,6 @@ void Game::boardSetupLogic() {
                 std::cout << "setup to board array index ";
                 //deselect();
                 int oldPos = selectedPiece->getPosInArray(); //std::cout << "oldPos " << oldPos << std::endl;
-                oldSDL_RectPosition = selectedPiece->getSdl_rect();
                 //selectedPiece->setupTo(clickedX, clickedY);
 
                 //int newPos = selectedPiece->getPosInArray(); //std::cout << "newPos " << newPos << std::endl;
@@ -610,39 +609,54 @@ void Game::boardSetupLogic() {
 void Game::gameStateLogic() {
     // TODO: apply full plan (flowchart), for example after move wait for click, etc.
     // TODO: if there is a click on the board -> can go to a separated function!
-    if(clickedX >= 0 && clickedY >= 0 && clickedX <= sizeParams::BOARD_MAX_X && clickedX <= sizeParams::BOARD_MAX_Y) {
-        std::shared_ptr<Piece> clickedPiece = board.getClickedPiece(clickedX, clickedY);
-        if (clickedPiece) {
-            if (currentPlayer == clickedPiece->getColor()) {
-                if (clickedPiece->canMove() && clickedPiece->isNotBlocked(board.getBoardArray())) {
-                    selectPiece(clickedPiece);
-                }
-            } else if(clickedPiece->getColor() == enemyColor() && selectedPiece) {
-                // attacker = selectedPiece, defender = clickedPiece
-                if(selectedPiece->isInAttackPosition(clickedPiece, board.getBoardArray())) {
-                    FightWinner fightwinner = selectedPiece->attack(clickedPiece);
-                    executeFight(selectedPiece, clickedPiece, fightwinner);
-                }
-            }
 
-        } else {
-            if (selectedPiece) {
-                int oldPosInArray = selectedPiece->getPosInArray(); //std::cout << "oldPos " << oldPos << std::endl;
-                oldSDL_RectPosition = selectedPiece->getSdl_rect();
-                if (selectedPiece->moveTo(clickedX, clickedY, board.getBoardArray())) {
-                    //int newPos = selectedPiece->getPosInArray(); //std::cout << "newPos " << newPos << std::endl;
-                    board.setBoardArray(selectedPiece);
-                    board.removeFromBoardArray(oldPosInArray);
-                    deselect();
-                    // TODO: here we should wait for the click... HOW????
-                    // maybe: use a Game obj var to mark this point, for example
-                    // waitForClick = true; and check this variable on the top of this function
-                    // and if it is true -> proceed "playback" of the action,
-                    // a few additional obj vars could be necessary to achieve this
+    std::shared_ptr<Button> clickedButton = board.getClickedButton(clickedX, clickedY);
+    if (clickedButton && clickedButton == board.getButtonArray()[Buttons::next] && waitingForSwitchPlayers) {
+        switchPlayers();
+        flipAllPiecesOfCurrentPlayer();
+        waitingForSwitchPlayers = false;
+        clickedButton->setActive(false);
+    }
+    else if (clickedButton && clickedButton == board.getButtonArray()[Buttons::next] && !waitingForSwitchPlayers) {
+        flipAllPiecesOfCurrentPlayer();
+        waitingForSwitchPlayers = true;
+    }
+    else if( !board.getButtonArray()[Buttons::next]->isActive() ) {
+        if(clickedX >= 0 && clickedY >= 0 && clickedX <= sizeParams::BOARD_MAX_X && clickedX <= sizeParams::BOARD_MAX_Y) {
+            std::shared_ptr<Piece> clickedPiece = board.getClickedPiece(clickedX, clickedY);
+            if (clickedPiece) {
+                if (currentPlayer == clickedPiece->getColor()) {
+                    if (clickedPiece->canMove() && clickedPiece->isNotBlocked(board.getBoardArray())) {
+                        selectPiece(clickedPiece);
+                    }
+                } else if(clickedPiece->getColor() == enemyColor() && selectedPiece) {
+                    // attacker = selectedPiece, defender = clickedPiece
+                    if(selectedPiece->isInAttackPosition(clickedPiece, board.getBoardArray())) {
+                        FightWinner fightwinner = selectedPiece->attack(clickedPiece);
+                        executeFight(selectedPiece, clickedPiece, fightwinner);
+                        board.getButtonArray()[Buttons::next]->setActive(true);
+                    }
+                }
 
-                    flipAllPiecesOfCurrentPlayer();
-                    switchPlayers();
-                    flipAllPiecesOfCurrentPlayer();
+            } else {
+                if (selectedPiece) {
+                    int oldPosInArray = selectedPiece->getPosInArray(); //std::cout << "oldPos " << oldPos << std::endl;
+                    oldSDL_RectPosition = selectedPiece->getSdl_rect();
+                    if (selectedPiece->moveTo(clickedX, clickedY, board.getBoardArray())) {
+                        //int newPos = selectedPiece->getPosInArray(); //std::cout << "newPos " << newPos << std::endl;
+                        board.setBoardArray(selectedPiece);
+                        board.removeFromBoardArray(oldPosInArray);
+                        deselect();
+                        // TODO: here we should wait for the click... HOW????
+                        // maybe: use a Game obj var to mark this point, for example
+                        // waitForClick = true; and check this variable on the top of this function
+                        // and if it is true -> proceed "playback" of the action,
+                        // a few additional obj vars could be necessary to achieve this
+                        board.getButtonArray()[Buttons::next]->setActive(true);
+//                        flipAllPiecesOfCurrentPlayer();
+//                        switchPlayers();
+//                        flipAllPiecesOfCurrentPlayer();
+                    }
                 }
             }
         }
@@ -656,33 +670,6 @@ void Game::renderAll() {
     board.renderButtons(display.getRenderer());
     board.graphicallySelect(display.getRenderer(), oldSDL_RectPosition, textureMap[Textures::selectionTexture]);
     if(selectedPiece) board.graphicallySelect(display.getRenderer(), selectedPiece->getSdl_rect(), textureMap[Textures::selectionTexture]);
-/*
-    for(int i = 0; i < pieceContainer.size(); i++){
-        pieceContainer[i]->render(display.getRenderer());
-        // if there is a selected piece, render the selection
-        if(pieceContainer[i] == selectedPiece) {
-            graphicallySelect();
-        }
-    }
-*/
-    /*for(auto &piece : inactiveArray) {
-        if (piece) {
-            piece->render(display.getRenderer());
-            if(piece == selectedPiece) { graphicallySelect(); }
-        }
-    }
-    for(auto &piece : boardArray) {
-        if (piece) {
-            piece->render(display.getRenderer());
-            if(piece == selectedPiece) { graphicallySelect(); }
-        }
-    }
-    for(auto &button : buttonArray) {
-        if (button) {
-            button->render(display.getRenderer());
-        }
-    }
-     */
     SDL_RenderPresent(display.getRenderer());
 }
 
