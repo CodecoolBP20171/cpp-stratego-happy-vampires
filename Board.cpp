@@ -10,8 +10,8 @@ void Board::addToBoard(int x, int y, std::shared_ptr<Piece> piece) {
     int arrayPos = y * sizeParams::BOARD_FIELDS_NUMBER + x;
     piece->setPosInArray(arrayPos);
     boardArray[arrayPos] = piece;
-    int pieceX = sizeParams::BOARD_OFFSET_X + x * sizeParams::FIELD_SIZE;
-    int pieceY = sizeParams::BOARD_OFFSET_Y + y * sizeParams::FIELD_SIZE;
+    int pieceX = sizeParams::BOARD_OFFSET_X + x * sizeParams::FIELD_SIZE + sizeParams::PIECE_FIELD_DIFF;
+    int pieceY = sizeParams::BOARD_OFFSET_Y + y * sizeParams::FIELD_SIZE + sizeParams::PIECE_FIELD_DIFF;
     piece->setSdl_rect(pieceX, pieceY);
 }
 
@@ -19,8 +19,8 @@ void Board::addToInactive(int x, int y, std::shared_ptr<Piece> piece) {
     int arrayPos = y * sizeParams::INACTIVE_FIELDS_NUMBER_X + x;
     piece->setPosInArray(arrayPos);
     inactiveArray[arrayPos] = piece;
-    int pieceX = sizeParams::INACTIVE_OFFSET_X + x * sizeParams::FIELD_SIZE;
-    int pieceY = sizeParams::INACTIVE_OFFSET_Y + y * sizeParams::FIELD_SIZE;
+    int pieceX = sizeParams::INACTIVE_OFFSET_X + x * sizeParams::FIELD_SIZE  + sizeParams::PIECE_FIELD_DIFF;
+    int pieceY = sizeParams::INACTIVE_OFFSET_Y + y * sizeParams::FIELD_SIZE  + sizeParams::PIECE_FIELD_DIFF;
     piece->setSdl_rect(pieceX, pieceY);
 }
 
