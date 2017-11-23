@@ -9,7 +9,8 @@
 #include <SDL_render.h>
 
 enum Buttons {
-    next
+    next,
+    restart
 };
 
 class Button {

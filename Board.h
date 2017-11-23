@@ -29,13 +29,13 @@ public:
     void removeFromBoardArray(int oldPos);
     void removeFromInactiveArray(int oldPos);
     const std::array<std::shared_ptr<Piece>, 100> &getBoardArray() const;
-    const std::array<std::shared_ptr<Button>, 1> &getButtonArray() const;
+    const std::array<std::shared_ptr<Button>, 2> &getButtonArray() const;
     const std::array<std::shared_ptr<Piece>, 80> &getInactiveArray() const;
     void graphicallySelect(SDL_Renderer *renderer, SDL_Rect position, std::shared_ptr<Texture> &texture);
 private:
     std::array<std::shared_ptr<Piece>, 100> boardArray;
     std::array<std::shared_ptr<Piece>, 80> inactiveArray;
-    std::array<std::shared_ptr<Button>, 1> buttonArray;
+    std::array<std::shared_ptr<Button>, 2> buttonArray;
 
 };
 
