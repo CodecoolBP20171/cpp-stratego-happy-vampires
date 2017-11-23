@@ -203,29 +203,29 @@ void Game::initRedSetup() {
 
 void Game::initRedSetupForTesting() {
 
-    board.addToBoard(0, 0, std::make_shared<Soldier>
-            (majorRank, red,
-             textureMap[red7Texture]->getSDLTexture(),
-             textureMap[redBackTexture]->getSDLTexture(), true, false));
-    board.addToBoard(1, 0, std::make_shared<Soldier>
-            (majorRank, red,
-             textureMap[red7Texture]->getSDLTexture(),
-             textureMap[redBackTexture]->getSDLTexture(), true, false));
-    board.addToBoard(0, 1, std::make_shared<Soldier>
-            (majorRank, red,
-             textureMap[red7Texture]->getSDLTexture(),
-             textureMap[redBackTexture]->getSDLTexture(), true, false));
-    board.addToBoard(0, 3, std::make_shared<Scout>
-            (scoutRank, red,
-             textureMap[red2Texture]->getSDLTexture(),
-             textureMap[redBackTexture]->getSDLTexture(), true, false));
+//    board.addToBoard(0, 0, std::make_shared<Soldier>
+//            (majorRank, red,
+//             textureMap[red7Texture]->getSDLTexture(),
+//             textureMap[redBackTexture]->getSDLTexture(), true, false));
+//    board.addToBoard(1, 0, std::make_shared<Soldier>
+//            (majorRank, red,
+//             textureMap[red7Texture]->getSDLTexture(),
+//             textureMap[redBackTexture]->getSDLTexture(), true, false));
+//    board.addToBoard(0, 1, std::make_shared<Soldier>
+//            (majorRank, red,
+//             textureMap[red7Texture]->getSDLTexture(),
+//             textureMap[redBackTexture]->getSDLTexture(), true, false));
+//    board.addToBoard(0, 3, std::make_shared<Scout>
+//            (scoutRank, red,
+//             textureMap[red2Texture]->getSDLTexture(),
+//             textureMap[redBackTexture]->getSDLTexture(), true, false));
+//
+//    board.addToBoard(9, 9, std::make_shared<Soldier>
+//            (majorRank, blue,
+//             textureMap[blue7Texture]->getSDLTexture(),
+//             textureMap[blueBackTexture]->getSDLTexture(), true, false));
 
-    board.addToBoard(9, 9, std::make_shared<Soldier>
-            (majorRank, blue,
-             textureMap[blue7Texture]->getSDLTexture(),
-             textureMap[blueBackTexture]->getSDLTexture(), true, false));
 
-/*
     board.addToInactive(0, 0, std::make_shared<Flag>
             (flagRank, red,
              textureMap[redFlagTexture]->getSDLTexture(),
@@ -291,7 +291,7 @@ void Game::initRedSetupForTesting() {
         (marshallRank, red,
          textureMap[red10Texture]->getSDLTexture(),
          textureMap[redBackTexture]->getSDLTexture(), false, false));
-*/}
+}
 
 void Game::initBlueSetupForTesting() {
     board.addToInactive(0, 0, std::make_shared<Flag>
@@ -438,16 +438,16 @@ void Game::initGame() {
     board.selectionRect.w = sizeParams::PIECE_SIZE;
     currentPlayer = Color::red;
     // should be initially:
-    //gameState = GameState::boardSetupState;
+    gameState = GameState::boardSetupState;
 
     // THE BELOW LINES ARE USED ONLY IN THE DEVELOPMENT PHASE, THEY WILL BE ALTERED IN THE FINAL GAME
 
-
+/*
     gameState = GameState::gameState;
     switchPlayers();
     flipAllPiecesOfCurrentPlayer();
     switchPlayers();
-
+*/
 
 }
 
@@ -547,9 +547,17 @@ void Game::boardSetupLogic() {
     std::shared_ptr<Piece> clickedPiece = board.getClickedPiece(clickedX, clickedY);
     std::shared_ptr<Button> clickedButton = board.getClickedButton(clickedX, clickedY);
     if (clickedButton && clickedButton == board.getButtonArray()[Buttons::next] && blueSetup) {
+        flipAllPiecesOfCurrentPlayer();
+        waitingForSwitchPlayers = true;
+        //return;
+    }
+    if(clickedButton && clickedButton == board.getButtonArray()[Buttons::next] && blueSetup && waitingForSwitchPlayers){
+        //switchPlayers();
+        flipAllPiecesOfCurrentPlayer();
+        //set button inactive
+        //clickedButton->setActive(false);
         gameState = GameState::gameState;
-        clickedButton->setActive(false);
-        return;
+        waitingForSwitchPlayers = false;
     }
     if (clickedButton && clickedButton == board.getButtonArray()[Buttons::next] && waitingForSwitchPlayers) {
         clickedButton->setActive(false);
@@ -584,20 +592,13 @@ void Game::boardSetupLogic() {
     } else if ( (currentPlayer == red && onRedSide()) || (currentPlayer == blue && onBlueSide()) ) {
         std::cout << "click on current players side" << std::endl;
         if ( clickedPiece != selectedPiece) {
-            //isOccupied
             //TODO debug: sometimes I can put a piece on top of another
             if (!board.getClickedPiece(clickedX, clickedY)) {
-                //moving
-                std::cout << "setup to board array index ";
-                //deselect();
+                //std::cout << "setup to board array index ";
                 int oldPos = selectedPiece->getPosInArray(); //std::cout << "oldPos " << oldPos << std::endl;
-                //selectedPiece->setupTo(clickedX, clickedY);
-
-                //int newPos = selectedPiece->getPosInArray(); //std::cout << "newPos " << newPos << std::endl;
                 selectedPiece->setupTo(clickedX, clickedY);
                 board.setBoardArray(selectedPiece);
                 board.removeFromInactiveArray(oldPos);
-                //boardArray[newPos] = std::move(inactiveArray[oldPos]);
                 deselect();
                 if(isRedSetup() && !blueSetupPhase) board.getButtonArray()[Buttons::next]->setActive(true);
                 if(blueSetupPhase && isBlueSetup()) board.getButtonArray()[Buttons::next]->setActive(true);
@@ -607,9 +608,6 @@ void Game::boardSetupLogic() {
 }
 
 void Game::gameStateLogic() {
-    // TODO: apply full plan (flowchart), for example after move wait for click, etc.
-    // TODO: if there is a click on the board -> can go to a separated function!
-
     std::shared_ptr<Button> clickedButton = board.getClickedButton(clickedX, clickedY);
     if (clickedButton && clickedButton == board.getButtonArray()[Buttons::next] && waitingForSwitchPlayers) {
         switchPlayers();
@@ -630,15 +628,18 @@ void Game::gameStateLogic() {
                         selectPiece(clickedPiece);
                     }
                 } else if(clickedPiece->getColor() == enemyColor() && selectedPiece) {
+                    // attack
                     // attacker = selectedPiece, defender = clickedPiece
+                    int oldPosInArray = selectedPiece->getPosInArray(); //std::cout << "oldPos " << oldPos << std::endl;
+                    oldSDL_RectPosition = selectedPiece->getSdl_rect();
                     if(selectedPiece->isInAttackPosition(clickedPiece, board.getBoardArray())) {
                         FightWinner fightwinner = selectedPiece->attack(clickedPiece);
                         executeFight(selectedPiece, clickedPiece, fightwinner);
                         board.getButtonArray()[Buttons::next]->setActive(true);
                     }
                 }
-
             } else {
+                // move
                 if (selectedPiece) {
                     int oldPosInArray = selectedPiece->getPosInArray(); //std::cout << "oldPos " << oldPos << std::endl;
                     oldSDL_RectPosition = selectedPiece->getSdl_rect();
@@ -647,15 +648,7 @@ void Game::gameStateLogic() {
                         board.setBoardArray(selectedPiece);
                         board.removeFromBoardArray(oldPosInArray);
                         deselect();
-                        // TODO: here we should wait for the click... HOW????
-                        // maybe: use a Game obj var to mark this point, for example
-                        // waitForClick = true; and check this variable on the top of this function
-                        // and if it is true -> proceed "playback" of the action,
-                        // a few additional obj vars could be necessary to achieve this
                         board.getButtonArray()[Buttons::next]->setActive(true);
-//                        flipAllPiecesOfCurrentPlayer();
-//                        switchPlayers();
-//                        flipAllPiecesOfCurrentPlayer();
                     }
                 }
             }
@@ -725,9 +718,6 @@ void Game::executeFight(std::shared_ptr<Piece> attacker, std::shared_ptr<Piece> 
         throwOutLoserToInactivePieces(loser2);
     }
     deselect();
-    flipAllPiecesOfCurrentPlayer();
-    switchPlayers();
-    flipAllPiecesOfCurrentPlayer();
 }
 
 std::shared_ptr<Button> Game::getClickedButton(const int &x, const int &y) const {
