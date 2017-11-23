@@ -10,7 +10,7 @@ Texture::Texture(SDL_Texture* texture) {
 
 Texture::~Texture()
 {
-    if(!texture) SDL_DestroyTexture(texture);
+    if(texture) SDL_DestroyTexture(texture);
 }
 
 void Texture::render(SDL_Renderer* renderer, const SDL_Rect* pos)
