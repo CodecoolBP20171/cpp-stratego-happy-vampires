@@ -28,7 +28,7 @@ void Board::addToButtons(int pos, std::shared_ptr<Button> button) {
     button->setPosInArray(pos);
     buttonArray[pos] = button;
     //buttonArray 0. elementh to inActiveArray 77. elementh
-    int buttonX = sizeParams::INACTIVE_OFFSET_X + (7+pos) * sizeParams::FIELD_SIZE;
+    int buttonX = sizeParams::INACTIVE_OFFSET_X + (6+pos) * sizeParams::FIELD_SIZE;
     int buttonY = sizeParams::INACTIVE_OFFSET_Y + 9 * sizeParams::FIELD_SIZE;
     button->sdl_rect.x = buttonX;
     button->sdl_rect.y = buttonY;
@@ -160,7 +160,7 @@ void Board::removeFromInactiveArray(int oldPos) {
     inactiveArray[oldPos] = nullptr;
 }
 
-const std::array<std::shared_ptr<Button>, 1> &Board::getButtonArray() const {
+const std::array<std::shared_ptr<Button>, 2> &Board::getButtonArray() const {
     return buttonArray;
 }
 

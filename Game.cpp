@@ -60,6 +60,7 @@ void Game::loadTextures() {
     textureMap[Textures::selectionTexture] = display.loadTexture("../pic/selection.png");
     textureMap[Textures::activeLogoTexture] = display.loadTexture("../pic/hv_logo.png");
     textureMap[Textures::inactiveLogoTexture] = display.loadTexture("../pic/hv_logo_inactive.png");
+    textureMap[Textures::blueResetTexture] = display.loadTexture("../pic/blueReset.png");
 }
 
 void Game::createPieces() {
@@ -431,6 +432,10 @@ void Game::createButtons() {
     board.addToButtons(0, std::make_shared<Button>
         (textureMap[Textures::activeLogoTexture]->getSDLTexture(),
          textureMap[Textures::inactiveLogoTexture]->getSDLTexture(), false));
+
+    board.addToButtons(1, std::make_shared<Button>
+            (textureMap[Textures::blueResetTexture]->getSDLTexture(),
+             textureMap[Textures::blueResetTexture]->getSDLTexture(), true));
 }
 
 void Game::initGame() {
@@ -489,6 +494,12 @@ bool Game::handleEvents(SDL_Event &event) {
 }
 
 void Game::gameLogic() {
+    std::shared_ptr<Button> clickedButton = board.getClickedButton(clickedX, clickedY);
+    if (clickedButton && clickedButton == board.getButtonArray()[Buttons::restart]) {
+        //std::cout << "restart button clicked." << std::endl;
+        restartGame();
+    }
+
     if(gameState == GameState::boardSetupState){
         boardSetupLogic();
     } else if(gameState == GameState::gameState){
@@ -834,4 +845,22 @@ void Game::throwOutLoserToInactivePieces(std::shared_ptr<Piece> loser) {
     int oldPos = loser->getPosInArray();
     board.setToInactiveArray(loser);
     board.removeFromBoardArray(oldPos);
+}
+
+void Game::restartGame() {
+    for(auto& piece: board.getBoardArray()){
+        if (piece) board.removeFromBoardArray(piece->getPosInArray());
+    }
+    for(auto& piece: board.getInactiveArray()){
+        if (piece) board.removeFromInactiveArray(piece->getPosInArray());
+    }
+    initRedSetupForTesting();
+    gameState = GameState::boardSetupState;
+    currentPlayer = Color::red;
+    board.getButtonArray()[Buttons::next]->setActive(false);
+    oldSDL_RectPosition.x = -1;
+    redSetup = false;
+    blueSetup = false;
+    waitingForSwitchPlayers = false;
+    blueSetupPhase = false;
 }
