@@ -19,14 +19,12 @@ public:
 
     Button(SDL_Texture *activeTexture, SDL_Texture *inactiveTexture, bool isActive);
     void render(SDL_Renderer* renderer);
-    void push();
     const SDL_Rect &getSdl_rect() const;
-    bool isClicked() const;
     void setClicked(bool isClicked);
     bool isActive() const;
     void setActive(bool isActive);
-    int getPosInArray() const;
     void setPosInArray(int posInArray);
+
 protected:
     SDL_Texture *activeTexture = nullptr;
     SDL_Texture *inactiveTexture = nullptr;

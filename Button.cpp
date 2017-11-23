@@ -18,16 +18,8 @@ void Button::render(SDL_Renderer *renderer) {
     SDL_RenderCopy(renderer, (active ? activeTexture : inactiveTexture), NULL, &sdl_rect);
 }
 
-void Button::push() {
-
-}
-
 const SDL_Rect &Button::getSdl_rect() const {
     return sdl_rect;
-}
-
-bool Button::isClicked() const {
-    return clicked;
 }
 
 void Button::setClicked(bool isClicked) {
@@ -42,10 +34,6 @@ bool Button::isActive() const {
 
 void Button::setActive(bool isActive) {
     Button::active = isActive;
-}
-
-int Button::getPosInArray() const {
-    return posInArray;
 }
 
 void Button::setPosInArray(int posInArray) {

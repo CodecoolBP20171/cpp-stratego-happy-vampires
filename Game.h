@@ -57,8 +57,6 @@ private:
     void gameStateLogic();
     void boardSetupLogic();
     void flipAllPiecesOfCurrentPlayer();
-    void convertClickedCoordsToArrayPlace(int &x, int &y);
-    void  printGameState() const;
     bool onInactiveField() const;
     bool onRedSide() const;
     bool onBlueSide() const;
@@ -67,13 +65,10 @@ private:
     void gameOver(std::shared_ptr<Piece> shared_ptr);
     void initRedSetup();
     void initBlueSetup();
-    void initRedSetupForTesting();
-    void initBlueSetupForTesting();
     bool isRedSetup();
     bool isBlueSetup();
     Color enemyColor();
     void throwOutLoserToInactivePieces(std::shared_ptr<Piece> shared_ptr);
-    void initSetupForGameLogicTesting();
     void restartGame();
 };
 

@@ -6,7 +6,6 @@
 #include <ctime>
 #include "Display.h"
 #include "Game.h"
-#include "Pieces/Piece.h"
 #include "Pieces/Bomb.hpp"
 #include "Pieces/Flag.hpp"
 #include "Pieces/Barrier.hpp"
@@ -60,59 +59,7 @@ void Game::loadTextures() {
 }
 
 void Game::createPieces() {
-/*
-    boardArray[0] = std::make_shared<Scout>
-     (0, 0, Rank::scoutRank, Color::red,
-     textureMap[Textures::red2Texture]->getSDLTexture(),
-     textureMap[Textures::redBackTexture]->getSDLTexture(), true, false);
-
-    boardArray[99] = std::make_shared<Flag>
-        (9, 9, Rank::bombRank, Color::blue,
-         textureMap[Textures::blueBombTexture]->getSDLTexture(),
-         textureMap[Textures::blueBackTexture]->getSDLTexture(), true, false);
-
-    boardArray[10] = std::make_shared<Soldier>
-        (0, 1, Rank::majorRank, Color::blue,
-         textureMap[Textures::blue7Texture]->getSDLTexture(),
-         textureMap[Textures::blueBackTexture]->getSDLTexture(), true, false);
-
-    boardArray[11] = std::make_shared<Soldier>
-        (1, 1, Rank::majorRank, Color::red,
-        textureMap[Textures::red7Texture]->getSDLTexture(),
-        textureMap[Textures::redBackTexture]->getSDLTexture(), true, false);
-
-    boardArray[20] = std::make_shared<Soldier>
-        (0, 2, Rank::majorRank, Color::red,
-        textureMap[Textures::red7Texture]->getSDLTexture(),
-        textureMap[Textures::redBackTexture]->getSDLTexture(), true, false);
-
-    boardArray[30] = std::make_shared<Flag>
-         (0, 3, Rank::flagRank, Color::blue,
-         textureMap[Textures::blueFlagTexture]->getSDLTexture(),
-         textureMap[Textures::blueBackTexture]->getSDLTexture(), true, false);
-
-
-    boardArray[77] = std::make_shared<Soldier>
-        (7, 7, Rank::majorRank, Color::blue,
-        textureMap[Textures::blue7Texture]->getSDLTexture(),
-        textureMap[Textures::blueBackTexture]->getSDLTexture(), true, false);
-
-    boardArray[88] = std::make_shared<Scout>
-        (8, 8, Rank::scoutRank, Color::blue,
-        textureMap[Textures::blue2Texture]->getSDLTexture(),
-        textureMap[Textures::blueBackTexture]->getSDLTexture(), true, false);
-*/
-    // initilaizing red setup
-    //initRedSetup();
-    initRedSetupForTesting();
-
-    /*
-     *     board.addToBoard(0, 0, std::make_shared<Soldier>
-            (0, 0, majorRank, red,
-             textureMap[red7Texture]->getSDLTexture(),
-             textureMap[redBackTexture]->getSDLTexture(), true, false));
-
-     */
+    initRedSetup();
     board.addToBoard(2, 4, std::make_shared<Barrier>(Rank::barrierRank, Color::neutral));
     board.addToBoard(3, 4, std::make_shared<Barrier>(Rank::barrierRank, Color::neutral));
     board.addToBoard(6, 4, std::make_shared<Barrier>(Rank::barrierRank, Color::neutral));
@@ -121,14 +68,6 @@ void Game::createPieces() {
     board.addToBoard(3, 5, std::make_shared<Barrier>(Rank::barrierRank, Color::neutral));
     board.addToBoard(6, 5, std::make_shared<Barrier>(Rank::barrierRank, Color::neutral));
     board.addToBoard(7, 5, std::make_shared<Barrier>(Rank::barrierRank, Color::neutral));
-    /*boardArray[43] = std::make_shared<Barrier>(2, 5, Rank::barrierRank, Color::neutral);
-    boardArray[46] = std::make_shared<Barrier>(3, 4, Rank::barrierRank, Color::neutral);
-    boardArray[47] = std::make_shared<Barrier>(3, 5, Rank::barrierRank, Color::neutral);
-    boardArray[52] = std::make_shared<Barrier>(6, 4, Rank::barrierRank, Color::neutral);
-    boardArray[53] = std::make_shared<Barrier>(6, 5, Rank::barrierRank, Color::neutral);
-    boardArray[56] = std::make_shared<Barrier>(7, 4, Rank::barrierRank, Color::neutral);
-    boardArray[57] = std::make_shared<Barrier>(7, 5, Rank::barrierRank, Color::neutral);
-     */
 }
 
 void Game::initRedSetup() {
@@ -196,165 +135,6 @@ void Game::initRedSetup() {
         (marshallRank, red,
          textureMap[red10Texture]->getSDLTexture(),
          textureMap[redBackTexture]->getSDLTexture(), false, false));
-}
-
-void Game::initRedSetupForTesting() {
-
-//    board.addToBoard(0, 0, std::make_shared<Soldier>
-//            (majorRank, red,
-//             textureMap[red7Texture]->getSDLTexture(),
-//             textureMap[redBackTexture]->getSDLTexture(), true, false));
-//    board.addToBoard(1, 0, std::make_shared<Soldier>
-//            (majorRank, red,
-//             textureMap[red7Texture]->getSDLTexture(),
-//             textureMap[redBackTexture]->getSDLTexture(), true, false));
-//    board.addToBoard(0, 1, std::make_shared<Soldier>
-//            (majorRank, red,
-//             textureMap[red7Texture]->getSDLTexture(),
-//             textureMap[redBackTexture]->getSDLTexture(), true, false));
-//    board.addToBoard(0, 3, std::make_shared<Scout>
-//            (scoutRank, red,
-//             textureMap[red2Texture]->getSDLTexture(),
-//             textureMap[redBackTexture]->getSDLTexture(), true, false));
-//
-//    board.addToBoard(9, 9, std::make_shared<Soldier>
-//            (majorRank, blue,
-//             textureMap[blue7Texture]->getSDLTexture(),
-//             textureMap[blueBackTexture]->getSDLTexture(), true, false));
-
-
-    board.addToInactive(0, 0, std::make_shared<Flag>
-            (flagRank, red,
-             textureMap[redFlagTexture]->getSDLTexture(),
-             textureMap[redBackTexture]->getSDLTexture(), false, false));
-    for(int i = 0; i < 6; ++i) {
-        board.addToBoard(0+i, 6, std::make_shared<Bomb>
-            (bombRank, red,
-             textureMap[redBombTexture]->getSDLTexture(),
-             textureMap[redBackTexture]->getSDLTexture(), true, false));
-    }
-    board.addToBoard(6, 6, std::make_shared<Spy>
-            (spyRank, red,
-             textureMap[red1Texture]->getSDLTexture(),
-             textureMap[redBackTexture]->getSDLTexture(), true, false));
-
-    for(int i = 0; i < 8; ++i) {
-        board.addToBoard(0+i, 7, std::make_shared<Scout>
-            (scoutRank, red,
-             textureMap[red2Texture]->getSDLTexture(),
-             textureMap[redBackTexture]->getSDLTexture(), true, false));
-    }
-    for(int i = 0; i < 5; ++i) {
-        board.addToBoard(0+i, 8, std::make_shared<Miner>
-            (minerRank, red,
-             textureMap[red3Texture]->getSDLTexture(),
-             textureMap[redBackTexture]->getSDLTexture(), true, false));
-    }
-    for(int i = 0; i < 4; ++i) {
-        board.addToBoard(5+i, 8, std::make_shared<Soldier>
-            (sergeantRank, red,
-             textureMap[red4Texture]->getSDLTexture(),
-             textureMap[redBackTexture]->getSDLTexture(), true, false));
-    }
-    for(int i = 0; i < 4; ++i) {
-        board.addToBoard(0+i, 9, std::make_shared<Soldier>
-            (lieutenantRank, red,
-             textureMap[red5Texture]->getSDLTexture(),
-             textureMap[redBackTexture]->getSDLTexture(), true, false));
-    }
-    for(int i = 0; i < 4; ++i) {
-        board.addToBoard(4+i, 9, std::make_shared<Soldier>
-            (captainRank, red,
-             textureMap[red6Texture]->getSDLTexture(),
-             textureMap[redBackTexture]->getSDLTexture(), true, false));
-    }
-    for(int i = 0; i < 3; ++i) {
-        board.addToBoard(7+i, 6, std::make_shared<Soldier>
-            (majorRank, red,
-             textureMap[red7Texture]->getSDLTexture(),
-             textureMap[redBackTexture]->getSDLTexture(), true, false));
-    }
-    for(int i = 0; i < 2; ++i) {
-        board.addToBoard(8+i, 7, std::make_shared<Soldier>
-            (colonelRank, red,
-             textureMap[red8Texture]->getSDLTexture(),
-             textureMap[redBackTexture]->getSDLTexture(), true, false));
-    }
-    board.addToBoard(9, 8, std::make_shared<Soldier>
-        (generalRank, red,
-         textureMap[red9Texture]->getSDLTexture(),
-         textureMap[redBackTexture]->getSDLTexture(), true, false));
-    board.addToInactive(0, 7, std::make_shared<Soldier>
-        (marshallRank, red,
-         textureMap[red10Texture]->getSDLTexture(),
-         textureMap[redBackTexture]->getSDLTexture(), false, false));
-}
-
-void Game::initBlueSetupForTesting() {
-    board.addToInactive(0, 0, std::make_shared<Flag>
-        (flagRank, blue,
-         textureMap[blueFlagTexture]->getSDLTexture(),
-         textureMap[blueBackTexture]->getSDLTexture(), false, false));
-    for(int i = 0; i < 6; ++i) {
-        board.addToBoard(0+i, 0, std::make_shared<Bomb>
-            (bombRank, blue,
-             textureMap[blueBombTexture]->getSDLTexture(),
-             textureMap[blueBackTexture]->getSDLTexture(), true, false));
-    }
-    board.addToBoard(6, 0, std::make_shared<Spy>
-        (spyRank, blue,
-         textureMap[blue1Texture]->getSDLTexture(),
-         textureMap[blueBackTexture]->getSDLTexture(), true, false));
-    for(int i = 0; i < 8; ++i) {
-        board.addToBoard(0+i, 1, std::make_shared<Scout>
-            (scoutRank, blue,
-             textureMap[blue2Texture]->getSDLTexture(),
-             textureMap[blueBackTexture]->getSDLTexture(), true, false));
-    }
-    for(int i = 0; i < 5; ++i) {
-        board.addToBoard(0+i, 2, std::make_shared<Miner>
-            (minerRank, blue,
-             textureMap[blue3Texture]->getSDLTexture(),
-             textureMap[blueBackTexture]->getSDLTexture(), true, false));
-    }
-    for(int i = 0; i < 4; ++i) {
-        board.addToBoard(5+i, 2, std::make_shared<Soldier>
-            (sergeantRank, blue,
-             textureMap[blue4Texture]->getSDLTexture(),
-             textureMap[blueBackTexture]->getSDLTexture(), true, false));
-    }
-    for(int i = 0; i < 4; ++i) {
-        board.addToBoard(0+i, 3, std::make_shared<Soldier>
-            (lieutenantRank, blue,
-             textureMap[blue5Texture]->getSDLTexture(),
-             textureMap[blueBackTexture]->getSDLTexture(), true, false));
-    }
-    for(int i = 0; i < 4; ++i) {
-        board.addToBoard(4+i, 3, std::make_shared<Soldier>
-            (captainRank, blue,
-             textureMap[blue6Texture]->getSDLTexture(),
-             textureMap[blueBackTexture]->getSDLTexture(), true, false));
-    }
-    for(int i = 0; i < 3; ++i) {
-        board.addToBoard(7+i, 0, std::make_shared<Soldier>
-        (majorRank, blue,
-             textureMap[blue7Texture]->getSDLTexture(),
-             textureMap[blueBackTexture]->getSDLTexture(), true, false));
-    }
-    for(int i = 0; i < 2; ++i) {
-        board.addToBoard(8+i, 1, std::make_shared<Soldier>
-            (colonelRank, blue,
-             textureMap[blue8Texture]->getSDLTexture(),
-             textureMap[blueBackTexture]->getSDLTexture(), true, false));
-    }
-    board.addToBoard(9, 2, std::make_shared<Soldier>
-        (generalRank, blue,
-         textureMap[blue9Texture]->getSDLTexture(),
-         textureMap[blueBackTexture]->getSDLTexture(), true, false));
-    board.addToInactive(0, 7, std::make_shared<Soldier>
-        (marshallRank, blue,
-         textureMap[blue10Texture]->getSDLTexture(),
-         textureMap[blueBackTexture]->getSDLTexture(), false, false));
 }
 
 void Game::initBlueSetup() {
@@ -438,18 +218,7 @@ void Game::initGame() {
     board.selectionRect.h = sizeParams::PIECE_SIZE;
     board.selectionRect.w = sizeParams::PIECE_SIZE;
     currentPlayer = Color::red;
-    // should be initially:
     gameState = GameState::boardSetupState;
-
-    // THE BELOW LINES ARE USED ONLY IN THE DEVELOPMENT PHASE, THEY WILL BE ALTERED IN THE FINAL GAME
-
-/*
-    gameState = GameState::gameState;
-    switchPlayers();
-    flipAllPiecesOfCurrentPlayer();
-    switchPlayers();
-*/
-
 }
 
 void Game::gameLoop() {
@@ -460,11 +229,8 @@ void Game::gameLoop() {
         timepassed = SDL_GetTicks();
         SDL_Event sdl_event;
         while(SDL_PollEvent(&sdl_event) != 0){
-            // get user input
             quit = handleEvents(sdl_event);
-            // apply game logic
             gameLogic();
-            //render new frame
             renderAll();
             while( timepassed + timestep > SDL_GetTicks() ) {
                 SDL_Delay(0);
@@ -477,14 +243,10 @@ bool Game::handleEvents(SDL_Event &event) {
     clickedX = -1; clickedY = -1;
     bool quit = false;
     if( event.type == SDL_QUIT ) { quit =  true; }
-    if( event.type == SDL_MOUSEBUTTONDOWN )
-    {
+    if( event.type == SDL_MOUSEBUTTONDOWN ) {
         int x, y;
         SDL_GetMouseState( &x, &y );
         clickedX = x; clickedY = y;
-        // convertClickedCoordsToArrayPlace(x, y);
-        //std::cout << "click @ " << clickedX << " " << clickedY << std::endl;
-        //printGameState();
     }
     return quit;
 }
@@ -492,7 +254,6 @@ bool Game::handleEvents(SDL_Event &event) {
 void Game::gameLogic() {
     std::shared_ptr<Button> clickedButton = board.getClickedButton(clickedX, clickedY);
     if (clickedButton && clickedButton == board.getButtonArray()[Buttons::restart]) {
-        //std::cout << "restart button clicked." << std::endl;
         restartGame();
     }
     if(gameState == GameState::boardSetupState){
@@ -557,13 +318,9 @@ void Game::boardSetupLogic() {
     if (clickedButton && clickedButton == board.getButtonArray()[Buttons::next] && blueSetup) {
         flipAllPiecesOfCurrentPlayer();
         waitingForSwitchPlayers = true;
-        //return;
     }
     if(clickedButton && clickedButton == board.getButtonArray()[Buttons::next] && blueSetup && waitingForSwitchPlayers){
-        //switchPlayers();
         flipAllPiecesOfCurrentPlayer();
-        //set button inactive
-        //clickedButton->setActive(false);
         gameState = GameState::gameState;
         waitingForSwitchPlayers = false;
     }
@@ -571,39 +328,24 @@ void Game::boardSetupLogic() {
         clickedButton->setActive(false);
         switchPlayers();
         blueSetupPhase = true;
-        //initBlueSetup();
-        initBlueSetupForTesting();
+        initBlueSetup();
     }
     if (clickedButton && clickedButton == board.getButtonArray()[Buttons::next] && !waitingForSwitchPlayers) {
         flipAllPiecesOfCurrentPlayer();
         waitingForSwitchPlayers = true;
     }
     if(!board.getButtonArray()[Buttons::next]->isActive() && onInactiveField()) {
-        //std::cout << "clicked on inactive field" << std::endl;
-        //std::shared_ptr<Piece> clickedPiece = getClickedPiece(clickedX, clickedY);
-        //TODO it seems to be working, but not implementing exactly the flowchart, check it!!!
-        // when there is a selected piece and the user clicks on a diferent piece, deselect the old selection and select clicked
         if (clickedPiece) {
-            std::cout << "You clicked on a " << clickedPiece->getColor() << " "
-                      << clickedPiece->getRank() << " "
-                      << " @ array index " << clickedPiece->getPosInArray() << std::endl;
             if(selectedPiece) {
-                std::cout << "deselect" << std::endl;
                 deselect();
             } else {
                 selectPiece(clickedPiece);
-                std::cout << "You selected a " << selectedPiece->getColor() << " "
-                          << selectedPiece->getRank() << " "
-                          << " @ array index " << selectedPiece->getPosInArray() << std::endl;
             }
         }
     } else if ( (currentPlayer == red && onRedSide()) || (currentPlayer == blue && onBlueSide()) ) {
-        std::cout << "click on current players side" << std::endl;
         if ( clickedPiece != selectedPiece) {
-            //TODO debug: sometimes I can put a piece on top of another
             if (!board.getClickedPiece(clickedX, clickedY)) {
-                //std::cout << "setup to board array index ";
-                int oldPos = selectedPiece->getPosInArray(); //std::cout << "oldPos " << oldPos << std::endl;
+                int oldPos = selectedPiece->getPosInArray();
                 selectedPiece->setupTo(clickedX, clickedY);
                 board.setBoardArray(selectedPiece);
                 board.removeFromInactiveArray(oldPos);
@@ -637,8 +379,7 @@ void Game::gameStateLogic() {
                     }
                 } else if(clickedPiece->getColor() == enemyColor() && selectedPiece) {
                     // attack
-                    // attacker = selectedPiece, defender = clickedPiece
-                    int oldPosInArray = selectedPiece->getPosInArray(); //std::cout << "oldPos " << oldPos << std::endl;
+                    int oldPosInArray = selectedPiece->getPosInArray();
                     oldSDL_RectPosition = selectedPiece->getSdl_rect();
                     if(selectedPiece->isInAttackPosition(clickedPiece, board.getBoardArray())) {
                         FightWinner fightwinner = selectedPiece->attack(clickedPiece);
@@ -649,10 +390,9 @@ void Game::gameStateLogic() {
             } else {
                 // move
                 if (selectedPiece) {
-                    int oldPosInArray = selectedPiece->getPosInArray(); //std::cout << "oldPos " << oldPos << std::endl;
+                    int oldPosInArray = selectedPiece->getPosInArray();
                     oldSDL_RectPosition = selectedPiece->getSdl_rect();
                     if (selectedPiece->moveTo(clickedX, clickedY, board.getBoardArray())) {
-                        //int newPos = selectedPiece->getPosInArray(); //std::cout << "newPos " << newPos << std::endl;
                         board.setBoardArray(selectedPiece);
                         board.removeFromBoardArray(oldPosInArray);
                         deselect();
@@ -700,7 +440,6 @@ void Game::executeFight(std::shared_ptr<Piece> attacker, std::shared_ptr<Piece> 
         return;
     }
     if(winner == FightWinner::attacker){
-        // TODO: "moving attacker to the place of defender if attacker wins" solution could be much nicer
         defenderSDLRectX = defender->getSdl_rectX();
         defenderSDLRectY = defender->getSdl_rectY();
         defenderPosInArray = defender->getPosInArray();
@@ -714,14 +453,12 @@ void Game::executeFight(std::shared_ptr<Piece> attacker, std::shared_ptr<Piece> 
         loser2 = attacker;
     }
     throwOutLoserToInactivePieces(loser1);
-
     if(winner == FightWinner::attacker) {
         attacker->setSdl_rect(defenderSDLRectX, defenderSDLRectY);
         attacker->setPosInArray(defenderPosInArray);
         board.setBoardArray(attacker);
         board.removeFromBoardArray(attackerPosInArray);
     }
-
     if(loser2) {
         loser1->flip();
         throwOutLoserToInactivePieces(loser2);
@@ -739,7 +476,6 @@ std::shared_ptr<Button> Game::getClickedButton(const int &x, const int &y) const
                 y < button->getSdl_rect().y + sizeParams::FIELD_SIZE) {
                 if (button->isActive()) {
                     button->setClicked(true);
-                    std::cout << "button clicked\n";
                     result = button;
                     return result;
                 }
@@ -759,58 +495,6 @@ void Game::flipAllPiecesOfCurrentPlayer() {
                 piece->flip();
             }
         }
-    }
-}
-
-void Game::convertClickedCoordsToArrayPlace(int &x, int &y) {
-
-}
-
-void Game::printGameState() const {
-    std::cout << "\tgameState " << gameState << std::endl;
-    std::cout << "currentPlayer " << currentPlayer << std::endl;
-    std::cout << "selectedPiece ";
-    if (selectedPiece) {
-        std::cout << selectedPiece->getColor() << " " << selectedPiece->getRank() << " ";
-        if (selectedPiece->isOnBoard()) { std::cout << "on board" << std::endl; }
-        else { std::cout << "on inactive" << std::endl; }
-    } else { std::cout << "no selected piece" << std::endl; }
-    std::cout << "clickedX " << clickedX << " clickedY " << " " << clickedY << std::endl;
-    std::cout << "clicked on ";
-    if (onInactiveField()) std::cout << "InactiveField" << std::endl;
-    else if (onBoard()) {
-        std::cout << "Board @ ";
-        if (onRedSide()) std::cout << "red side" << std::endl;
-        else if (onBlueSide()) std::cout << "blue side" << std::endl;
-        else std::cout << "middle field" << std::endl;
-    } else std::cout << "elsewhere" << std::endl;
-    std::shared_ptr<Piece> clickedPiece = board.getClickedPiece(clickedX, clickedY);
-    std::cout << "clickedPiece ";
-    if (clickedPiece) {
-        std::cout << clickedPiece->getColor() << " " << clickedPiece->getRank() << " ";
-        if (clickedPiece->isOnBoard()) { std::cout << "on board array index " << clickedPiece->getPosInArray() << std::endl; }
-        else { std::cout << "on inactive array index " << clickedPiece->getPosInArray() << std::endl; }
-    } else { std::cout << "no clicked piece" << std::endl; }
-    std::cout << "\tinactive\n";
-    for (int h = 0; h < sizeParams::INACTIVE_FIELDS_NUMBER_Y; ++h) {
-        for(int w = 0; w < sizeParams::INACTIVE_FIELDS_NUMBER_X; ++w) {
-            if (board.getInactiveArray()[h*sizeParams::INACTIVE_FIELDS_NUMBER_X+w]) {
-            std::cout << board.getInactiveArray()[h*sizeParams::INACTIVE_FIELDS_NUMBER_X+w]->getColor() << " "
-                      << board.getInactiveArray()[h*sizeParams::INACTIVE_FIELDS_NUMBER_X+w]->getRank() << "\t\t";
-            } else {std::cout << "n" << " " << "n" << "\t\t";}
-        }
-        std::cout << std::endl;
-    }
-    std::cout << "\tboard\n";
-    for (int h = 0; h < sizeParams::BOARD_FIELDS_NUMBER; ++h) {
-        for(int w = 0; w < sizeParams::BOARD_FIELDS_NUMBER; ++w) {
-            if (board.getBoardArray()[h*sizeParams::BOARD_FIELDS_NUMBER+w]) {
-                std::cout << board.getBoardArray()[h*sizeParams::BOARD_FIELDS_NUMBER+w]->getColor() << " "
-                          << board.getBoardArray()[h*sizeParams::BOARD_FIELDS_NUMBER+w]->getRank() << "\t\t";
-            } else {std::cout << "n" << " " << "n" << "\t\t";}
-
-        }
-        std::cout << std::endl;
     }
 }
 
@@ -854,7 +538,7 @@ void Game::restartGame() {
     for(auto& piece: board.getInactiveArray()){
         if (piece) board.removeFromInactiveArray(piece->getPosInArray());
     }
-    initRedSetupForTesting();
+    initRedSetup();
     gameState = GameState::boardSetupState;
     currentPlayer = Color::red;
     board.getButtonArray()[Buttons::next]->setActive(false);

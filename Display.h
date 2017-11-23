@@ -17,9 +17,6 @@ public:
     ~Display();
     bool init();
     std::shared_ptr<Texture> loadTexture(const std::string& filename);
-    // just to check SDL's bitmap loader
-    Texture loadBMP(const std::string& filename);
-    void getWindowSize(int& width, int& height);
     SDL_Renderer* getRenderer(){return renderer;}
 
 private:

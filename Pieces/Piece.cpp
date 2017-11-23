@@ -34,28 +34,8 @@ Rank Piece::getRank() const {
     return rank;
 }
 
-void Piece::setRank(Rank rank) {
-    Piece::rank = rank;
-}
-
 Color Piece::getColor() const {
     return color;
-}
-
-void Piece::setColor(Color color) {
-    Piece::color = color;
-}
-
-
-void Piece::printInfo() {
-    std::cout << "Clicked on a " << (color == Color::red ? "red" : "blue") << " piece" << std::endl;
-}
-
-void Piece::setTo(int &x, int &y) {
-    int newX = (int) x / sizeParams::FIELD_SIZE * sizeParams::FIELD_SIZE;
-    int newY = (int) y / sizeParams::FIELD_SIZE * sizeParams::FIELD_SIZE;
-    sdl_rect.x = newX + sizeParams::PIECE_FIELD_DIFF + sizeParams::BOARD_OFFSET_X;
-    sdl_rect.y = newY + sizeParams::PIECE_FIELD_DIFF + sizeParams::BOARD_OFFSET_Y;
 }
 
 void Piece::setupTo(int &x, int &y) {
@@ -67,20 +47,6 @@ void Piece::setupTo(int &x, int &y) {
     sdl_rect.x = newX * sizeParams::FIELD_SIZE + sizeParams::PIECE_FIELD_DIFF + sizeParams::BOARD_OFFSET_X;
     sdl_rect.y = newY * sizeParams::FIELD_SIZE + sizeParams::PIECE_FIELD_DIFF + sizeParams::BOARD_OFFSET_Y;
     setOnBoard(true);
-}
-
-void Piece::setupToInactive(std::array<std::shared_ptr<Piece>, 80> &inactiveArray) {
-    for(int i=0; i<inactiveArray.size(); i++) {
-        if(inactiveArray[i] == nullptr){
-            int posX = sizeParams::INACTIVE_OFFSET_X + sizeParams::FIELD_SIZE * (i % sizeParams::INACTIVE_FIELDS_NUMBER_X);
-            int posY = sizeParams::INACTIVE_OFFSET_Y + sizeParams::FIELD_SIZE * (i / sizeParams::INACTIVE_FIELDS_NUMBER_X);
-            sdl_rect.x = posX + sizeParams::PIECE_FIELD_DIFF;
-            sdl_rect.y = posY + sizeParams::PIECE_FIELD_DIFF;
-            posInArray = i;
-            break;
-        }
-    }
-    setOnBoard(false);
 }
 
 void Piece::setSdl_rect(int &x, int &y) {
@@ -126,10 +92,6 @@ bool Piece::isOnBoard() const {
 
 void Piece::setOnBoard(bool isOnBoard) {
     Piece::OnBoard = isOnBoard;
-}
-
-bool Piece::isClicked() const {
-    return Clicked;
 }
 
 void Piece::setIsClicked(bool isClicked) {

@@ -3,8 +3,6 @@
 //
 
 #include "Game.h"
-#include <memory>
-#include "Board.h"
 
 void Board::addToBoard(int x, int y, std::shared_ptr<Piece> piece) {
     int arrayPos = y * sizeParams::BOARD_FIELDS_NUMBER + x;
@@ -34,30 +32,15 @@ void Board::addToButtons(int pos, std::shared_ptr<Button> button) {
     button->sdl_rect.y = buttonY;
 }
 
-void Board::removeFromBoard(int x, int y) {
-    // TODO Try with reset
-    boardArray[y * sizeParams::BOARD_SIZE + x] = nullptr;
-}
-
 void Board::renderPieces(SDL_Renderer *renderer, std::shared_ptr<Piece> &selectedPiece, std::shared_ptr<Texture> &texture) {
     for(auto &piece : boardArray) {
         if (piece) {
             piece->render(renderer);
-/*
-            if(piece == selectedPiece) {
-                graphicallySelect(renderer, selectedPiece->getSdl_rect(), texture);
-            }
-*/
         }
     }
     for(auto &piece : inactiveArray) {
         if (piece) {
             piece->render(renderer);
-/*
-            if(piece == selectedPiece) {
-                graphicallySelect(renderer, selectedPiece->getSdl_rect(), texture);
-            }
-*/
         }
     }
 }
@@ -108,7 +91,6 @@ std::shared_ptr<Button> Board::getClickedButton(const int &x, const int &y) cons
                 y < button->getSdl_rect().y + sizeParams::FIELD_SIZE) {
                 if (button->isActive()) {
                     button->setClicked(true);
-                    std::cout << "button clicked\n";
                     result = button;
                     return result;
                 }
