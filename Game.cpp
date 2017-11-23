@@ -16,9 +16,7 @@
 #include "Pieces/Miner.hpp"
 
 void Game::run() {
-
     std::srand(std::time(0));
-
     display.init();
     loadTextures();
     createPieces();
@@ -28,8 +26,6 @@ void Game::run() {
 }
 
 void Game::loadTextures() {
-    // TODO collect nicer pictures for pieces: Béci
-    // TODO Design final background: Béci
     textureMap[Textures::boardTexture] = display.loadTexture("../pic/strategoBoard.png");
     textureMap[Textures::redBackTexture] = display.loadTexture("../pic/redBack.png");
     textureMap[Textures::redFlagTexture] = display.loadTexture("../pic/redFlag.png");
@@ -499,11 +495,12 @@ void Game::gameLogic() {
         //std::cout << "restart button clicked." << std::endl;
         restartGame();
     }
-
     if(gameState == GameState::boardSetupState){
         boardSetupLogic();
     } else if(gameState == GameState::gameState){
         gameStateLogic();
+    } else if(gameState == GameState::gameOverState){
+        gameOver(selectedPiece);
     }
 }
 
@@ -699,7 +696,8 @@ void Game::executeFight(std::shared_ptr<Piece> attacker, std::shared_ptr<Piece> 
     std::shared_ptr<Piece> loser2 = nullptr;
     int defenderSDLRectX, defenderSDLRectY, defenderPosInArray, attackerPosInArray;
     if(defender->getRank() == Rank::flagRank) {
-        gameOver(attacker);
+        gameState = GameState::gameOverState;
+        return;
     }
     if(winner == FightWinner::attacker){
         // TODO: "moving attacker to the place of defender if attacker wins" solution could be much nicer
@@ -821,8 +819,10 @@ Color Game::enemyColor() {
 }
 
 void Game::gameOver(std::shared_ptr<Piece> gameWinner) {
-    std::cout << "Game over. The " << (gameWinner->getColor() == Color::red ? "red" : "blue") << " player wins!"  << std::endl;
-    // TODO do something else here! for example, gameState could be gameOver in order to avoid further piece movement + a gameover screen...
+    std::string winner = (gameWinner->getColor() == Color::red ? "red" : "blue");
+    std::string message = "The winner is: " + winner;
+    SDL_ShowSimpleMessageBox(SDL_MESSAGEBOX_ERROR, "GAME OVER", message.c_str(), NULL);
+    restartGame();
 }
 
 bool Game::isRedSetup() {
@@ -859,6 +859,7 @@ void Game::restartGame() {
     currentPlayer = Color::red;
     board.getButtonArray()[Buttons::next]->setActive(false);
     oldSDL_RectPosition.x = -1;
+    selectedPiece.reset();
     redSetup = false;
     blueSetup = false;
     waitingForSwitchPlayers = false;

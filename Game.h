@@ -16,7 +16,8 @@
 
 enum GameState {
     boardSetupState,
-    gameState
+    gameState,
+    gameOverState
 };
 
 class Game {
@@ -40,6 +41,7 @@ private:
     bool waitingForSwitchPlayers = false;
     bool blueSetupPhase = false;
     SDL_Rect oldSDL_RectPosition;
+
     void loadTextures();
     bool handleEvents(SDL_Event &event);
     void createPieces();
@@ -72,7 +74,6 @@ private:
     Color enemyColor();
     void throwOutLoserToInactivePieces(std::shared_ptr<Piece> shared_ptr);
     void initSetupForGameLogicTesting();
-
     void restartGame();
 };
 
