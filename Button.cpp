@@ -51,3 +51,7 @@ int Button::getPosInArray() const {
 void Button::setPosInArray(int posInArray) {
     Button::posInArray = posInArray;
 }
+
+void Button::setActiveTexture(SDL_Texture *activeTexture) {
+    Button::activeTexture = activeTexture;
+}

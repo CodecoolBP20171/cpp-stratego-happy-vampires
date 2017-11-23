@@ -75,6 +75,8 @@ private:
     void throwOutLoserToInactivePieces(std::shared_ptr<Piece> shared_ptr);
     void initSetupForGameLogicTesting();
     void restartGame();
+
+    void switchRestartButtonColor();
 };
 
 

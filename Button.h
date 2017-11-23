@@ -29,6 +29,10 @@ public:
     void setPosInArray(int posInArray);
 protected:
     SDL_Texture *activeTexture = nullptr;
+public:
+    void setActiveTexture(SDL_Texture *activeTexture);
+
+protected:
     SDL_Texture *inactiveTexture = nullptr;
     bool active;
     bool clicked = false;

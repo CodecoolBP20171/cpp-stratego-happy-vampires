@@ -56,6 +56,7 @@ void Game::loadTextures() {
     textureMap[Textures::selectionTexture] = display.loadTexture("../pic/selection.png");
     textureMap[Textures::activeLogoTexture] = display.loadTexture("../pic/hv_logo.png");
     textureMap[Textures::inactiveLogoTexture] = display.loadTexture("../pic/hv_logo_inactive.png");
+    textureMap[Textures::redResetTexture] = display.loadTexture("../pic/redReset.png");
     textureMap[Textures::blueResetTexture] = display.loadTexture("../pic/blueReset.png");
 }
 
@@ -452,7 +453,7 @@ void Game::createButtons() {
          textureMap[Textures::inactiveLogoTexture]->getSDLTexture(), false));
 
     board.addToButtons(1, std::make_shared<Button>
-            (textureMap[Textures::blueResetTexture]->getSDLTexture(),
+            (textureMap[Textures::redResetTexture]->getSDLTexture(),
              textureMap[Textures::blueResetTexture]->getSDLTexture(), true));
 }
 
@@ -599,6 +600,7 @@ void Game::boardSetupLogic() {
     if (clickedButton && clickedButton == board.getButtonArray()[Buttons::next] && !waitingForSwitchPlayers) {
         flipAllPiecesOfCurrentPlayer();
         waitingForSwitchPlayers = true;
+        switchRestartButtonColor();
     }
     if(!board.getButtonArray()[Buttons::next]->isActive() && onInactiveField()) {
         //std::cout << "clicked on inactive field" << std::endl;
@@ -648,6 +650,7 @@ void Game::gameStateLogic() {
     else if (clickedButton && clickedButton == board.getButtonArray()[Buttons::next] && !waitingForSwitchPlayers) {
         flipAllPiecesOfCurrentPlayer();
         waitingForSwitchPlayers = true;
+        switchRestartButtonColor();
     }
     else if( !board.getButtonArray()[Buttons::next]->isActive() ) {
         if(clickedX >= 0 && clickedY >= 0 && clickedX <= sizeParams::BOARD_MAX_X && clickedX <= sizeParams::BOARD_MAX_Y) {
@@ -886,4 +889,13 @@ void Game::restartGame() {
     blueSetup = false;
     waitingForSwitchPlayers = false;
     blueSetupPhase = false;
+    board.getButtonArray()[Buttons::restart]->setActiveTexture
+            (textureMap[Textures::redResetTexture]->getSDLTexture());
+}
+
+void Game::switchRestartButtonColor() {
+    board.getButtonArray()[restart]->setActiveTexture
+            (currentPlayer == red ?
+             textureMap[blueResetTexture]->getSDLTexture()
+                                  : textureMap[redResetTexture]->getSDLTexture());
 }

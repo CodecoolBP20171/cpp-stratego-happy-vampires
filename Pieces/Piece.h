@@ -91,6 +91,7 @@ enum Textures {
     selectionTexture,
     activeLogoTexture,
     inactiveLogoTexture,
+    redResetTexture,
     blueResetTexture
 };
 
